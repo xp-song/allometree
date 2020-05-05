@@ -1,11 +1,41 @@
 Package: allometree
 Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Title: Allometric Scaling of Urban Trees
+Version: 0.0.0.9000
+Date: 2020-05-01
+Authors@R: 
+    c(person(given = "Xiao Ping",
+             family = "Song",
+             role = c("aut", "cre"),
+             email = "xp.song@u.nus.edu",
+             comment = c(ORCID = "0000-0002-8825-195X")),
+      person(given = "Hao Ran",
+             family = "Lai",
+             role = c("aut"),
+             email = "hrlai.ecology@gmail.com",
+             comment = c(ORCID = "0000-0001-6871-0146")),
+      person(given = "Daniel",
+             family = "Richards",
+             role = "ctb",
+             comment = c(ORCID = "0000-0002-8196-8421")))
+Description: Develop and use allometric equations relating to the 
+    size and structure of urban trees. Modelling approaches include
+    models developed separately for each species (single-species models), and 
+    a mixed-effects model that includes all species as random effects. 
+License: MIT + file LICENSE
+URL: https://xp-song.github.io/allometree/, https://github.com/xp-song/allometree, https://xpsong.shinyapps.io/allometree-sg/
+BugReports: https://github.com/xp-song/allometree/issues
+Imports:
+	checkmate,
+	MuMIn (>= 1.43.15),
+	sjstats (>= 0.17.8)
 Encoding: UTF-8
 LazyData: true
+RoxygenNote: 7.0.2
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
+Roxygen: list(markdown = TRUE)
+Depends: 
+    R (>= 2.10)

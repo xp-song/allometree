@@ -1,0 +1,35 @@
+authors:
+  Xiao Ping Song:
+    href: https://xp-song.github.io
+  Hao Ran Lai:
+    href:
+home:
+  links:
+  - text: Prototype web app
+    href: https://xpsong.shinyapps.io/allometree-sg/
+development:
+  mode: auto
+navbar:
+  structure:
+    left:  [home, intro, reference, articles, tutorials, news]
+    right: [github]
+template:
+  params:
+    bootswatch:
+    ganalytics:
+
+reference:
+- title: "Data"
+  desc: >
+    Example and reference datasets.
+- contents:
+  - urbantrees
+  - eqns_info
+- title: "Single-species modelling"
+  desc: "Linear regression models developed separately for each species."
+- contents:
+  - starts_with("sp_")
+- title: "Mixed-effects modelling"
+  desc: "Linear mixed-effects model that includes all species as random effects."
+- contents:
+  - starts_with("mix_")

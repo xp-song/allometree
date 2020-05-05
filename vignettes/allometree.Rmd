@@ -1,0 +1,248 @@
+---
+title: "Get started with allometree"
+author: 
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Get started with allometree}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  message = FALSE, warning = FALSE
+)
+
+devtools::load_all()
+#library(allometree) # if installed
+```
+
+The `allometree` package enables you to develop and use allometric equations relating to the size and structure of urban trees. For example, these equations have been used to predict trunk diameter from tree age, as well as to predict tree height, crown height, crown diameter and leaf area from trunk diameter (McPherson *et al.*, 2016). They are foundational to other models that estimate the benefits and hazards associated with trees as they mature and grow in size. More information can be found in Song *et al.* (in prep).  
+
+This document demonstrates the workflow to develop these allometric models, taking the relationship between two size parameters as an example: Predicting tree *height* from trunk *diameter*. 
+
+Two modelling approaches will be introduced:  
+
+  1. Linear regression models developed separately for each species, i.e., *single-species models*
+  2. A linear mixed-effects model that includes all species as random effects, i.e., *mixed-effects model*
+
+
+## Example data: `urbantrees`
+
+We will be using `data(urbantrees)`. It contains five species planted along streets in Singapore. 100 individuals were sampled per species, spanning a wide range of heights and diameter sizes (in metres).
+
+```{r load data, fig.width=5.5, fig.align='center'}
+data(urbantrees, package = "allometree")
+urbantrees
+
+library(ggplot2)
+ggplot(urbantrees, aes(diameter, height)) +
+  facet_wrap(~ species) +
+  geom_point()
+```
+
+
+## Allometric equations: `eqns_info`
+
+Allometric relationships for urban trees can vary drastically from those for forest trees, and are also influenced by human factors such as pruning and fertilisation. Empirical models are developed using six allometric equations used for urban trees (McPherson *et al.*, 2016). 
+
+More information can be found in `?eqns_info`, as well as in `data(eqns_info)`. The column `modelcode` shows the unique model code for each equation:
+
+```{r eqns_info}
+data(eqns_info, package = "allometree")
+head(eqns_info)
+```
+
+---
+
+## 1. Single-species models
+
+### 1.1. Model selection
+
+#### For one species
+
+For a particular species of interest, data will be fit to all allometric equations. The best-fit model is selected based on the lowest bias-corrected Aikaike’s information criterion (AICc) value. Here's an example to select the best-fit model for the species *Albizia saman*, using the function `sp_modelselect()`.
+
+```{r sp_modelselect}
+Alb_sam <- urbantrees[urbantrees$species == "Albizia saman", ]  # subset data for one species
+
+results <- sp_modelselect(Alb_sam, 
+                          response = "height", predictor = "diameter")  # specify colnames of variables
+```
+
+The `results` variable is a list of 3 elements:
+
+1. Table showing models ranked by AICc value, named `all_models_rank`.
+2. Best-fit model object, named `best_model`.
+3. Table showing information on the best-fit model, named `best_model_info`. More information on the output columns can be found at `?sp_modelselect`.
+
+```{r}
+head(results$all_models_rank)
+```
+
+```{r}
+results$best_model
+```
+
+```{r}
+results$best_model_info
+```
+
+
+#### For multiple species
+
+We can also run `sp_modelselect()` across multiple species in the full dataset `urbantrees`. For this, we use the wrapper function `sp_modelselect_multi()`.
+
+```{r}
+results_all <- sp_modelselect_multi(urbantrees, species = "species", # specify colname of species
+                                    response = "height", predictor = "diameter")
+```
+
+The `results_all` variable is a list of 3 elements:
+
+1. List of tables showing each species' candidate models ranked by AICc value, named `sp_models_rank`.
+2. List of each species' best-fit model object, named `sp_models`.
+3. Table showing each species' best-fit model information, named `sp_models_info`. 
+
+&nbsp;
+
+`results_all$sp_models_info` provides a good overview of the best-fit models across the multiple species:
+```{r}
+results_all$sp_models_info
+```
+
+
+### 1.2. Outlier removal
+
+Let's say we want to check for outlier/influential data points, remove them, and re-fit the filtered dataset to the pre-selected models as defined in `results_all$sp_models_info`. First, lets visualise these outliers, say, for the species *Hopea odorata*.
+
+```{r fig.align='center', fig.width=5.5, fig.height=5.5}
+par(mfrow=c(2,2)); plot(results_all$sp_models$`Hopea odorata`)
+```
+&nbsp;
+
+There are numerous ways to [deal with outliers](http://r-statistics.co/Outlier-Treatment-With-R.html). One way is to remove them based on Cook's Distance (bottom-right plot). In general use, observations with a Cook's distance > 4 times the mean may be classified as influential, as shown in the plot below:
+
+```{r, fig.align='center', fig.width=4, fig.height=4}
+cooks_dist <- cooks.distance(results_all$sp_models$`Hopea odorata`)
+plot(cooks_dist, pch = ".", cex = 2, main = "Outliers by Cook's Distance")
+abline(h = 4*mean(cooks_dist, na.rm = T), col = "red")  # threshold line
+text(x = 1:length(cooks_dist) + 1, y = cooks_dist, 
+     labels = ifelse(cooks_dist > 4 * mean(cooks_dist, na.rm=T), names(cooks_dist), ""), col = "red")  # outlier labels
+```
+
+&nbsp;
+
+Here are the outliers for *Hopea odorata* in our dataset `urbantrees`:
+
+```{r}
+outliers <- as.numeric(names(cooks_dist)[(cooks_dist > 4 * mean(cooks_dist, na.rm=T))])  # influential row numbers
+urbantrees[(urbantrees$species == "Hopea odorata"),][outliers,]
+```
+
+We can create a function `uncooker()` that removes outliers in the dataset `urbantrees`, based on the best-fit model for each species (`sp_models`):
+
+```{r}
+uncooker <- function(modellist, data){
+  
+  result <- data[0,]
+  
+  for(i in 1:length(modellist)){ # loop over all species 
+    
+    cooks_dist <- cooks.distance(modellist[[i]]) 
+    outliers <- as.numeric(names(cooks_dist)[(cooks_dist > 4 * mean(cooks_dist, na.rm = T))])
+    subset <- data[(data$species == names(modellist[i])),][-outliers,]
+    result <- rbind.data.frame(result, subset)
+  }
+  return(result)
+}
+
+# run the function uncooker()
+urbantrees_clean <- uncooker(results_all$sp_models, urbantrees)
+nrow(urbantrees_clean)
+```
+
+&nbsp;
+
+The filtered dataset `urbantrees_clean` (n = `r nrow(urbantrees_clean)`) has `r nrow(urbantrees) - nrow(urbantrees_clean)` less trees than `urbantrees` (n = `r nrow(urbantrees)`).
+
+```{r include = FALSE}
+rm(cooks_dist, uncooker, outliers)
+```
+
+
+### 1.3. Re-fit filtered data
+
+#### For one species
+
+We can now fit the filtered data to the best-fit equations we defined in Section 1.1. Here's an example for the species *Albizia saman* again, using the function `sp_modelfit()`. 
+
+This function has an additional argument `modelcode`. In the case of *Albizia saman*, it is `quad_w1` (see `results_all$sp_models_info`). Note that you can also pick any one of the options found in `eqns_info$modelcode`.
+
+We'll overwrite our previously-defined variables, this time with the filtered dataset:
+
+```{r fit data to pre-selected model, eval = FALSE}
+Alb_sam <- urbantrees_clean[urbantrees_clean$species == "Albizia saman", ]
+
+results <- sp_modelfit(Alb_sam, modelcode = "quad_w1", # specify modelcode
+                       response = "height", predictor = "diameter") 
+```
+
+The new `results` variable is a list of 2 elements:
+
+1. Resulting model object, named `fitted_model`.
+2. Table showing information on the resulting model, named `fitted_model_info`.
+
+#### For multiple species
+
+Similar to the the wrapper function `sp_modelselect_multi()`, we can also run  `sp_modelfit_multi()` to fit pre-selected models across multiple species. In this function, we need to input a reference table `ref_table` (e.g. `results_all$sp_models_info`) that provides information on the `species` and their corresponding `modelcode`.
+
+```{r}
+results_all <- sp_modelfit_multi(urbantrees_clean, 
+                                 ref_table = results_all$sp_models_info,
+                                 species = "species", # colname in both data & ref_table
+                                 modelcode = "modelcode", # colname in ref_table
+                                 response = "height", predictor = "diameter")
+```
+
+The new `results_all` variable is a list of 2 elements:
+
+1. List of each species' resulting model object, named `sp_models`.
+2. Table showing each species' resulting model information, named `sp_models_info`.
+
+&nbsp;
+
+To make our subsequent code less verbose, let's assign the elements `sp_models` and `sp_models_info` to variables with the same name:
+
+```{r}
+sp_models <- results_all$sp_models
+sp_models_info <- results_all$sp_models_info
+```
+
+```{r include = FALSE}
+rm(results_all, results, Alb_sam)
+```
+
+### 1.4. Make predictions
+
+In the works...
+
+---
+
+## 2. Mixed-effects model
+
+### 2.1. Model selection
+
+In the works...
+
+---
+
+## References
+
+McPherson E. G., van Doorn N. S. & Peper P. J. (2016) Urban Tree Database and Allometric Equations. *General Technical Report PSW-GTR-253, USDA Forest Service*, 86.
+
+Song, X. P., Lai, H. R., Wijedasa, L. S., Yee, A. T. K., Tan, P. Y., Richards, D. R., Streamlining management practices based on the size allometry of tropical street trees (in prep).
+
