@@ -21,7 +21,9 @@ knitr::opts_chunk$set(
 
 <!-- badges: end -->
 
-Develop and use allometric equations relating to the size and structure of urban trees. Visit the package website at <https://xp-song.github.io/allometree/>. See allometree in action at <https://xpsong.shinyapps.io/allometree-sg/>. 
+Develop and use allometric equations relating to the size and structure of urban trees. Refer to [package website](https://xp-song.github.io/allometree/) and [prototype web app](https://xpsong.shinyapps.io/allometree-sg/) for demonstrations of how the package may be used. The package supplements the following study:  
+
+Song, X. P., Lai, H. R., Wijedasa, L. S., Yee, A. T. K., Tan, P. Y., Richards, D. R., Streamlining management practices based on the size allometry of tropical street trees (in prep). 
 
 &nbsp;
 
