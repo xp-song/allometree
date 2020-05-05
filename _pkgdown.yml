@@ -1,22 +1,22 @@
-authors:
-  Xiao Ping Song:
-    href: https://xp-song.github.io
-  Hao Ran Lai:
-    href:
-home:
-  links:
-  - text: Prototype web app
-    href: https://xpsong.shinyapps.io/allometree-sg/
+url: https://xp-song.github.io/allometree/
+
+template:
+  params:
+    bootswatch:
+    ganalytics: UA-165592310-1
+
 development:
   mode: auto
+
 navbar:
   structure:
     left:  [home, intro, reference, articles, tutorials, news]
     right: [github]
-template:
-  params:
-    bootswatch:
-    ganalytics:
+
+home:
+  links:
+  - text: Prototype web app
+    href: https://xpsong.shinyapps.io/allometree-sg/
 
 reference:
 - title: "Data"
@@ -33,3 +33,9 @@ reference:
   desc: "Linear mixed-effects model that includes all species as random effects."
 - contents:
   - starts_with("mix_")
+
+authors:
+  Xiao Ping Song:
+    href: https://xp-song.github.io
+  Hao Ran Lai:
+    href:

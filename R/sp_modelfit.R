@@ -60,7 +60,7 @@
 #' @export
 
 sp_modelfit <- function(data, modelcode, response = "height", predictor = "diameter") {
-
+    
     # Error checking ------------------
     if (is.null(data[[response]])) {
         stop("Variable name assigned to 'response' not found in 'data'.")
@@ -68,120 +68,120 @@ sp_modelfit <- function(data, modelcode, response = "height", predictor = "diame
     if (is.null(data[[predictor]])) {
         stop("Variable name assigned to 'predictor' not found in 'data'.")
     }
-
+    
     # positive numeric variables
     coll <- checkmate::makeAssertCollection()
     checkmate::assert_numeric(data[[response]], lower = 1e-05, finite = TRUE, .var.name = "response", add = coll)
     checkmate::assert_numeric(data[[predictor]], lower = 1e-05, finite = TRUE, .var.name = "predictor", add = coll)
-
+    
     # check model parameter
-    checkmate::assert_choice(as.character(modelcode), c("lin_w1", "lin_w2", "lin_w3", "lin_w4", "quad_w1", "quad_w2",
-        "quad_w3", "quad_w4", "cub_w1", "cub_w2", "cub_w3", "cub_w4", "quart_w1", "quart_w2", "quart_w3", "quart_w4",
-        "loglog_w1", "loglog_w2", "loglog_w3", "loglog_w4", "expo_w1", "expo_w2", "expo_w3", "expo_w4"), .var.name = "modelcode",
+    checkmate::assert_choice(as.character(modelcode), c("lin_w1", "lin_w2", "lin_w3", "lin_w4", "quad_w1", "quad_w2", 
+        "quad_w3", "quad_w4", "cub_w1", "cub_w2", "cub_w3", "cub_w4", "quart_w1", "quart_w2", "quart_w3", "quart_w4", 
+        "loglog_w1", "loglog_w2", "loglog_w3", "loglog_w4", "expo_w1", "expo_w2", "expo_w3", "expo_w4"), .var.name = "modelcode", 
         add = coll)
-
+    
     checkmate::reportAssertions(coll)
-
+    
     # remove missing data
     if (checkmate::anyMissing(data[[response]]) | checkmate::anyMissing(data[[predictor]])) {
-        message(cat(sum(!complete.cases(data[, c(response, predictor)])), " row(s) with missing value(s) removed from 'data'",
+        message(cat(sum(!complete.cases(data[, c(response, predictor)])), " row(s) with missing value(s) removed from 'data'", 
             sep = ""))
         data <- data[complete.cases(data[, c(response, predictor)]), ]
     }
-
-
+    
+    
     # Calculations ------------------
-
+    
     # Calculate geometric mean height
     geom_mean_y <- exp(mean(log(data[[response]])))
     data$response_trans <- log(data[[response]]) * geom_mean_y  # use this for transformed models for AICc comparisons with non-transformed models
-
-
+    
+    
     # fit models
     sp_model_list <- list()
-
+    
     sp_model_list$lin_w1 <- lm(data[[response]] ~ data[[predictor]])
     sp_model_list$lin_w2 <- lm(data[[response]] ~ data[[predictor]], weights = I(1/sqrt(data[[predictor]])))
     sp_model_list$lin_w3 <- lm(data[[response]] ~ data[[predictor]], weights = I(1/data[[predictor]]))
     sp_model_list$lin_w4 <- lm(data[[response]] ~ data[[predictor]], weights = I(1/data[[predictor]]^2))
-
+    
     sp_model_list$quad_w1 <- lm(data[[response]] ~ data[[predictor]] + I(data[[predictor]]^2))
     sp_model_list$quad_w2 <- lm(data[[response]] ~ data[[predictor]] + I(data[[predictor]]^2), weights = I(1/sqrt(data[[predictor]])))
     sp_model_list$quad_w3 <- lm(data[[response]] ~ data[[predictor]] + I(data[[predictor]]^2), weights = I(1/data[[predictor]]))
     sp_model_list$quad_w4 <- lm(data[[response]] ~ data[[predictor]] + I(data[[predictor]]^2), weights = I(1/data[[predictor]]^2))
-
+    
     sp_model_list$cub_w1 <- lm(data[[response]] ~ data[[predictor]] + I(data[[predictor]]^2) + I(data[[predictor]]^3))
-    sp_model_list$cub_w2 <- lm(data[[response]] ~ data[[predictor]] + I(data[[predictor]]^2) + I(data[[predictor]]^3),
+    sp_model_list$cub_w2 <- lm(data[[response]] ~ data[[predictor]] + I(data[[predictor]]^2) + I(data[[predictor]]^3), 
         weights = I(1/sqrt(data[[predictor]])))
-    sp_model_list$cub_w3 <- lm(data[[response]] ~ data[[predictor]] + I(data[[predictor]]^2) + I(data[[predictor]]^3),
+    sp_model_list$cub_w3 <- lm(data[[response]] ~ data[[predictor]] + I(data[[predictor]]^2) + I(data[[predictor]]^3), 
         weights = I(1/data[[predictor]]))
-    sp_model_list$cub_w4 <- lm(data[[response]] ~ data[[predictor]] + I(data[[predictor]]^2) + I(data[[predictor]]^3),
+    sp_model_list$cub_w4 <- lm(data[[response]] ~ data[[predictor]] + I(data[[predictor]]^2) + I(data[[predictor]]^3), 
         weights = I(1/data[[predictor]]^2))
-
-    sp_model_list$quart_w1 <- lm(data[[response]] ~ data[[predictor]] + I(data[[predictor]]^2) + I(data[[predictor]]^3) +
+    
+    sp_model_list$quart_w1 <- lm(data[[response]] ~ data[[predictor]] + I(data[[predictor]]^2) + I(data[[predictor]]^3) + 
         I(data[[predictor]]^4), )
-    sp_model_list$quart_w2 <- lm(data[[response]] ~ data[[predictor]] + I(data[[predictor]]^2) + I(data[[predictor]]^3) +
+    sp_model_list$quart_w2 <- lm(data[[response]] ~ data[[predictor]] + I(data[[predictor]]^2) + I(data[[predictor]]^3) + 
         I(data[[predictor]]^4), weights = I(1/sqrt(data[[predictor]])))
-    sp_model_list$quart_w3 <- lm(data[[response]] ~ data[[predictor]] + I(data[[predictor]]^2) + I(data[[predictor]]^3) +
+    sp_model_list$quart_w3 <- lm(data[[response]] ~ data[[predictor]] + I(data[[predictor]]^2) + I(data[[predictor]]^3) + 
         I(data[[predictor]]^4), weights = I(1/data[[predictor]]))
-    sp_model_list$quart_w4 <- lm(data[[response]] ~ data[[predictor]] + I(data[[predictor]]^2) + I(data[[predictor]]^3) +
+    sp_model_list$quart_w4 <- lm(data[[response]] ~ data[[predictor]] + I(data[[predictor]]^2) + I(data[[predictor]]^3) + 
         I(data[[predictor]]^4), weights = I(1/data[[predictor]]^2))
-
+    
     # using response_trans
     sp_model_list$loglog_w1 <- lm(data$response_trans ~ I(log(log(data[[predictor]] + 1))))
     sp_model_list$loglog_w2 <- lm(data$response_trans ~ I(log(log(data[[predictor]] + 1))), weights = I(1/sqrt(data[[predictor]])))
     sp_model_list$loglog_w3 <- lm(data$response_trans ~ I(log(log(data[[predictor]] + 1))), weights = I(1/data[[predictor]]))
     sp_model_list$loglog_w4 <- lm(data$response_trans ~ I(log(log(data[[predictor]] + 1))), weights = I(1/data[[predictor]]^2))
-
+    
     sp_model_list$expo_w1 <- lm(data$response_trans ~ data[[predictor]])
     sp_model_list$expo_w2 <- lm(data$response_trans ~ data[[predictor]], weights = I(1/sqrt(data[[predictor]])))
     sp_model_list$expo_w3 <- lm(data$response_trans ~ data[[predictor]], weights = I(1/data[[predictor]]))
     sp_model_list$expo_w4 <- lm(data$response_trans ~ data[[predictor]], weights = I(1/data[[predictor]]^2))
-
+    
     # Prepare output ----------------------
-
+    
     # extract model object
     fitted_model <- sp_model_list[names(sp_model_list) == modelcode][[1]]
-
+    
     # extract best model info
     fitted_model_info <- data.frame(modelcode = modelcode)
     fitted_model_info$a <- summary(fitted_model)$coef[, "Estimate"][[1]]
     fitted_model_info$b <- summary(fitted_model)$coef[, "Estimate"][[2]]
-
+    
     # include other parameters (NA if absent)
     fitted_model_info$c <- tryCatch(summary(fitted_model)$coef[, "Estimate"][[3]], error = function(e) NA)
     fitted_model_info$d <- tryCatch(summary(fitted_model)$coef[, "Estimate"][[4]], error = function(e) NA)
     fitted_model_info$e <- tryCatch(summary(fitted_model)$coef[, "Estimate"][[5]], error = function(e) NA)
-
+    
     fitted_model_info$response_geom_mean <- geom_mean_y
-
+    
     # correction factor
     if ("data$response_trans" %in% names(fitted_model$model)) {
         # for transformed (loglog or exp) models
         sp_rmse <- sjstats::rmse(fitted_model)/geom_mean_y
         cf <- exp((sp_rmse^2)/2)
-
+        
         fitted_model_info$correctn_factor <- cf
         fitted_model_info$a <- fitted_model_info$a + cf  #directly adjust intercept with cf
     } else {
         # for non-transformed models
         fitted_model_info$correctn_factor <- 1
     }
-
+    
     fitted_model_info$predictor_min <- min(data[[predictor]])
     fitted_model_info$predictor_max <- max(data[[predictor]])
-
+    
     fitted_model_info$residual_SE <- round(summary(fitted_model)$sigma, 4)
     fitted_model_info$mean_SE <- round(mean(residuals(fitted_model)^2), 4)
     fitted_model_info$adj_R2 <- round(summary(fitted_model)$adj.r.squared, 4)
     # fitted_model_info$F.statistic <- summary(fitted_model)$fstatistic[[1]]
     fitted_model_info$n <- nrow(data)
-
-
+    
+    
     # combine output in list
     output <- list(fitted_model, fitted_model_info)
     names(output) <- c("fitted_model", "fitted_model_info")
-
+    
     return(output)
 }
 
@@ -254,18 +254,18 @@ sp_modelfit <- function(data, modelcode, response = "height", predictor = "diame
 #' @import checkmate
 #'
 #' @export
-sp_modelfit_multi <- function(data, ref_table, species = "species", modelcode = "modelcode", response = "height",
+sp_modelfit_multi <- function(data, ref_table, species = "species", modelcode = "modelcode", response = "height", 
     predictor = "diameter") {
-
+    
     # Error checking ------------------
-
+    
     # check species variable
     if (!(species %in% colnames(data) & species %in% colnames(ref_table))) {
         stop("Variable name assigned to 'species' variable not found in both 'data' and 'ref_table'.")
     }
-    checkmate::assert(checkmate::check_character(data[[species]]), checkmate::check_factor(data[[species]]),
+    checkmate::assert(checkmate::check_character(data[[species]]), checkmate::check_factor(data[[species]]), 
         combine = "or", .var.name = "species")
-    checkmate::assert(checkmate::check_character(ref_table[[species]]), checkmate::check_factor(ref_table[[species]]),
+    checkmate::assert(checkmate::check_character(ref_table[[species]]), checkmate::check_factor(ref_table[[species]]), 
         combine = "or", .var.name = "species")
     if (!setequal(unique(data[[species]]), unique(ref_table[[species]]))) {
         message("Warning: The unique types of 'species' between 'data' and 'ref_table' do not match.")
@@ -273,42 +273,42 @@ sp_modelfit_multi <- function(data, ref_table, species = "species", modelcode = 
     if (!all(unique(data[[species]]) %in% unique(ref_table[[species]]))) {
         stop("There are 'species' in the 'data' not found in the 'ref_table'.")
     }
-
+    
     # ref_table needs 'modelcode' variable
     if (is.null(ref_table[[modelcode]])) {
         stop("Variable name assigned to 'modelcode' not found in 'ref_table'.")
     }
-
-
+    
+    
     # Calculations ------------------
-
+    
     data <- split(data, data[[species]])  #split df into list of species
-
+    
     # create empty dfs to collate info in loop
-    sp_models_info <- data.frame(species = as.character(), modelcode = as.character(), a = as.numeric(), b = as.numeric(),
-        c = as.numeric(), d = as.numeric(), e = as.numeric(), response_geom_mean = as.numeric(), correctn_factor = as.numeric(),
-        predictor_max = as.numeric(), predictor_min = as.numeric(), residual_SE = as.numeric(), mean_SE = as.numeric(),
+    sp_models_info <- data.frame(species = as.character(), modelcode = as.character(), a = as.numeric(), b = as.numeric(), 
+        c = as.numeric(), d = as.numeric(), e = as.numeric(), response_geom_mean = as.numeric(), correctn_factor = as.numeric(), 
+        predictor_max = as.numeric(), predictor_min = as.numeric(), residual_SE = as.numeric(), mean_SE = as.numeric(), 
         adj_R2 = as.numeric(), n = as.numeric())
-
+    
     sp_models <- list()
-
+    
     for (i in 1:length(data)) {
-
-        results <- sp_modelfit(data[[i]], modelcode = ref_table[ref_table[[species]] == names(data)[i], modelcode],
+        
+        results <- sp_modelfit(data[[i]], modelcode = ref_table[ref_table[[species]] == names(data)[i], modelcode], 
             response, predictor)
-
+        
         # extract model object
         sp_models[i] <- list(results[[1]])
         names(sp_models)[i] <- names(data)[i]
-
+        
         # extract model info
         append <- cbind.data.frame(data.frame(species = names(data)[i]), results[[2]])
         sp_models_info <- rbind(sp_models_info, append)
     }
-
+    
     # combine output in list
     output <- list(sp_models, sp_models_info)
     names(output) <- c("sp_models", "sp_models_info")
-
+    
     return(output)
 }
