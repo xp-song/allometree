@@ -86,6 +86,7 @@ sp_modelselect <- function(data, response = "height", predictor = "diameter") {
 
     # positive numeric variables
     coll <- checkmate::makeAssertCollection()
+    checkmate::assert_data_frame(data, add = coll)
     checkmate::assert_numeric(data[[response]], lower = 1e-05, finite = TRUE, .var.name = "response", add = coll)
     checkmate::assert_numeric(data[[predictor]], lower = 1e-05, finite = TRUE, .var.name = "predictor", add = coll)
     checkmate::reportAssertions(coll)

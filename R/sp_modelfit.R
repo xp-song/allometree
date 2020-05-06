@@ -88,10 +88,9 @@ sp_modelfit <- function(data, modelcode, response = "height", predictor = "diame
     # remove missing data
     if (checkmate::anyMissing(data[[response]]) | checkmate::anyMissing(data[[predictor]])) {
         message(cat(sum(!complete.cases(data[, c(response, predictor)])), " row(s) with missing value(s) removed from 'data'",
-            sep = ""))
+                    sep = ""))
         data <- data[complete.cases(data[, c(response, predictor)]), ]
     }
-
 
     # Calculations ------------------
 
@@ -274,7 +273,7 @@ sp_modelfit_multi <- function(data, ref_table, species = "species", modelcode = 
     checkmate::assert(checkmate::check_character(ref_table[[species]]), checkmate::check_factor(ref_table[[species]]),
         combine = "or", .var.name = "species")
     if (!setequal(unique(data[[species]]), unique(ref_table[[species]]))) {
-        message("Warning: The unique types of 'species' between 'data' and 'ref_table' do not match.")
+        warning("Warning: The unique types of 'species' between 'data' and 'ref_table' do not match.")
     }
     if (!all(unique(data[[species]]) %in% unique(ref_table[[species]]))) {
         stop("There are 'species' in the 'data' not found in the 'ref_table'.")
