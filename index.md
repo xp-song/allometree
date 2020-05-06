@@ -11,7 +11,7 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 status](https://travis-ci.com/xp-song/allometree.svg?branch=master)](https://travis-ci.com/xp-song/allometree)
 <!-- badges: end -->
 
-<a href='https://xp-song.github.io/allometree/'><img src='../man/figures/logo.png' align="right" height="139" /></a>
+<a href='https://xp-song.github.io/allometree/'><img src='man/figures/logo.png' align="right" height="139" /></a>
 
 Develop and use allometric equations relating to the size and structure
 of urban trees. Refer to [package

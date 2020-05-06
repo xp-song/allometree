@@ -6,5 +6,8 @@
 ^docs$
 ^admin$
 ^data-raw$
+^index\.md$
+^index\.Rmd$
+
 ^logo\.png$
 

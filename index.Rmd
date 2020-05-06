@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 [![Travis build status](https://travis-ci.com/xp-song/allometree.svg?branch=master)](https://travis-ci.com/xp-song/allometree)
 <!-- badges: end -->
 
-<a href='https://xp-song.github.io/allometree/'><img src='../man/figures/logo.png' align="right" height="139" /></a>
+<a href='https://xp-song.github.io/allometree/'><img src='man/figures/logo.png' align="right" height="139" /></a>
 
 Develop and use allometric equations relating to the size and structure of urban trees. Refer to [package website](https://xp-song.github.io/allometree/) and [prototype web app](https://xpsong.shinyapps.io/allometree-sg/) for demonstrations of how the package may be used. The package supplements the following study:  
 
