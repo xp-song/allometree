@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# allometree <a href='https://xp-song.github.io/allometree/'><img src='man/figures/logo.png' align="right" height="139" /></a>
+# Allometric Scaling of Urban Trees
 
 <!-- badges: start -->
 
@@ -11,7 +11,7 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 status](https://travis-ci.com/xp-song/allometree.svg?branch=master)](https://travis-ci.com/xp-song/allometree)
 <!-- badges: end -->
 
-## Allometric Scaling of Urban Trees
+<a href='https://xp-song.github.io/allometree/'><img src='../man/figures/logo.png' align="right" height="139" /></a>
 
 Develop and use allometric equations relating to the size and structure
 of urban trees. Refer to [package
@@ -23,6 +23,8 @@ study:
 Song, X. P., Lai, H. R., Wijedasa, L. S., Yee, A. T. K., Tan, P. Y.,
 Richards, D. R., Streamlining management practices based on the size
 allometry of tropical street trees (in prep).
+
+ 
 
 ## Installation
 
