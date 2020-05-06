@@ -1,16 +1,18 @@
-#' Sample of tree heights and diameter sizes
+#' Street tree data in Singapore
 #'
-#' Example data on the size dimensions of five urban tree species
-#' planted along streets in the tropical city of Singapore.
+#' Example data on the height and trunk diameter of five tree species
+#' planted along streets in Singapore (sample size = 1585).
 #'
 #' @docType data
 #'
 #' @usage data(urbantrees)
 #'
-#' @format A dataframe with columns containing the \code{'species'},
-#' \code{'height'} (m) and \code{'diameter'} (m).
-#' Each row is a measurement for an individual tree (no tree is represented more than once).
-#' There are 100 measurements per species, across a broad range of height and diameter sizes.
+#' @format A dataframe. Each row is a measurement for an individual tree.
+#' The following variables are included as columns:
+#'  * `species`: Name of tree species
+#'  * `height` (m): Visually estimated height
+#'  * `diameter` (m): Tree girth measured with diameter tape (at breast-height),
+#'  and converted to diameter size
 #'
 #' @keywords datasets
 #'

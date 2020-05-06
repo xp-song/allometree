@@ -3,17 +3,21 @@
 \docType{data}
 \name{urbantrees}
 \alias{urbantrees}
-\title{Sample of tree heights and diameter sizes}
-\format{A dataframe with columns containing the \code{'species'},
-\code{'height'} (m) and \code{'diameter'} (m).
-Each row is a measurement for an individual tree (no tree is represented more than once).
-There are 100 measurements per species, across a broad range of height and diameter sizes.}
+\title{Street tree data in Singapore}
+\format{A dataframe. Each row is a measurement for an individual tree.
+The following variables are included as columns:
+\itemize{
+\item \code{species}: Name of tree species
+\item \code{height} (m): Visually estimated height
+\item \code{diameter} (m): Tree girth measured with diameter tape (at breast-height),
+and converted to diameter size
+}}
 \usage{
 data(urbantrees)
 }
 \description{
-Example data on the size dimensions of five urban tree species
-planted along streets in the tropical city of Singapore.
+Example data on the height and trunk diameter of five tree species
+planted along streets in Singapore (sample size = 1585).
 }
 \examples{
 data(urbantrees)

@@ -215,38 +215,38 @@ the data used to generate the model (i.e. threshold values for model extrapolati
                                 <span class='kw'>response</span> <span class='kw'>=</span> <span class='st'>'height'</span>, <span class='kw'>predictor</span> <span class='kw'>=</span> <span class='st'>'diameter'</span>)
 
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>results</span>$<span class='no'>sp_models_rank</span><span class='kw'>[[</span><span class='fl'>1</span>]]) <span class='co'># Highly-ranked models for first species in list</span></div><div class='output co'>#&gt;   df     AICc    model
-#&gt; 1  4 450.5618  quad_w1
-#&gt; 2  4 451.3031  quad_w2
-#&gt; 3  3 451.3991   lin_w2
-#&gt; 4  3 451.7529   lin_w1
-#&gt; 5  6 452.0554 quart_w1
-#&gt; 6  5 452.2919   cub_w1</div><div class='input'>
+#&gt; 1  3 591.9422   lin_w1
+#&gt; 2  4 593.0074  quad_w1
+#&gt; 3  5 593.4045   cub_w1
+#&gt; 4  6 594.0030 quart_w1
+#&gt; 5  3 594.0139   lin_w2
+#&gt; 6  5 595.5983   cub_w2</div><div class='input'>
 <span class='no'>results</span>$<span class='no'>sp_models</span><span class='kw'>[[</span><span class='fl'>1</span>]] <span class='co'># model object for first species in list</span></div><div class='output co'>#&gt; 
 #&gt; Call:
-#&gt; lm(formula = data[[response]] ~ data[[predictor]] + I(data[[predictor]]^2))
+#&gt; lm(formula = data[[response]] ~ data[[predictor]])
 #&gt; 
 #&gt; Coefficients:
-#&gt;            (Intercept)       data[[predictor]]  I(data[[predictor]]^2)  
-#&gt;                  2.741                  19.664                  -6.061  
+#&gt;       (Intercept)  data[[predictor]]  
+#&gt;             6.717              9.464  
 #&gt; </div><div class='input'>
-<span class='no'>results</span>$<span class='no'>sp_models_info</span> <span class='co'># summary of best-fit models</span></div><div class='output co'>#&gt;                    species modelcode         a           b            c
-#&gt; 1            Albizia saman   quad_w1  2.740553  19.6642893    -6.061372
-#&gt; 2            Hopea odorata  quart_w4 -4.574237 279.2780006 -3105.195599
-#&gt; 3     Syzygium myrtifolium  quart_w2 -9.743595 275.2010554 -1580.335018
-#&gt; 4       Terminalia mantaly    cub_w3  3.730866   0.1733303   129.908835
-#&gt; 5 Xanthostemon chrysanthus   quad_w1  2.033997  32.4645629   -36.346261
-#&gt;            d          e response_geom_mean correctn_factor predictor_min
-#&gt; 1         NA         NA          13.454710               1    0.31194369
-#&gt; 2 15516.9602 -26692.934           5.354806               1    0.03183099
-#&gt; 3  3917.9761  -3398.366           8.037675               1    0.07321127
-#&gt; 4  -155.1424         NA           7.609798               1    0.03501409
-#&gt; 5         NA         NA           5.106066               1    0.04456338
-#&gt;   predictor_max residual_SE mean_SE adj_R2   n
-#&gt; 1     1.5278875      2.2412  4.8721 0.4499 100
-#&gt; 2     0.2864789     12.5967  2.9191 0.6010 100
-#&gt; 3     0.5188451      2.2546  2.4289 0.4341 100
-#&gt; 4     0.5602254      3.9638  3.1954 0.7588 100
-#&gt; 5     0.3501409      1.1312  1.2413 0.5887 100</div><div class='input'>
+<span class='no'>results</span>$<span class='no'>sp_models_info</span> <span class='co'># summary of best-fit models</span></div><div class='output co'>#&gt;                    species modelcode         a          b          c        d
+#&gt; 1            Albizia saman    lin_w1  6.717431   9.464096         NA       NA
+#&gt; 2            Hopea odorata  quart_w4 -1.149669 149.317848 -1522.6122 7908.410
+#&gt; 3     Syzygium myrtifolium  quart_w2 -4.614100 158.512849  -748.2492 1638.676
+#&gt; 4       Terminalia mantaly   expo_w1 10.461310  29.320921         NA       NA
+#&gt; 5 Xanthostemon chrysanthus loglog_w1 15.955007   2.982932         NA       NA
+#&gt;            e response_geom_mean correctn_factor predictor_min predictor_max
+#&gt; 1         NA          13.566083        1.000000    0.31194369     1.5278875
+#&gt; 2 -14225.442           5.390829        1.000000    0.03183099     0.2928451
+#&gt; 3  -1321.221           7.735643        1.000000    0.04138029     0.5665916
+#&gt; 4         NA           7.596013        1.031243    0.03501409     0.5602254
+#&gt; 5         NA           5.067462        1.028603    0.02864789     0.3533240
+#&gt;   residual_SE mean_SE adj_R2   n
+#&gt; 1      2.2050  4.7889 0.4276 133
+#&gt; 2     11.9430  2.6339 0.5460 483
+#&gt; 3      2.1674  2.2536 0.6662 353
+#&gt; 4      1.8938  3.5502 0.6702 197
+#&gt; 5      1.2064  1.4484 0.5551 419</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

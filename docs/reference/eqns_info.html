@@ -47,7 +47,8 @@
 
 
 <meta property="og:title" content="Allometric equations — eqns_info" />
-<meta property="og:description" content="All allometric equations that are considered in this package." />
+<meta property="og:description" content="All allometric equations that are considered in the development of
+linear models." />
 <meta property="og:image" content="https://xp-song.github.io/allometree/logo.png" />
 
 
@@ -135,7 +136,8 @@
     </div>
 
     <div class="ref-description">
-    <p>All allometric equations that are considered in this package.</p>
+    <p>All allometric equations that are considered in the development of
+linear models.</p>
     </div>
 
     <pre class="usage"><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>eqns_info</span>)</pre>
@@ -143,9 +145,13 @@
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A dataframe with columns containing the <code>modeltype</code>,
-<code>base_equation</code>, <code>base_formula</code> and <code>weights</code>, as well as the corresponding
-<code>modelcode</code>.</p>
+    <p>A dataframe. Each row is a different type of model. The columns are:</p><ul>
+<li><p><code>modeltype</code>: One of the six general types of allometric equations</p></li>
+<li><p><code>base_equation</code>: The allometric equation (without weights)</p></li>
+<li><p><code>base_formula</code>: The <code>formula</code> used to fit the model (without weights)</p></li>
+<li><p><code>weights</code>: The <code>weight</code> argument in the model</p></li>
+<li><p><code>modelcode</code>: Character string used to represent the unique combinations of equations and weights</p></li>
+</ul>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Six allometric equations used to develop allometric models for

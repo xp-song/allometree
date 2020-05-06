@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Sample of tree heights and diameter sizes — urbantrees • allometree</title>
+<title>Street tree data in Singapore — urbantrees • allometree</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,9 +46,9 @@
 
 
 
-<meta property="og:title" content="Sample of tree heights and diameter sizes — urbantrees" />
-<meta property="og:description" content="Example data on the size dimensions of five urban tree species
-planted along streets in the tropical city of Singapore." />
+<meta property="og:title" content="Street tree data in Singapore — urbantrees" />
+<meta property="og:description" content="Example data on the height and trunk diameter of five tree species
+planted along streets in Singapore (sample size = 1585)." />
 <meta property="og:image" content="https://xp-song.github.io/allometree/logo.png" />
 
 
@@ -130,14 +130,14 @@ planted along streets in the tropical city of Singapore." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Sample of tree heights and diameter sizes</h1>
+    <h1>Street tree data in Singapore</h1>
     <small class="dont-index">Source: <a href='https://github.com/xp-song/allometree/blob/master/R/data-urbantrees.R'><code>R/data-urbantrees.R</code></a></small>
     <div class="hidden name"><code>urbantrees.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Example data on the size dimensions of five urban tree species
-planted along streets in the tropical city of Singapore.</p>
+    <p>Example data on the height and trunk diameter of five tree species
+planted along streets in Singapore (sample size = 1585).</p>
     </div>
 
     <pre class="usage"><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>urbantrees</span>)</pre>
@@ -145,21 +145,24 @@ planted along streets in the tropical city of Singapore.</p>
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A dataframe with columns containing the <code>'species'</code>,
-<code>'height'</code> (m) and <code>'diameter'</code> (m).
-Each row is a measurement for an individual tree (no tree is represented more than once).
-There are 100 measurements per species, across a broad range of height and diameter sizes.</p>
+    <p>A dataframe. Each row is a measurement for an individual tree.
+The following variables are included as columns:</p><ul>
+<li><p><code>species</code>: Name of tree species</p></li>
+<li><p><code>height</code> (m): Visually estimated height</p></li>
+<li><p><code>diameter</code> (m): Tree girth measured with diameter tape (at breast-height),
+and converted to diameter size</p></li>
+</ul>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>urbantrees</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span>(<span class='no'>urbantrees</span>$<span class='no'>species</span>) <span class='co'># species in the dataset</span></div><div class='output co'>#&gt; [1] "Albizia saman"            "Hopea odorata"           
-#&gt; [3] "Syzygium myrtifolium"     "Terminalia mantaly"      
-#&gt; [5] "Xanthostemon chrysanthus"</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span>(<span class='no'>urbantrees</span>$<span class='no'>species</span>) <span class='co'># species in the dataset</span></div><div class='output co'>#&gt; [1] "Hopea odorata"            "Xanthostemon chrysanthus"
+#&gt; [3] "Terminalia mantaly"       "Syzygium myrtifolium"    
+#&gt; [5] "Albizia saman"           </div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='no'>urbantrees</span>$<span class='no'>species</span>) <span class='co'># number of data points (rows) per species</span></div><div class='output co'>#&gt; 
 #&gt;            Albizia saman            Hopea odorata     Syzygium myrtifolium 
-#&gt;                      100                      100                      100 
+#&gt;                      133                      483                      353 
 #&gt;       Terminalia mantaly Xanthostemon chrysanthus 
-#&gt;                      100                      100 </div></pre>
+#&gt;                      197                      419 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

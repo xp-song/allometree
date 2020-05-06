@@ -4,14 +4,20 @@
 \name{eqns_info}
 \alias{eqns_info}
 \title{Allometric equations}
-\format{A dataframe with columns containing the \code{modeltype},
-\code{base_equation}, \code{base_formula} and \code{weights}, as well as the corresponding
-\code{modelcode}.}
+\format{A dataframe. Each row is a different type of model. The columns are:
+\itemize{
+\item \code{modeltype}: One of the six general types of allometric equations
+\item \code{base_equation}: The allometric equation (without weights)
+\item \code{base_formula}: The \code{formula} used to fit the model (without weights)
+\item \code{weights}: The \code{weight} argument in the model
+\item \code{modelcode}: Character string used to represent the unique combinations of equations and weights
+}}
 \usage{
 data(eqns_info)
 }
 \description{
-All allometric equations that are considered in this package.
+All allometric equations that are considered in the development of
+linear models.
 }
 \details{
 Six allometric equations used to develop allometric models for

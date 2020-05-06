@@ -20,19 +20,19 @@ devtools::load_all()
 #library(allometree) # if installed
 ```
 
-The `allometree` package enables you to develop and use allometric equations relating to the size and structure of urban trees. For example, these equations have been used to predict trunk diameter from tree age, as well as to predict tree height, crown height, crown diameter and leaf area from trunk diameter (McPherson *et al.*, 2016). They are foundational to other models that estimate the benefits and hazards associated with trees as they mature and grow in size. More information can be found in Song *et al.* (in prep).  
+The `allometree` package enables you to develop and use allometric equations relating to the size and structure of urban trees. For example, these equations have been used to predict trunk diameter from tree age, as well as to predict tree height, crown height, crown diameter and leaf area from trunk diameter. They are foundational to other models that estimate the benefits and hazards associated with trees as they mature and grow in size. More information can be found in Song *et al.* (in prep).  
 
 This document demonstrates the workflow to develop these allometric models, taking the relationship between two size parameters as an example: Predicting tree *height* from trunk *diameter*. 
 
-Two modelling approaches will be introduced:  
+Two linear modelling approaches will be introduced:  
 
-  1. Linear regression models developed separately for each species, i.e., *single-species models*
-  2. A linear mixed-effects model that includes all species as random effects, i.e., *mixed-effects model*
+  1. Regression models developed separately for each species, i.e., *single-species models*
+  2. Mixed-effects model that includes all species as random effects, i.e., *mixed-effects model*
 
 
 ## Example data: `urbantrees`
 
-We will be using `data(urbantrees)`. It contains five species planted along streets in Singapore. 100 individuals were sampled per species, spanning a wide range of heights and diameter sizes (in metres).
+We will be using `data(urbantrees)`. It contains five species planted along streets in Singapore, each spanning a wide range of heights and diameter sizes (in metres).
 
 ```{r load data, fig.width=5.5, fig.align='center'}
 data(urbantrees, package = "allometree")
@@ -40,7 +40,7 @@ urbantrees
 
 library(ggplot2)
 ggplot(urbantrees, aes(diameter, height)) +
-  facet_wrap(~ species) +
+  facet_wrap(~ species, scales = "free") +
   geom_point()
 ```
 
@@ -60,7 +60,7 @@ head(eqns_info)
 
 ## 1. Single-species models
 
-### 1.1. Model selection
+### 1.1. Model selection {#section1.1}
 
 #### For one species
 
@@ -109,7 +109,7 @@ The `results_all` variable is a list of 3 elements:
 
 &nbsp;
 
-`results_all$sp_models_info` provides a good overview of the best-fit models across the multiple species:
+An overview of the best-fit models across the `r nrow(results_all$sp_models_info)` species:
 ```{r}
 results_all$sp_models_info
 ```
@@ -117,43 +117,34 @@ results_all$sp_models_info
 
 ### 1.2. Outlier removal
 
-Let's say we want to check for outlier/influential data points, remove them, and re-fit the filtered dataset to the pre-selected models as defined in `results_all$sp_models_info`. First, lets visualise these outliers, say, for the species *Hopea odorata*.
+Let's say we want to check for outlier/influential data points, remove them, and re-fit the filtered dataset to the pre-selected models as defined in `results_all$sp_models_info`. First, lets visualise these outliers, say, for the species *Xanthostemon chrysanthus*.
 
 ```{r fig.align='center', fig.width=5.5, fig.height=5.5}
-par(mfrow=c(2,2)); plot(results_all$sp_models$`Hopea odorata`)
+par(mfrow=c(2,2)); plot(results_all$sp_models$`Xanthostemon chrysanthus`)
 ```
 &nbsp;
 
-There are numerous ways to [deal with outliers](http://r-statistics.co/Outlier-Treatment-With-R.html). One way is to remove them based on Cook's Distance (bottom-right plot). In general use, observations with a Cook's distance > 4 times the mean may be classified as influential, as shown in the plot below:
+There are numerous ways to [deal with outliers](http://r-statistics.co/Outlier-Treatment-With-R.html). One way is to remove them based on Cook's Distance (bottom-right plot). In general use, outliers may be defined as points with a Cook's distance more than four times the mean Cook's distance (red line in plot below). Note that this threshold is not fixed, and may be adjusted according to expert knowledge.
 
 ```{r, fig.align='center', fig.width=4, fig.height=4}
-cooks_dist <- cooks.distance(results_all$sp_models$`Hopea odorata`)
+cooks_dist <- cooks.distance(results_all$sp_models$`Xanthostemon chrysanthus`)
 plot(cooks_dist, pch = ".", cex = 2, main = "Outliers by Cook's Distance")
 abline(h = 4*mean(cooks_dist, na.rm = T), col = "red")  # threshold line
 text(x = 1:length(cooks_dist) + 1, y = cooks_dist, 
      labels = ifelse(cooks_dist > 4 * mean(cooks_dist, na.rm=T), names(cooks_dist), ""), col = "red")  # outlier labels
 ```
 
-&nbsp;
-
-Here are the outliers for *Hopea odorata* in our dataset `urbantrees`:
+We can create a function `uncooker()` that removes outliers for each species in the dataset `urbantrees`, based on their respective best-fit models in `results_all$sp_models`:
 
 ```{r}
-outliers <- as.numeric(names(cooks_dist)[(cooks_dist > 4 * mean(cooks_dist, na.rm=T))])  # influential row numbers
-urbantrees[(urbantrees$species == "Hopea odorata"),][outliers,]
-```
-
-We can create a function `uncooker()` that removes outliers in the dataset `urbantrees`, based on the best-fit model for each species (`sp_models`):
-
-```{r}
-uncooker <- function(modellist, data){
+uncooker <- function(data, modellist){
   
   result <- data[0,]
   
   for(i in 1:length(modellist)){ # loop over all species 
     
     cooks_dist <- cooks.distance(modellist[[i]]) 
-    outliers <- as.numeric(names(cooks_dist)[(cooks_dist > 4 * mean(cooks_dist, na.rm = T))])
+    outliers <- as.numeric(which(cooks_dist > 4*mean(cooks_dist, na.rm=T)))  # row numbers
     subset <- data[(data$species == names(modellist[i])),][-outliers,]
     result <- rbind.data.frame(result, subset)
   }
@@ -161,13 +152,12 @@ uncooker <- function(modellist, data){
 }
 
 # run the function uncooker()
-urbantrees_clean <- uncooker(results_all$sp_models, urbantrees)
+urbantrees_clean <- uncooker(urbantrees, results_all$sp_models)
+
 nrow(urbantrees_clean)
 ```
 
-&nbsp;
-
-The filtered dataset `urbantrees_clean` (n = `r nrow(urbantrees_clean)`) has `r nrow(urbantrees) - nrow(urbantrees_clean)` less trees than `urbantrees` (n = `r nrow(urbantrees)`).
+`r nrow(urbantrees) - nrow(urbantrees_clean)` data points were removed to obtain the filtered dataset `urbantrees_clean` (n = `r nrow(urbantrees_clean)`).
 
 ```{r include = FALSE}
 rm(cooks_dist, uncooker, outliers)
@@ -178,16 +168,16 @@ rm(cooks_dist, uncooker, outliers)
 
 #### For one species
 
-We can now fit the filtered data to the best-fit equations we defined in Section 1.1. Here's an example for the species *Albizia saman* again, using the function `sp_modelfit()`. 
+We can now fit `urbantrees_clean` to the best-fit equations we defined in [Section 1.1](#section1.1). Here's an example for the species *Albizia saman* again, using the function `sp_modelfit()`. 
 
-This function has an additional argument `modelcode`. In the case of *Albizia saman*, it is `quad_w1` (see `results_all$sp_models_info`). Note that you can also pick any one of the options found in `eqns_info$modelcode`.
+This function has an additional argument `modelcode`. In the case of *Albizia saman*, it is `lin_w1` (see `results_all$sp_models_info`). Note that you can also pick any one of the options found in `eqns_info$modelcode`.
 
 We'll overwrite our previously-defined variables, this time with the filtered dataset:
 
 ```{r fit data to pre-selected model, eval = FALSE}
 Alb_sam <- urbantrees_clean[urbantrees_clean$species == "Albizia saman", ]
 
-results <- sp_modelfit(Alb_sam, modelcode = "quad_w1", # specify modelcode
+results <- sp_modelfit(Alb_sam, modelcode = "lin_w1", # specify modelcode
                        response = "height", predictor = "diameter") 
 ```
 
@@ -198,7 +188,7 @@ The new `results` variable is a list of 2 elements:
 
 #### For multiple species
 
-Similar to the the wrapper function `sp_modelselect_multi()`, we can also run  `sp_modelfit_multi()` to fit pre-selected models across multiple species. In this function, we need to input a reference table `ref_table` (e.g. `results_all$sp_models_info`) that provides information on the `species` and their corresponding `modelcode`.
+Similar to the the wrapper function `sp_modelselect_multi()`, we can also run  `sp_modelfit_multi()` to fit pre-selected models across multiple species. In this function, we need to input a reference table `ref_table` (i.e. `results_all$sp_models_info`) that provides information on the `species` and their corresponding `modelcode`.
 
 ```{r}
 results_all <- sp_modelfit_multi(urbantrees_clean, 
