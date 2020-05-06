@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Street tree data in Singapore — urbantrees • allometree</title>
+<title>Heights and diameter sizes of 1,585 street trees in Singapore — urbantrees • allometree</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,9 +46,9 @@
 
 
 
-<meta property="og:title" content="Street tree data in Singapore — urbantrees" />
-<meta property="og:description" content="Example data on the height and trunk diameter of five tree species
-planted along streets in Singapore (sample size = 1585)." />
+<meta property="og:title" content="Heights and diameter sizes of 1,585 street trees in Singapore — urbantrees" />
+<meta property="og:description" content="A sample dataset containing the height and trunk diameter of five tree species,
+planted along streets in Singapore. Each row is a measurement for an individual tree." />
 <meta property="og:image" content="https://xp-song.github.io/allometree/logo.png" />
 
 
@@ -130,14 +130,14 @@ planted along streets in Singapore (sample size = 1585)." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Street tree data in Singapore</h1>
+    <h1>Heights and diameter sizes of 1,585 street trees in Singapore</h1>
     <small class="dont-index">Source: <a href='https://github.com/xp-song/allometree/blob/master/R/data-urbantrees.R'><code>R/data-urbantrees.R</code></a></small>
     <div class="hidden name"><code>urbantrees.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Example data on the height and trunk diameter of five tree species
-planted along streets in Singapore (sample size = 1585).</p>
+    <p>A sample dataset containing the height and trunk diameter of five tree species,
+planted along streets in Singapore. Each row is a measurement for an individual tree.</p>
     </div>
 
     <pre class="usage"><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>urbantrees</span>)</pre>
@@ -145,13 +145,18 @@ planted along streets in Singapore (sample size = 1585).</p>
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A dataframe. Each row is a measurement for an individual tree.
-The following variables are included as columns:</p><ul>
-<li><p><code>species</code>: Name of tree species</p></li>
-<li><p><code>height</code> (m): Visually estimated height</p></li>
-<li><p><code>diameter</code> (m): Tree girth measured with diameter tape (at breast-height),
-and converted to diameter size</p></li>
-</ul>
+    <p>A dataframe with 1585 rows and 3 variables:</p><dl'>
+<dt>species</dt><dd><p>Name of tree species</p></dd>
+<dt>height</dt><dd><p>Tree height based on visual estimation by an arborist (m)</p></dd>
+<dt>diameter</dt><dd><p>Tree girth measured with diameter tape (at breast-height),
+and converted to diameter size (m)</p></dd>
+
+</dl>
+    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
+
+    <p>Independently sampled validation data reported in:</p>
+<p>Song, X. P., Lai, H. R., Wijedasa, L. S., Yee, A. T. K., Tan, P. Y., Richards, D. R.,
+Streamlining management practices based on the size allometry of tropical street trees (in prep).</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>urbantrees</span>)

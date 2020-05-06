@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Allometric equations — eqns_info • allometree</title>
+<title>Allometric equations for linear models — eqns_info • allometree</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,8 @@
 
 
 
-<meta property="og:title" content="Allometric equations — eqns_info" />
-<meta property="og:description" content="All allometric equations that are considered in the development of
+<meta property="og:title" content="Allometric equations for linear models — eqns_info" />
+<meta property="og:description" content="Allometric equations that are considered in the development of
 linear models." />
 <meta property="og:image" content="https://xp-song.github.io/allometree/logo.png" />
 
@@ -130,13 +130,13 @@ linear models." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Allometric equations</h1>
+    <h1>Allometric equations for linear models</h1>
     <small class="dont-index">Source: <a href='https://github.com/xp-song/allometree/blob/master/R/data-eqns_info.R'><code>R/data-eqns_info.R</code></a></small>
     <div class="hidden name"><code>eqns_info.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>All allometric equations that are considered in the development of
+    <p>Allometric equations that are considered in the development of
 linear models.</p>
     </div>
 
@@ -145,16 +145,17 @@ linear models.</p>
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A dataframe. Each row is a different type of model. The columns are:</p><ul>
-<li><p><code>modeltype</code>: One of the six general types of allometric equations</p></li>
-<li><p><code>base_equation</code>: The allometric equation (without weights)</p></li>
-<li><p><code>base_formula</code>: The <code>formula</code> used to fit the model (without weights)</p></li>
-<li><p><code>weights</code>: The <code>weight</code> argument in the model</p></li>
-<li><p><code>modelcode</code>: Character string used to represent the unique combinations of equations and weights</p></li>
-</ul>
+    <p>A dataframe with 5 variables:</p><dl'>
+<dt>modeltype</dt><dd><p>One of the six general types of allometric equations</p></dd>
+<dt>base_equation</dt><dd><p>Basic form of the allometric equation</p></dd>
+<dt>base_formula</dt><dd><p>The basic <code>formula</code> used to fit the model</p></dd>
+<dt>weights</dt><dd><p>The <code>weight</code> argument in the model</p></dd>
+<dt>modelcode</dt><dd><p>Character string used to represent the unique combinations of equations and weights</p></dd>
+
+</dl>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Six allometric equations used to develop allometric models for
+    <p>Six allometric equations used to develop linear models for
 urban trees:</p><ol>
 <li><p>Linear:  \(y_{i} = a + bx_{i} + \epsilon_{i}/\sqrt{w_{i}}\)</p></li>
 <li><p>Quadratic: \(y_{i} = a + bx_{i} + cx^2_{i} +

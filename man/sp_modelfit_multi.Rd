@@ -41,21 +41,21 @@ A list of 2 elements:
 }
 \subsection{sp_models_info}{
 
-More information on output columns:
-\itemize{
-\item \code{species}: Name of tree species
-\item \code{modelcode}: Model code for the best-fit equation
-\item \code{a}, \code{b}, \code{c}, \code{d}, \code{e}: Parameter estimates
-\item \code{response_geom_mean}: Geometric mean of the response variable used in
-calculation of AICc (only for transformed models)
-\item \code{correctn_factor}: Bias correction factor to use on model predictions
-(only for transformed models)
-\item \code{predictor_min}, \code{predictor_max}: Range of the predictor variable within
-the data used to generate the model (i.e. threshold values for model extrapolation)
-\item \code{residual_SE}: Residual standard error of the model
-\item \code{mean_SE}: Mean standard error of the model
-\item \code{adj_R2}: Adjusted \eqn{R^2} of the model
-\item \code{n}: Sample size (no. of trees used to fit model)
+\code{sp_models_info} is a dataframe with the following variables:
+\describe{
+\item{species}{Name of tree species}
+\item{modelcode}{Model code for the allometric equation used}
+\item{a, b, c, d, e}{Parameter estimates}
+\item{response_geom_mean}{Geometric mean of the response variable used in
+calculation of AICc (only for transformed models)}
+\item{correctn_factor}{Bias correction factor to use on model predictions
+(only for transformed models)}
+\item{predictor_min, predictor_max}{Range of the predictor variable within
+the data used to generate the model (i.e. threshold values for model extrapolation)}
+\item{residual_SE}{Residual standard error of the model}
+\item{mean_SE}{Mean standard error of the model}
+\item{adj_R2}{Adjusted \eqn{R^2} of the model}
+\item{n}{Sample size (no. of trees used to fit model)}
 }
 }
 }

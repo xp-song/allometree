@@ -3,24 +3,24 @@
 \docType{data}
 \name{eqns_info}
 \alias{eqns_info}
-\title{Allometric equations}
-\format{A dataframe. Each row is a different type of model. The columns are:
-\itemize{
-\item \code{modeltype}: One of the six general types of allometric equations
-\item \code{base_equation}: The allometric equation (without weights)
-\item \code{base_formula}: The \code{formula} used to fit the model (without weights)
-\item \code{weights}: The \code{weight} argument in the model
-\item \code{modelcode}: Character string used to represent the unique combinations of equations and weights
+\title{Allometric equations for linear models}
+\format{A dataframe with 5 variables:
+\describe{
+\item{modeltype}{One of the six general types of allometric equations}
+\item{base_equation}{Basic form of the allometric equation}
+\item{base_formula}{The basic \code{formula} used to fit the model}
+\item{weights}{The \code{weight} argument in the model}
+\item{modelcode}{Character string used to represent the unique combinations of equations and weights}
 }}
 \usage{
 data(eqns_info)
 }
 \description{
-All allometric equations that are considered in the development of
+Allometric equations that are considered in the development of
 linear models.
 }
 \details{
-Six allometric equations used to develop allometric models for
+Six allometric equations used to develop linear models for
 urban trees:
 \enumerate{
 \item Linear:  \eqn{y_{i} = a + bx_{i} + \epsilon_{i}/\sqrt{w_{i}}}

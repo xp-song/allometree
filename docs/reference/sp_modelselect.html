@@ -171,20 +171,21 @@ measurement for an individual tree.</p></td>
 <h3>best_model_info</h3>
 
 
-<p>More information on output columns:</p><ul>
-<li><p><code>modelcode</code>: Model code for the best-fit equation</p></li>
-<li><p><code>a</code>, <code>b</code>, <code>c</code>, <code>d</code>, <code>e</code>: Parameter estimates</p></li>
-<li><p><code>response_geom_mean</code>: Geometric mean of the response variable used in
-calculation of AICc (only for transformed models)</p></li>
-<li><p><code>correctn_factor</code>: Bias correction factor to use on model predictions
-(only for transformed models)</p></li>
-<li><p><code>predictor_min</code>, <code>predictor_max</code>: Range of the predictor variable within
-the data used to generate the model (i.e. threshold values for model extrapolation)</p></li>
-<li><p><code>residual_SE</code>: Residual standard error of the model</p></li>
-<li><p><code>mean_SE</code>: Mean standard error of the model</p></li>
-<li><p><code>adj_R2</code>: Adjusted \(R^2\) of the model</p></li>
-<li><p><code>n</code>: Sample size (no. of trees used to fit model)</p></li>
-</ul>
+<p><code>best_model_info</code> is a dataframe with the following variables:</p><dl'>
+<dt>modelcode</dt><dd><p>Model code for the best-fit equation</p></dd>
+<dt>a, b, c, d, e</dt><dd><p>Parameter estimates</p></dd>
+<dt>response_geom_mean</dt><dd><p>Geometric mean of the response variable used in
+calculation of AICc (only for transformed models)</p></dd>
+<dt>correctn_factor</dt><dd><p>Bias correction factor to use on model predictions
+(only for transformed models)</p></dd>
+<dt>predictor_min, predictor_max</dt><dd><p>Range of the predictor variable within
+the data used to generate the model (i.e. threshold values for model extrapolation)</p></dd>
+<dt>residual_SE</dt><dd><p>Residual standard error of the model</p></dd>
+<dt>mean_SE</dt><dd><p>Mean standard error of the model</p></dd>
+<dt>adj_R2</dt><dd><p>Adjusted \(R^2\) of the model</p></dd>
+<dt>n</dt><dd><p>Sample size (no. of trees used to fit model)</p></dd>
+
+</dl>
 
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>

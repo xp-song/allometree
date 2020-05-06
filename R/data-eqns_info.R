@@ -1,9 +1,9 @@
-#' Allometric equations
+#' Allometric equations for linear models
 #'
-#' All allometric equations that are considered in the development of
+#' Allometric equations that are considered in the development of
 #' linear models.
 #'
-#' Six allometric equations used to develop allometric models for
+#' Six allometric equations used to develop linear models for
 #' urban trees:
 #'
 #' 1. Linear:  \eqn{y_{i} = a + bx_{i} + \epsilon_{i}/\sqrt{w_{i}}}
@@ -37,12 +37,14 @@
 #'
 #' @usage data(eqns_info)
 #'
-#' @format A dataframe. Each row is a different type of model. The columns are:
-#' * `modeltype`: One of the six general types of allometric equations
-#' * `base_equation`: The allometric equation (without weights)
-#' * `base_formula`: The `formula` used to fit the model (without weights)
-#' * `weights`: The `weight` argument in the model
-#' * `modelcode`: Character string used to represent the unique combinations of equations and weights
+#' @format A dataframe with 5 variables:
+#' \describe{
+#'   \item{modeltype}{One of the six general types of allometric equations}
+#'   \item{base_equation}{Basic form of the allometric equation}
+#'   \item{base_formula}{The basic `formula` used to fit the model}
+#'   \item{weights}{The `weight` argument in the model}
+#'   \item{modelcode}{Character string used to represent the unique combinations of equations and weights}
+#'  }
 #'
 #' @references McPherson E. G., van Doorn N. S. & Peper P. J. (2016) Urban Tree
 #' Database and Allometric Equations. *General Technical Report PSW-GTR-253,
