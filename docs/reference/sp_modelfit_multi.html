@@ -138,10 +138,10 @@ ref_table can be found in ?eqns_info and data(eqns_info)." />
     </div>
 
     <div class="ref-description">
-    <p>Wrapper to run <code>sp_modelfit()</code> across multiple species. Data is fit to
+    <p>Wrapper to run <code><a href='sp_modelfit.html'>sp_modelfit()</a></code> across multiple species. Data is fit to
 pre-selected allometric equations for each species, as defined within
 <code>ref_table</code>. The full list of allometric equations that may be considered in
-<code>ref_table</code> can be found in <code>?eqns_info</code> and <code><a href='https://rdrr.io/r/utils/data.html'>data(eqns_info)</a></code>.</p>
+<code>ref_table</code> can be found in <code><a href='eqns_info.html'>?eqns_info</a></code> and <code><a href='https://rdrr.io/r/utils/data.html'>data(eqns_info)</a></code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>sp_modelfit_multi</span>(
@@ -218,18 +218,18 @@ the data used to generate the model (i.e. threshold values for model extrapolati
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code>sp_modelfit()</code> to fit pre-selected model for one species.</p>
-<p><code>sp_modelselect()</code> to select a best-fit model for one species.</p>
-<p><code>sp_modelselect_multi()</code> to select best-fit models across multiple species.</p>
+    <div class='dont-index'><p><code><a href='sp_modelfit.html'>sp_modelfit()</a></code> to fit pre-selected model for one species.</p>
+<p><code><a href='sp_modelselect.html'>sp_modelselect()</a></code> to select a best-fit model for one species.</p>
+<p><code><a href='sp_modelselect_multi.html'>sp_modelselect_multi()</a></code> to select best-fit models across multiple species.</p>
 <p>Other single-species model functions: 
-<code>sp_modelfit()</code>,
-<code>sp_modelselect_multi()</code>,
-<code>sp_modelselect()</code></p></div>
+<code><a href='sp_modelfit.html'>sp_modelfit</a>()</code>,
+<code><a href='sp_modelselect_multi.html'>sp_modelselect_multi</a>()</code>,
+<code><a href='sp_modelselect.html'>sp_modelselect</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># first select best-fit model for all species in data</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>urbantrees</span>)
-<span class='no'>selected</span> <span class='kw'>&lt;-</span> <span class='fu'>sp_modelselect_multi</span>(<span class='no'>urbantrees</span>, <span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>'species'</span>, <span class='kw'>response</span> <span class='kw'>=</span> <span class='st'>'height'</span>, <span class='kw'>predictor</span> <span class='kw'>=</span> <span class='st'>'diameter'</span>)
+<span class='no'>selected</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='sp_modelselect_multi.html'>sp_modelselect_multi</a></span>(<span class='no'>urbantrees</span>, <span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>'species'</span>, <span class='kw'>response</span> <span class='kw'>=</span> <span class='st'>'height'</span>, <span class='kw'>predictor</span> <span class='kw'>=</span> <span class='st'>'diameter'</span>)
 
 <span class='co'># use function</span>
 <span class='no'>results</span> <span class='kw'>&lt;-</span> <span class='fu'>sp_modelfit_multi</span>(

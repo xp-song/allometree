@@ -136,7 +136,7 @@
 <a href="#allometric-equations-eqns_info" class="anchor"></a>Allometric equations: <code>eqns_info</code>
 </h2>
 <p>Allometric relationships for urban trees can vary drastically from those for forest trees, and are also influenced by human factors such as pruning and fertilisation. Empirical models are developed using six allometric equations used for urban trees (McPherson <em>et al.</em>, 2016).</p>
-<p>More information can be found in <code>?eqns_info</code>, as well as in <code><a href="https://rdrr.io/r/utils/data.html">data(eqns_info)</a></code>. The column <code>modelcode</code> shows the unique model code for each equation:</p>
+<p>More information can be found in <code><a href="../reference/eqns_info.html">?eqns_info</a></code>, as well as in <code><a href="https://rdrr.io/r/utils/data.html">data(eqns_info)</a></code>. The column <code>modelcode</code> shows the unique model code for each equation:</p>
 <div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">eqns_info</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"allometree"</span>)
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">eqns_info</span>)
 <span class="co">#&gt;   modeltype    base_equation   base_formula      weights modelcode</span>
@@ -157,16 +157,16 @@
 <div id="for-one-species" class="section level4">
 <h4 class="hasAnchor">
 <a href="#for-one-species" class="anchor"></a>For one species</h4>
-<p>For a particular species of interest, data will be fit to all allometric equations. The best-fit model is selected based on the lowest bias-corrected Aikaike’s information criterion (AICc) value. Here’s an example to select the best-fit model for the species <em>Albizia saman</em>, using the function <code>sp_modelselect()</code>.</p>
+<p>For a particular species of interest, data will be fit to all allometric equations. The best-fit model is selected based on the lowest bias-corrected Aikaike’s information criterion (AICc) value. Here’s an example to select the best-fit model for the species <em>Albizia saman</em>, using the function <code><a href="../reference/sp_modelselect.html">sp_modelselect()</a></code>.</p>
 <div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">Alb_sam</span> <span class="kw">&lt;-</span> <span class="no">urbantrees</span>[<span class="no">urbantrees</span>$<span class="no">species</span> <span class="kw">==</span> <span class="st">"Albizia saman"</span>, ]  <span class="co"># subset data for one species</span>
 
-<span class="no">results</span> <span class="kw">&lt;-</span> <span class="fu">sp_modelselect</span>(<span class="no">Alb_sam</span>,
+<span class="no">results</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/sp_modelselect.html">sp_modelselect</a></span>(<span class="no">Alb_sam</span>,
                           <span class="kw">response</span> <span class="kw">=</span> <span class="st">"height"</span>, <span class="kw">predictor</span> <span class="kw">=</span> <span class="st">"diameter"</span>)  <span class="co"># specify colnames of variables</span></pre></body></html></div>
 <p>The <code>results</code> variable is a list of 3 elements:</p>
 <ol style="list-style-type: decimal">
 <li>Table showing models ranked by AICc value, named <code>all_models_rank</code>.</li>
 <li>Best-fit model object, named <code>best_model</code>.</li>
-<li>Table showing information on the best-fit model, named <code>best_model_info</code>. More information on the output columns can be found at <code>?sp_modelselect</code>.</li>
+<li>Table showing information on the best-fit model, named <code>best_model_info</code>. More information on the output columns can be found at <code><a href="../reference/sp_modelselect.html">?sp_modelselect</a></code>.</li>
 </ol>
 <div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">results</span>$<span class="no">all_models_rank</span>)
 <span class="co">#&gt;   df     AICc    model</span>
@@ -193,8 +193,8 @@
 <div id="for-multiple-species" class="section level4">
 <h4 class="hasAnchor">
 <a href="#for-multiple-species" class="anchor"></a>For multiple species</h4>
-<p>We can also run <code>sp_modelselect()</code> across multiple species in the full dataset <code>urbantrees</code>. For this, we use the wrapper function <code>sp_modelselect_multi()</code>.</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">results_all</span> <span class="kw">&lt;-</span> <span class="fu">sp_modelselect_multi</span>(<span class="no">urbantrees</span>, <span class="kw">species</span> <span class="kw">=</span> <span class="st">"species"</span>, <span class="co"># specify colname of species</span>
+<p>We can also run <code><a href="../reference/sp_modelselect.html">sp_modelselect()</a></code> across multiple species in the full dataset <code>urbantrees</code>. For this, we use the wrapper function <code><a href="../reference/sp_modelselect_multi.html">sp_modelselect_multi()</a></code>.</p>
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">results_all</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/sp_modelselect_multi.html">sp_modelselect_multi</a></span>(<span class="no">urbantrees</span>, <span class="kw">species</span> <span class="kw">=</span> <span class="st">"species"</span>, <span class="co"># specify colname of species</span>
                                     <span class="kw">response</span> <span class="kw">=</span> <span class="st">"height"</span>, <span class="kw">predictor</span> <span class="kw">=</span> <span class="st">"diameter"</span>)</pre></body></html></div>
 <p>The <code>results_all</code> variable is a list of 3 elements:</p>
 <ol style="list-style-type: decimal">
@@ -266,12 +266,12 @@
 <div id="for-one-species-1" class="section level4">
 <h4 class="hasAnchor">
 <a href="#for-one-species-1" class="anchor"></a>For one species</h4>
-<p>We can now fit <code>urbantrees_clean</code> to the best-fit equations we defined in <a href="#section1.1">Section 1.1</a>. Here’s an example for the species <em>Albizia saman</em> again, using the function <code>sp_modelfit()</code>.</p>
+<p>We can now fit <code>urbantrees_clean</code> to the best-fit equations we defined in <a href="#section1.1">Section 1.1</a>. Here’s an example for the species <em>Albizia saman</em> again, using the function <code><a href="../reference/sp_modelfit.html">sp_modelfit()</a></code>.</p>
 <p>This function has an additional argument <code>modelcode</code>. In the case of <em>Albizia saman</em>, it is <code>lin_w1</code> (see <code>results_all$sp_models_info</code>). Note that you can also pick any one of the options found in <code>eqns_info$modelcode</code>.</p>
 <p>We’ll overwrite our previously-defined variables, this time with the filtered dataset:</p>
 <div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="no">Alb_sam</span> <span class="kw">&lt;-</span> <span class="no">urbantrees_clean</span>[<span class="no">urbantrees_clean</span>$<span class="no">species</span> <span class="kw">==</span> <span class="st">"Albizia saman"</span>, ]
 
-<span class="no">results</span> <span class="kw">&lt;-</span> <span class="fu">sp_modelfit</span>(<span class="no">Alb_sam</span>, <span class="kw">modelcode</span> <span class="kw">=</span> <span class="st">"lin_w1"</span>, <span class="co"># specify modelcode</span>
+<span class="no">results</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/sp_modelfit.html">sp_modelfit</a></span>(<span class="no">Alb_sam</span>, <span class="kw">modelcode</span> <span class="kw">=</span> <span class="st">"lin_w1"</span>, <span class="co"># specify modelcode</span>
                        <span class="kw">response</span> <span class="kw">=</span> <span class="st">"height"</span>, <span class="kw">predictor</span> <span class="kw">=</span> <span class="st">"diameter"</span>)</pre></body></html></div>
 <p>The new <code>results</code> variable is a list of 2 elements:</p>
 <ol style="list-style-type: decimal">
@@ -282,8 +282,8 @@
 <div id="for-multiple-species-1" class="section level4">
 <h4 class="hasAnchor">
 <a href="#for-multiple-species-1" class="anchor"></a>For multiple species</h4>
-<p>Similar to the the wrapper function <code>sp_modelselect_multi()</code>, we can also run <code>sp_modelfit_multi()</code> to fit pre-selected models across multiple species. In this function, we need to input a reference table <code>ref_table</code> (i.e. <code>results_all$sp_models_info</code>) that provides information on the <code>species</code> and their corresponding <code>modelcode</code>.</p>
-<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="no">results_all</span> <span class="kw">&lt;-</span> <span class="fu">sp_modelfit_multi</span>(<span class="no">urbantrees_clean</span>,
+<p>Similar to the the wrapper function <code><a href="../reference/sp_modelselect_multi.html">sp_modelselect_multi()</a></code>, we can also run <code><a href="../reference/sp_modelfit_multi.html">sp_modelfit_multi()</a></code> to fit pre-selected models across multiple species. In this function, we need to input a reference table <code>ref_table</code> (i.e. <code>results_all$sp_models_info</code>) that provides information on the <code>species</code> and their corresponding <code>modelcode</code>.</p>
+<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="no">results_all</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/sp_modelfit_multi.html">sp_modelfit_multi</a></span>(<span class="no">urbantrees_clean</span>,
                                  <span class="kw">ref_table</span> <span class="kw">=</span> <span class="no">results_all</span>$<span class="no">sp_models_info</span>,
                                  <span class="kw">species</span> <span class="kw">=</span> <span class="st">"species"</span>, <span class="co"># colname in both data &amp; ref_table</span>
                                  <span class="kw">modelcode</span> <span class="kw">=</span> <span class="st">"modelcode"</span>, <span class="co"># colname in ref_table</span>
