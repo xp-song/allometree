@@ -1,8 +1,10 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^_pkgdown\.yml$
-^docs$
+^\.travis\.yml$
 ^pkgdown$
+^docs$
 ^admin$
 ^data-raw$
 ^logo\.png$
+
