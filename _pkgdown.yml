@@ -1,6 +1,14 @@
 url: https://xp-song.github.io/allometree/
 
 template:
+  opengraph:
+    image:
+      src: man/figures/logo.png
+      alt: "Allometric Scaling of Urban Trees"
+    twitter:
+      creator: "@song_xiaoping"
+      site: "https://xp-song.github.io"
+      card: summary_large_image
   params:
     bootswatch:
     ganalytics: UA-165592310-1

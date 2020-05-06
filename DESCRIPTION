@@ -35,7 +35,8 @@ RoxygenNote: 7.1.0
 Suggests: 
     knitr,
     rmarkdown,
-    testthat
+    testthat,
+    ggplot2
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
 Depends: 
