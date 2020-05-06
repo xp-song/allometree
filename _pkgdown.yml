@@ -1,5 +1,5 @@
 url: https://xp-song.github.io/allometree/
-
+title: allometree
 template:
   opengraph:
     image:
@@ -15,11 +15,6 @@ template:
 
 development:
   mode: auto
-
-navbar:
-  structure:
-    left:  [home, intro, reference, articles, tutorials, news]
-    right: [github]
 
 home:
   title: R Package - Allometric scaling of urban trees
