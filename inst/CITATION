@@ -1,0 +1,17 @@
+citHeader("To cite allometree in publications use:")
+
+citEntry(
+  entry    = "Article",
+  title    = "Streamlining management practices based on the size allometry of tropical street trees",
+  author   = "Song, X. P. , Lai, H. R. , Wijedasa, L. S., Yee, A. T. K., Tan, P. Y., Richards, D. R.",
+  journal  = "in prep",
+  year     = "in prep",
+  volume   = "",
+  number   = "",
+  pages    = "",
+  url      = "",
+  textVersion = paste("Song, X. P., Lai, H. R., Wijedasa, L. S., Yee, A. T. K., Tan, P. Y., Richards, D. R., Streamlining management practices based on the size allometry of tropical street trees (in prep)."
+  )
+)
+
+
