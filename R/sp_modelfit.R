@@ -273,7 +273,7 @@ sp_modelfit_multi <- function(data, ref_table, species = "species", modelcode = 
     checkmate::assert(checkmate::check_character(ref_table[[species]]), checkmate::check_factor(ref_table[[species]]),
         combine = "or", .var.name = "species")
     if (!setequal(unique(data[[species]]), unique(ref_table[[species]]))) {
-        warning("Warning: The unique types of 'species' between 'data' and 'ref_table' do not match.")
+        message("Warning: The unique types of 'species' between 'data' and 'ref_table' do not match.")
     }
     if (!all(unique(data[[species]]) %in% unique(ref_table[[species]]))) {
         stop("There are 'species' in the 'data' not found in the 'ref_table'.")
