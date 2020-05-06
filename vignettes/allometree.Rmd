@@ -16,8 +16,8 @@ knitr::opts_chunk$set(
   message = FALSE, warning = FALSE
 )
 
-devtools::load_all()
-#library(allometree) # if installed
+#devtools::load_all() # if don't want to use installed version
+library(allometree) # if installed
 ```
 
 The `allometree` package enables you to develop and use allometric equations relating to the size and structure of urban trees. For example, these equations have been used to predict trunk diameter from tree age, as well as to predict tree height, crown height, crown diameter and leaf area from trunk diameter. They are foundational to other models that estimate the benefits and hazards associated with trees as they mature and grow in size. More information can be found in Song *et al.* (in prep).  
