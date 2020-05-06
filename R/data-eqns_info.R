@@ -1,6 +1,7 @@
 #' Allometric equations
 #'
-#' All allometric equations that are considered in this package.
+#' All allometric equations that are considered in the development of
+#' linear models.
 #'
 #' Six allometric equations used to develop allometric models for
 #' urban trees:

@@ -25,11 +25,11 @@ reference:
 - contents:
   - urbantrees
   - eqns_info
-- title: "Single-species modelling"
+- title: "Linear models: Single-species"
   desc: "Linear regression models developed separately for each species."
 - contents:
   - starts_with("sp_")
-- title: "Mixed-effects modelling"
+- title: "Linear models: Mixed-effects"
   desc: "Linear mixed-effects model that includes all species as random effects."
 - contents:
   - starts_with("mix_")
