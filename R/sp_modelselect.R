@@ -1,4 +1,4 @@
-#' Select a best-fit model for one species
+#' Select a best-fit linear model for one species
 #'
 #' Select a best-fit equation for one species, based on the
 #' lowest bias-corrected Aikaike’s information criterion (AICc).
@@ -75,7 +75,7 @@
 #'
 #' @export
 sp_modelselect <- function(data, response = "height", predictor = "diameter") {
-
+    
     # Error checking ------------------
     if (is.null(data[[response]])) {
         stop("Variable name assigned to 'response' not found in 'data'.")
@@ -83,133 +83,132 @@ sp_modelselect <- function(data, response = "height", predictor = "diameter") {
     if (is.null(data[[predictor]])) {
         stop("Variable name assigned to 'predictor' not found in 'data'.")
     }
-
+    
     # positive numeric variables
     coll <- checkmate::makeAssertCollection()
     checkmate::assert_data_frame(data, add = coll)
+    checkmate::assert_subset(response, choices = colnames(data), empty.ok = FALSE, add = coll)
+    checkmate::assert_subset(predictor, choices = colnames(data), empty.ok = FALSE, add = coll)
     checkmate::assert_numeric(data[[response]], lower = 1e-05, finite = TRUE, .var.name = "response", add = coll)
     checkmate::assert_numeric(data[[predictor]], lower = 1e-05, finite = TRUE, .var.name = "predictor", add = coll)
     checkmate::reportAssertions(coll)
-
+    
     # remove missing data
     if (checkmate::anyMissing(data[[response]]) | checkmate::anyMissing(data[[predictor]])) {
-        message(cat(sum(!complete.cases(data[, c(response, predictor)])), " row(s) with missing value(s) removed from 'data'",
+        message(cat(sum(!complete.cases(data[, c(response, predictor)])), " row(s) with missing value(s) removed from 'data'", 
             sep = ""))
         data <- data[complete.cases(data[, c(response, predictor)]), ]
     }
-
+    
     # Calculations ------------------
-
+    
     # Calculate geometric mean height
     geom_mean_y <- exp(mean(log(data[[response]])))
-    data$response_trans <- log(data[[response]]) * geom_mean_y  # use this for transformed models for AICc comparisons with non-transformed models
-
-
+    data$y_trans <- log(data[[response]]) * geom_mean_y  # use this for transformed models for AICc comparisons with non-transformed models
+    
+    # extract values to use in lm
+    y <- data[[response]]
+    x <- data[[predictor]]
+    y_trans <- data$y_trans
+    
     # fit models
     sp_model_list <- list()
-
-    sp_model_list$lin_w1 <- lm(data[[response]] ~ data[[predictor]])
-    sp_model_list$lin_w2 <- lm(data[[response]] ~ data[[predictor]], weights = I(1/sqrt(data[[predictor]])))
-    sp_model_list$lin_w3 <- lm(data[[response]] ~ data[[predictor]], weights = I(1/data[[predictor]]))
-    sp_model_list$lin_w4 <- lm(data[[response]] ~ data[[predictor]], weights = I(1/data[[predictor]]^2))
-
-    sp_model_list$quad_w1 <- lm(data[[response]] ~ data[[predictor]] + I(data[[predictor]]^2))
-    sp_model_list$quad_w2 <- lm(data[[response]] ~ data[[predictor]] + I(data[[predictor]]^2), weights = I(1/sqrt(data[[predictor]])))
-    sp_model_list$quad_w3 <- lm(data[[response]] ~ data[[predictor]] + I(data[[predictor]]^2), weights = I(1/data[[predictor]]))
-    sp_model_list$quad_w4 <- lm(data[[response]] ~ data[[predictor]] + I(data[[predictor]]^2), weights = I(1/data[[predictor]]^2))
-
-    sp_model_list$cub_w1 <- lm(data[[response]] ~ data[[predictor]] + I(data[[predictor]]^2) + I(data[[predictor]]^3))
-    sp_model_list$cub_w2 <- lm(data[[response]] ~ data[[predictor]] + I(data[[predictor]]^2) + I(data[[predictor]]^3),
-        weights = I(1/sqrt(data[[predictor]])))
-    sp_model_list$cub_w3 <- lm(data[[response]] ~ data[[predictor]] + I(data[[predictor]]^2) + I(data[[predictor]]^3),
-        weights = I(1/data[[predictor]]))
-    sp_model_list$cub_w4 <- lm(data[[response]] ~ data[[predictor]] + I(data[[predictor]]^2) + I(data[[predictor]]^3),
-        weights = I(1/data[[predictor]]^2))
-
-    sp_model_list$quart_w1 <- lm(data[[response]] ~ data[[predictor]] + I(data[[predictor]]^2) + I(data[[predictor]]^3) +
-        I(data[[predictor]]^4), )
-    sp_model_list$quart_w2 <- lm(data[[response]] ~ data[[predictor]] + I(data[[predictor]]^2) + I(data[[predictor]]^3) +
-        I(data[[predictor]]^4), weights = I(1/sqrt(data[[predictor]])))
-    sp_model_list$quart_w3 <- lm(data[[response]] ~ data[[predictor]] + I(data[[predictor]]^2) + I(data[[predictor]]^3) +
-        I(data[[predictor]]^4), weights = I(1/data[[predictor]]))
-    sp_model_list$quart_w4 <- lm(data[[response]] ~ data[[predictor]] + I(data[[predictor]]^2) + I(data[[predictor]]^3) +
-        I(data[[predictor]]^4), weights = I(1/data[[predictor]]^2))
-
-    # using response_trans
-    sp_model_list$loglog_w1 <- lm(data$response_trans ~ I(log(log(data[[predictor]] + 1))))
-    sp_model_list$loglog_w2 <- lm(data$response_trans ~ I(log(log(data[[predictor]] + 1))), weights = I(1/sqrt(data[[predictor]])))
-    sp_model_list$loglog_w3 <- lm(data$response_trans ~ I(log(log(data[[predictor]] + 1))), weights = I(1/data[[predictor]]))
-    sp_model_list$loglog_w4 <- lm(data$response_trans ~ I(log(log(data[[predictor]] + 1))), weights = I(1/data[[predictor]]^2))
-
-    sp_model_list$expo_w1 <- lm(data$response_trans ~ data[[predictor]])
-    sp_model_list$expo_w2 <- lm(data$response_trans ~ data[[predictor]], weights = I(1/sqrt(data[[predictor]])))
-    sp_model_list$expo_w3 <- lm(data$response_trans ~ data[[predictor]], weights = I(1/data[[predictor]]))
-    sp_model_list$expo_w4 <- lm(data$response_trans ~ data[[predictor]], weights = I(1/data[[predictor]]^2))
-
+    
+    sp_model_list$lin_w1 <- lm(y ~ x)
+    sp_model_list$lin_w2 <- lm(y ~ x, weights = I(1/sqrt(x)))
+    sp_model_list$lin_w3 <- lm(y ~ x, weights = I(1/x))
+    sp_model_list$lin_w4 <- lm(y ~ x, weights = I(1/x^2))
+    
+    sp_model_list$quad_w1 <- lm(y ~ x + I(x^2))
+    sp_model_list$quad_w2 <- lm(y ~ x + I(x^2), weights = I(1/sqrt(x)))
+    sp_model_list$quad_w3 <- lm(y ~ x + I(x^2), weights = I(1/x))
+    sp_model_list$quad_w4 <- lm(y ~ x + I(x^2), weights = I(1/x^2))
+    
+    sp_model_list$cub_w1 <- lm(y ~ x + I(x^2) + I(x^3))
+    sp_model_list$cub_w2 <- lm(y ~ x + I(x^2) + I(x^3), weights = I(1/sqrt(x)))
+    sp_model_list$cub_w3 <- lm(y ~ x + I(x^2) + I(x^3), weights = I(1/x))
+    sp_model_list$cub_w4 <- lm(y ~ x + I(x^2) + I(x^3), weights = I(1/x^2))
+    
+    sp_model_list$quart_w1 <- lm(y ~ x + I(x^2) + I(x^3) + I(x^4))
+    sp_model_list$quart_w2 <- lm(y ~ x + I(x^2) + I(x^3) + I(x^4), weights = I(1/sqrt(x)))
+    sp_model_list$quart_w3 <- lm(y ~ x + I(x^2) + I(x^3) + I(x^4), weights = I(1/x))
+    sp_model_list$quart_w4 <- lm(y ~ x + I(x^2) + I(x^3) + I(x^4), weights = I(1/x^2))
+    
+    # using y_trans
+    sp_model_list$loglog_w1 <- lm(y_trans ~ I(log(log(x + 1))))
+    sp_model_list$loglog_w2 <- lm(y_trans ~ I(log(log(x + 1))), weights = I(1/sqrt(x)))
+    sp_model_list$loglog_w3 <- lm(y_trans ~ I(log(log(x + 1))), weights = I(1/x))
+    sp_model_list$loglog_w4 <- lm(y_trans ~ I(log(log(x + 1))), weights = I(1/x^2))
+    
+    sp_model_list$expo_w1 <- lm(y_trans ~ x)
+    sp_model_list$expo_w2 <- lm(y_trans ~ x, weights = I(1/sqrt(x)))
+    sp_model_list$expo_w3 <- lm(y_trans ~ x, weights = I(1/x))
+    sp_model_list$expo_w4 <- lm(y_trans ~ x, weights = I(1/x^2))
+    
     # compare AICc
-    all_models_rank <- MuMIn::AICc(sp_model_list$lin_w1, sp_model_list$lin_w2, sp_model_list$lin_w3, sp_model_list$lin_w4,
-        sp_model_list$quad_w1, sp_model_list$quad_w2, sp_model_list$quad_w3, sp_model_list$quad_w4, sp_model_list$cub_w1,
-        sp_model_list$cub_w2, sp_model_list$cub_w3, sp_model_list$cub_w4, sp_model_list$quart_w1, sp_model_list$quart_w2,
-        sp_model_list$quart_w3, sp_model_list$quart_w4, sp_model_list$loglog_w1, sp_model_list$loglog_w2, sp_model_list$loglog_w3,
+    all_models_rank <- MuMIn::AICc(sp_model_list$lin_w1, sp_model_list$lin_w2, sp_model_list$lin_w3, sp_model_list$lin_w4, 
+        sp_model_list$quad_w1, sp_model_list$quad_w2, sp_model_list$quad_w3, sp_model_list$quad_w4, sp_model_list$cub_w1, 
+        sp_model_list$cub_w2, sp_model_list$cub_w3, sp_model_list$cub_w4, sp_model_list$quart_w1, sp_model_list$quart_w2, 
+        sp_model_list$quart_w3, sp_model_list$quart_w4, sp_model_list$loglog_w1, sp_model_list$loglog_w2, sp_model_list$loglog_w3, 
         sp_model_list$loglog_w4, sp_model_list$expo_w1, sp_model_list$expo_w2, sp_model_list$expo_w3, sp_model_list$expo_w4)
-
+    
     # Prepare output ----------------------
-
+    
     # extract AICc comparison table
     all_models_rank$model <- names(sp_model_list)
     all_models_rank <- all_models_rank[order(all_models_rank$AICc), ]
     rownames(all_models_rank) <- NULL
-
+    
     # extract best model object
     best_model <- sp_model_list[names(sp_model_list) == all_models_rank$model[1]][[1]]
-
+    
     # extract best model info
     best_model_info <- data.frame(modelcode = all_models_rank$model[order(all_models_rank$AICc)][1])
     best_model_info$a <- summary(best_model)$coef[, "Estimate"][[1]]
     best_model_info$b <- summary(best_model)$coef[, "Estimate"][[2]]
-
+    
     # include other parameters (NA if absent)
     best_model_info$c <- tryCatch(summary(best_model)$coef[, "Estimate"][[3]], error = function(e) NA)
     best_model_info$d <- tryCatch(summary(best_model)$coef[, "Estimate"][[4]], error = function(e) NA)
     best_model_info$e <- tryCatch(summary(best_model)$coef[, "Estimate"][[5]], error = function(e) NA)
-
+    
     best_model_info$response_geom_mean <- geom_mean_y
-
+    
     # correction factor
-    if ("data$response_trans" %in% names(best_model$model)) {
+    if ("data$y_trans" %in% names(best_model$model)) {
         # for transformed (loglog or exp) models
         sp_rmse <- sjstats::rmse(best_model)/geom_mean_y
         cf <- exp((sp_rmse^2)/2)
-
+        
         best_model_info$correctn_factor <- cf
         best_model_info$a <- best_model_info$a + cf  #directly adjust intercept with cf
     } else {
         # for non-transformed models
         best_model_info$correctn_factor <- 1
     }
-
+    
     best_model_info$predictor_min <- min(data[[predictor]])
     best_model_info$predictor_max <- max(data[[predictor]])
-
+    
     best_model_info$residual_SE <- round(summary(best_model)$sigma, 4)
     best_model_info$mean_SE <- round(mean(residuals(best_model)^2), 4)
     best_model_info$adj_R2 <- round(summary(best_model)$adj.r.squared, 4)
     # best_model_info$F.statistic <- summary(best_model)$fstatistic[[1]]
     best_model_info$n <- nrow(data)
-
-
+    
+    
     # combine output in list
     output <- list(all_models_rank, best_model, best_model_info)
     names(output) <- c("all_models_rank", "best_model", "best_model_info")
-
+    
     return(output)
 }
 
 
 
-#' Select best-fit models across multiple species
+#' Select best-fit linear models across multiple species
 #'
-#' Wrapper to run `sp_modelselect()` across multiple species in a dataframe.
+#' Wrapper function that runs `sp_modelselect()` across multiple species in a dataframe.
 #' A single best-fit equation is selected per species, based on the lowest AICc value.
 #' All allometric equations considered (and ranked) can be found in `?eqns_info` and `data(eqns_info)`.
 #'
@@ -267,50 +266,53 @@ sp_modelselect <- function(data, response = "height", predictor = "diameter") {
 #'
 #' @export
 sp_modelselect_multi <- function(data, species = "species", response = "height", predictor = "diameter") {
-
+    
     # Error checking ------------------
-
+    
     # check species variable ref_table needs 'modelcode' variable
     if (is.null(data[[species]])) {
         stop("Variable name assigned to 'species' not found in 'data'.")
     }
-    checkmate::assert(checkmate::check_character(data[[species]]), checkmate::check_factor(data[[species]]),
+    coll <- checkmate::makeAssertCollection()
+    checkmate::assert_subset(species, choices = colnames(data), empty.ok = FALSE, add = coll)
+    checkmate::reportAssertions(coll)
+    checkmate::assert(checkmate::check_character(data[[species]]), checkmate::check_factor(data[[species]]), 
         combine = "or", .var.name = "species")
-
+    
     # Calculations ------------------
-
+    
     data <- split(data, data[[species]])  #split df into list of species
-
+    
     # create empty dfs to collate info in loop
-    sp_models_info <- data.frame(species = as.character(), modelcode = as.character(), a = as.numeric(), b = as.numeric(),
-        c = as.numeric(), d = as.numeric(), e = as.numeric(), response_geom_mean = as.numeric(), correctn_factor = as.numeric(),
-        predictor_max = as.numeric(), predictor_min = as.numeric(), residual_SE = as.numeric(), mean_SE = as.numeric(),
+    sp_models_info <- data.frame(species = as.character(), modelcode = as.character(), a = as.numeric(), b = as.numeric(), 
+        c = as.numeric(), d = as.numeric(), e = as.numeric(), response_geom_mean = as.numeric(), correctn_factor = as.numeric(), 
+        predictor_max = as.numeric(), predictor_min = as.numeric(), residual_SE = as.numeric(), mean_SE = as.numeric(), 
         adj_R2 = as.numeric(), n = as.numeric())
-
+    
     sp_models <- list()
     sp_models_rank <- list()
-
-
+    
+    
     for (i in 1:length(data)) {
         results <- sp_modelselect(data[[i]], response, predictor)
-
+        
         # extract model ranks
         sp_models_rank[i] <- list(results[[1]])
         names(sp_models_rank)[i] <- names(data)[i]
-
+        
         # extract model object
         sp_models[i] <- list(results[[2]])
         names(sp_models)[i] <- names(data)[i]
-
+        
         # extract model info
         append <- cbind.data.frame(data.frame(species = names(data)[i]), results[[3]])
         sp_models_info <- rbind(sp_models_info, append)
-
+        
     }
-
+    
     # combine output in list
     output <- list(sp_models_rank, sp_models, sp_models_info)
     names(output) <- c("sp_models_rank", "sp_models", "sp_models_info")
-
+    
     return(output)
 }
