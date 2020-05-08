@@ -20,11 +20,11 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r include = FALSE, eval = TRUE}
+```{r include = FALSE, eval = F}
 devtools::load_all() # if don't want to use installed version
 ```
 
-```{r include = FALSE, eval = FALSE}
+```{r include = FALSE, eval = T}
 library(allometree) # if installed (FOR TRAVIS CI)
 ```
 
