@@ -8,6 +8,7 @@
 ^data-raw$
 ^index\.md$
 ^index\.Rmd$
+^README\.Rmd$
 
 ^logo\.png$
 

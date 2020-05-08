@@ -33,47 +33,41 @@ to \code{data(eqns_info)} for more information on model codes.}
 \code{diameter}.}
 }
 \value{
-A list of 2 elements:
-\enumerate{
-\item List of each species' resulting model object, named \code{sp_models}.
-\item Table showing each species' resulting model information, named
-\code{sp_models_info}.
-}
+A list of 2 elements: \describe{ \item{sp_models}{List of each
+species' resulting model object.} \item{sp_models_info}{Table showing each
+species' resulting model information.} }
 \subsection{sp_models_info}{
 
-\code{sp_models_info} is a dataframe with the following variables:
-\describe{
-\item{species}{Name of tree species}
-\item{modelcode}{Model code for the allometric equation used}
-\item{a, b, c, d, e}{Parameter estimates}
+A dataframe with the following variables: \describe{
+\item{species}{Name of tree species} \item{modelcode}{Model code for the
+allometric equation used} \item{a, b, c, d, e}{Parameter estimates}
 \item{response_geom_mean}{Geometric mean of the response variable used in
 calculation of AICc (only for transformed models)}
 \item{correctn_factor}{Bias correction factor to use on model predictions
-(only for transformed models)}
-\item{predictor_min, predictor_max}{Range of the predictor variable within
-the data used to generate the model (i.e. threshold values for model extrapolation)}
-\item{residual_SE}{Residual standard error of the model}
-\item{mean_SE}{Mean standard error of the model}
-\item{adj_R2}{Adjusted \eqn{R^2} of the model}
-\item{n}{Sample size (no. of trees used to fit model)}
-}
+(only for transformed models)} \item{predictor_min, predictor_max}{Range of
+the predictor variable within the data used to generate the model (i.e.
+threshold values for model extrapolation)} \item{residual_SE}{Residual
+standard error of the model} \item{mean_SE}{Mean standard error of the
+model} \item{adj_R2}{Adjusted \eqn{R^2} of the model} \item{n}{Sample size
+(no. of trees used to fit model)} }
 }
 }
 \description{
-Wrapper function that runs \code{sp_modelfit()} across multiple species. Data is fit to
-specified allometric equations for each species, as defined within
+Wrapper function that runs \code{sp_modelfit()} across multiple species. Data is
+fit to specified allometric equations for each species, as defined within
 \code{ref_table}. The full list of allometric equations that may be considered in
 \code{ref_table} can be found in \code{?eqns_info} and \code{data(eqns_info)}.
 }
 \examples{
 # first select best-fit model for all species in data
 data(urbantrees)
-selected <- sp_modelselect_multi(urbantrees, species = 'species', response = 'height', predictor = 'diameter')
+selected <- sp_modelselect_multi(urbantrees, species = 'species',
+                                 response = 'height', predictor = 'diameter')
 
 # use function
 results <- sp_modelfit_multi(
-  urbantrees, # any dataset with similar species can be used (in this case, we re-use the same data)
-  ref_table = selected$sp_models_info, # refer to reference table from results above
+  urbantrees, # any data with similar species (re-use same data in this case)
+  ref_table = selected$sp_models_info,
   species = 'species', modelcode = 'modelcode',
   response = 'height', predictor = 'diameter'
 )

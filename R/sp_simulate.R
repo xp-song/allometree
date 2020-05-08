@@ -55,26 +55,32 @@
 #' @examples
 #' # first select best-fit model for all species in data
 #' data(urbantrees)
-#' results <- sp_modelselect_multi(urbantrees, species = 'species', response = 'height', predictor = 'diameter')
+#' results <- sp_modelselect_multi(urbantrees, species = 'species',
+#'                                 response = 'height', predictor = 'diameter')
 #'
 #' \dontrun{
 #' # simulate for all species
-#' sp_simulate(ref_table = results$sp_models_info, models = results$sp_models)
+#' sp_simulate(ref_table = results$sp_models_info,
+#'             models = results$sp_models)
 #'
 #' # simulate for selected species
-#' sp_simulate(ref_table = results$sp_models_info, models = results$sp_models, selected_spp = "Albizia saman")
+#' sp_simulate(ref_table = results$sp_models_info,
+#'             models = results$sp_models,
+#'             selected_spp = "Albizia saman")
 #'
 #' # simulate with extrapolated values
-#' sp_simulate(ref_table = results$sp_models_info, models = results$sp_models, extrapolate = c(0,3))
+#' sp_simulate(ref_table = results$sp_models_info,
+#'             models = results$sp_models,
+#'             extrapolate = c(0,3))
 #' }
 #'
 #'@import checkmate
 #'@importFrom tidyr pivot_longer
+#' @importFrom stats complete.cases
 #'
 #'@export
 sp_simulate <- function(ref_table, models, select_sp = NULL, level = 0.95, extrapolate = NULL, species = "species",
-    predictor_min = "predictor_min", predictor_max = "predictor_max", cf = "correctn_factor", geom_mean = "response_geom_mean",
-    ...) {
+    predictor_min = "predictor_min", predictor_max = "predictor_max", cf = "correctn_factor", geom_mean = "response_geom_mean") {
 
     # Error checking ------------------
     coll <- checkmate::makeAssertCollection()
@@ -151,7 +157,7 @@ sp_simulate <- function(ref_table, models, select_sp = NULL, level = 0.95, extra
 
 
         output_extra <- sp_predict(predict_range_extra, models, ref_table, level = level, species = "species",
-                             predictor = "predictor", cf = "correctn_factor", geom_mean = "response_geom_mean", ...)
+                             predictor = "predictor", cf = "correctn_factor", geom_mean = "response_geom_mean")
 
         output_extra$extrapolated <- TRUE
         output <- rbind.data.frame(output, output_extra)

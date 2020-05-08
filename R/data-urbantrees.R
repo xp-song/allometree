@@ -5,8 +5,6 @@
 #'
 #' @docType data
 #'
-#' @usage data(urbantrees)
-#'
 #' @format A dataframe with 1585 rows and 3 variables:
 #' \describe{
 #'   \item{species}{Name of tree species}

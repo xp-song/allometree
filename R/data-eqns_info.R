@@ -35,8 +35,6 @@
 #'
 #' @docType data
 #'
-#' @usage data(eqns_info)
-#'
 #' @format A dataframe with 5 variables:
 #' \describe{
 #'   \item{modeltype}{One of the six general types of allometric equations}

@@ -47,8 +47,8 @@
 
 
 <meta property="og:title" content="Select a best-fit linear model for one species — sp_modelselect" />
-<meta property="og:description" content="Select a best-fit equation for one species, based on the
-lowest bias-corrected Aikaike’s information criterion (AICc)." />
+<meta property="og:description" content="Select a best-fit equation for one species, based on the lowest
+bias-corrected Aikaike’s information criterion (AICc)." />
 <meta property="og:image" content="https://xp-song.github.io/allometree/reference/figures/logo.png" />
 <meta property="og:image:alt" content="Allometric Scaling of Urban Trees" />
 <meta name="twitter:card" content="summary_large_image" />
@@ -152,8 +152,8 @@ lowest bias-corrected Aikaike’s information criterion (AICc)." />
     </div>
 
     <div class="ref-description">
-    <p>Select a best-fit equation for one species, based on the
-lowest bias-corrected Aikaike’s information criterion (AICc).</p>
+    <p>Select a best-fit equation for one species, based on the lowest
+bias-corrected Aikaike’s information criterion (AICc).</p>
     </div>
 
     <pre class="usage"><span class='fu'>sp_modelselect</span>(<span class='no'>data</span>, <span class='kw'>response</span> <span class='kw'>=</span> <span class='st'>"height"</span>, <span class='kw'>predictor</span> <span class='kw'>=</span> <span class='st'>"diameter"</span>)</pre>
@@ -179,37 +179,36 @@ measurement for an individual tree.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list of 3 elements:</p><ol>
-<li><p>Table showing models ranked by AICc value, named <code>all_models_rank</code>.</p></li>
-<li><p>Best-fit model object, named <code>best_model</code>.</p></li>
-<li><p>Table showing information on the best-fit model, named <code>best_model_info</code>.</p></li>
-</ol>
+    <p>A list of 3 elements:</p><dl'>
+<dt>all_models_rank</dt><dd><p>Table showing
+models ranked by AICc value.</p></dd> <dt>best_model</dt><dd><p>Best-fit model object.</p></dd>
+<dt>best_model_info</dt><dd><p>Table showing information on the best-fit model.</p></dd> 
+</dl>
 <h3>best_model_info</h3>
 
 
-<p><code>best_model_info</code> is a dataframe with the following variables:</p><dl'>
-<dt>modelcode</dt><dd><p>Model code for the best-fit equation</p></dd>
-<dt>a, b, c, d, e</dt><dd><p>Parameter estimates</p></dd>
+<p>A dataframe with the following variables:</p><dl'>
+<dt>modelcode</dt><dd><p>Model
+code for the best-fit equation</p></dd> <dt>a, b, c, d, e</dt><dd><p>Parameter estimates</p></dd>
 <dt>response_geom_mean</dt><dd><p>Geometric mean of the response variable used in
 calculation of AICc (only for transformed models)</p></dd>
 <dt>correctn_factor</dt><dd><p>Bias correction factor to use on model predictions
-(only for transformed models)</p></dd>
-<dt>predictor_min, predictor_max</dt><dd><p>Range of the predictor variable within
-the data used to generate the model (i.e. threshold values for model extrapolation)</p></dd>
-<dt>residual_SE</dt><dd><p>Residual standard error of the model</p></dd>
-<dt>mean_SE</dt><dd><p>Mean standard error of the model</p></dd>
-<dt>adj_R2</dt><dd><p>Adjusted \(R^2\) of the model</p></dd>
-<dt>n</dt><dd><p>Sample size (no. of trees used to fit model)</p></dd>
-
+(only for transformed models)</p></dd> <dt>predictor_min, predictor_max</dt><dd><p>Range of
+the predictor variable within the data used to generate the model (i.e.
+threshold values for model extrapolation)</p></dd> <dt>residual_SE</dt><dd><p>Residual
+standard error of the model</p></dd> <dt>mean_SE</dt><dd><p>Mean standard error of the
+model</p></dd> <dt>adj_R2</dt><dd><p>Adjusted \(R^2\) of the model</p></dd> <dt>n</dt><dd><p>Sample size
+(no. of trees used to fit model)</p></dd> 
 </dl>
 
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>All allometric equations considered (and ranked) can be found in
-<code><a href='eqns_info.html'>?eqns_info</a></code> and <code><a href='https://rdrr.io/r/utils/data.html'>data(eqns_info)</a></code>. To make the AICc values of equations with a transformed
-response variable comparable to untransformed equations, \(log(y_{i})\) is
-multiplied by the geometric mean of the response variable in <code>data</code>.</p>
+    <p>All allometric equations considered (and ranked) can be found in <code><a href='eqns_info.html'>?eqns_info</a></code>
+and <code><a href='https://rdrr.io/r/utils/data.html'>data(eqns_info)</a></code>. To make the AICc values of equations with a
+transformed response variable comparable to untransformed equations,
+\(log(y_{i})\) is multiplied by the geometric mean of the response variable
+in <code>data</code>.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>McPherson E. G., van Doorn N. S. &amp; Peper P. J. (2016) Urban Tree
@@ -218,9 +217,9 @@ USDA Forest Service</em>, 86.</p>
 <p>Xiao, X., White, E. P., Hooten, M. B., &amp; Durham, S. L. (2011). On the use
 of log-transformation vs. nonlinear regression for analyzing biological
 power laws. <em>Ecology</em>, <strong>92</strong>(10), 1887–1894.</p>
-<p>Burnham, K. P., &amp; Anderson, D. R. (2004). Multimodel inference: Understanding
-AIC and BIC in model selection. <em>Sociological Methods and Research</em>, <strong>33</strong>(2),
-261–304.</p>
+<p>Burnham, K. P., &amp; Anderson, D. R. (2004). Multimodel inference:
+Understanding AIC and BIC in model selection. <em>Sociological Methods and
+Research</em>, <strong>33</strong>(2), 261–304.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='sp_modelselect_multi.html'>sp_modelselect_multi()</a></code> to select best-fit models across multiple
@@ -236,7 +235,7 @@ species.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>urbantrees</span>)
-<span class='no'>Alb_sam</span> <span class='kw'>&lt;-</span> <span class='no'>urbantrees</span>[<span class='no'>urbantrees</span>$<span class='no'>species</span> <span class='kw'>==</span> <span class='st'>'Albizia saman'</span>, ]  <span class='co'># subset data for one species</span>
+<span class='no'>Alb_sam</span> <span class='kw'>&lt;-</span> <span class='no'>urbantrees</span>[<span class='no'>urbantrees</span>$<span class='no'>species</span> <span class='kw'>==</span> <span class='st'>'Albizia saman'</span>, ]  <span class='co'># subset data for 1 species</span>
 <span class='no'>results</span> <span class='kw'>&lt;-</span> <span class='fu'>sp_modelselect</span>(<span class='no'>Alb_sam</span>, <span class='kw'>response</span> <span class='kw'>=</span> <span class='st'>'height'</span>, <span class='kw'>predictor</span> <span class='kw'>=</span> <span class='st'>'diameter'</span>)
 
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>results</span>$<span class='no'>all_models_rank</span>)</div><div class='output co'>#&gt;   df     AICc    model

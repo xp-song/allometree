@@ -167,7 +167,7 @@
 <div id="single-species-models" class="section level2">
 <h2 class="hasAnchor">
 <a href="#single-species-models" class="anchor"></a>1. Single-species models</h2>
-<p>We can run <code><a href="../reference/sp_modelselect_multi.html">sp_modelselect_multi()</a></code> to select the best-fit model for each species in the dataset <code>urbantrees</code>. This can also be done for individual species using <code><a href="../reference/sp_modelselect.html">sp_modelselect()</a></code>.</p>
+<p>We can run <code><a href="../reference/sp_modelselect_multi.html">sp_modelselect_multi()</a></code> to select the best-fit model for each species in the dataset <code>urbantrees</code>. This can also be done for individual species using <code><a href="../reference/sp_modelselect.html">sp_modelselect()</a></code>. Note that you can also fit data to specified (i.e. pre-defined) equations, using the functions <code><a href="../reference/sp_modelfit.html">sp_modelfit()</a></code> and <code><a href="../reference/sp_modelfit_multi.html">sp_modelfit_multi()</a></code>. This can be done, for example, after the removal of outliers from the full dataset. See the vignette <a href="single-species_models.html">Single-species linear models</a> for a full demonstration.</p>
 <div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">results</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/sp_modelselect_multi.html">sp_modelselect_multi</a></span>(<span class="no">urbantrees</span>, <span class="kw">species</span> <span class="kw">=</span> <span class="st">"species"</span>, <span class="co"># specify colname of species</span>
                                 <span class="kw">response</span> <span class="kw">=</span> <span class="st">"height"</span>, <span class="kw">predictor</span> <span class="kw">=</span> <span class="st">"diameter"</span>) <span class="co"># specify colnames of variables</span></pre></body></html></div>
 <p>The <code>results</code> variable is a list of 3 elements:</p>
@@ -176,8 +176,6 @@
 <li>List of each species’ best-fit model object, named <code>sp_models</code>.</li>
 <li>Table showing each species’ best-fit model information, named <code>sp_models_info</code>.</li>
 </ol>
-<p> </p>
-<p>Note that you can also fit data to specified (i.e. pre-defined) equations, using the functions <code><a href="../reference/sp_modelfit.html">sp_modelfit()</a></code> and <code><a href="../reference/sp_modelfit_multi.html">sp_modelfit_multi()</a></code>. This can be done, for example, after the removal of outliers from the full dataset. See the vignette <a href="single-species_models.html">Single-species linear models</a> for a full demonstration.</p>
 <p> </p>
 <p>An overview of the best-fit models across the 5 species:</p>
 <div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">results</span>$<span class="no">sp_models_info</span>

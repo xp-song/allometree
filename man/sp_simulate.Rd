@@ -14,8 +14,7 @@ sp_simulate(
   predictor_min = "predictor_min",
   predictor_max = "predictor_max",
   cf = "correctn_factor",
-  geom_mean = "response_geom_mean",
-  ...
+  geom_mean = "response_geom_mean"
 )
 }
 \arguments{
@@ -82,17 +81,23 @@ response variable.
 \examples{
 # first select best-fit model for all species in data
 data(urbantrees)
-results <- sp_modelselect_multi(urbantrees, species = 'species', response = 'height', predictor = 'diameter')
+results <- sp_modelselect_multi(urbantrees, species = 'species',
+                                response = 'height', predictor = 'diameter')
 
 \dontrun{
 # simulate for all species
-sp_simulate(ref_table = results$sp_models_info, models = results$sp_models)
+sp_simulate(ref_table = results$sp_models_info,
+            models = results$sp_models)
 
 # simulate for selected species
-sp_simulate(ref_table = results$sp_models_info, models = results$sp_models, selected_spp = "Albizia saman")
+sp_simulate(ref_table = results$sp_models_info,
+            models = results$sp_models,
+            selected_spp = "Albizia saman")
 
 # simulate with extrapolated values
-sp_simulate(ref_table = results$sp_models_info, models = results$sp_models, extrapolate = c(0,3))
+sp_simulate(ref_table = results$sp_models_info,
+            models = results$sp_models,
+            extrapolate = c(0,3))
 }
 
 }

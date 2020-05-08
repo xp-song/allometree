@@ -20,39 +20,35 @@ information.}
 \code{diameter}.}
 }
 \value{
-A list of 2 elements:
-\enumerate{
-\item Resulting model object, named \code{fitted_model}.
-\item Table showing information on the resulting model, named \code{fitted_model_info}.
-}
+A list of 2 elements: \describe{ \item{fitted_model}{Resulting model
+object.} \item{fitted_model_info}{Table showing information on the
+resulting model.} }
 \subsection{fitted_model_info}{
 
-\code{fitted_model_info} is a dataframe with the following variables:
-\describe{
-\item{modelcode}{Model code for the allometric equation used}
-\item{a, b, c, d, e}{Parameter estimates}
-\item{response_geom_mean}{Geometric mean of the response variable used in
-calculation of AICc (only for transformed models)}
-\item{correctn_factor}{Bias correction factor to use on model predictions
-(only for transformed models)}
-\item{predictor_min, predictor_max}{Range of the predictor variable within
-the data used to generate the model (i.e. threshold values for model extrapolation)}
+A dataframe with the following variables: \describe{
+\item{modelcode}{Model code for the allometric equation used} \item{a, b,
+c, d, e}{Parameter estimates} \item{response_geom_mean}{Geometric mean of
+the response variable used in calculation of AICc (only for transformed
+models)} \item{correctn_factor}{Bias correction factor to use on model
+predictions (only for transformed models)} \item{predictor_min,
+predictor_max}{Range of the predictor variable within the data used to
+generate the model (i.e. threshold values for model extrapolation)}
 \item{residual_SE}{Residual standard error of the model}
-\item{mean_SE}{Mean standard error of the model}
-\item{adj_R2}{Adjusted \eqn{R^2} of the model}
-\item{n}{Sample size (no. of trees used to fit model)}
-}
+\item{mean_SE}{Mean standard error of the model} \item{adj_R2}{Adjusted
+\eqn{R^2} of the model} \item{n}{Sample size (no. of trees used to fit
+model)} }
 }
 }
 \description{
-Fit data to a specified allometric equation, for one species.
-Allometric equations that may be considered as an input to this function
-can be found in \code{?eqns_info} and \code{data(eqns_info)}.
+Fit data to a specified allometric equation, for one species. Allometric
+equations that may be considered as an input to this function can be found in
+\code{?eqns_info} and \code{data(eqns_info)}.
 }
 \examples{
 data(urbantrees)
 Alb_sam <- urbantrees[urbantrees$species == 'Albizia saman', ]
-results <- sp_modelfit(Alb_sam, modelcode = 'quad_w1', # manually specify equation to use
+results <- sp_modelfit(Alb_sam,
+                       modelcode = 'quad_w1', # manually specify equation to use
                        response = 'height', predictor = 'diameter')
 
 results$fitted_model

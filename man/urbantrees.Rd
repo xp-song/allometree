@@ -20,7 +20,7 @@ Song, X. P., Lai, H. R., Wijedasa, L. S., Yee, A. T. K., Tan, P. Y., Richards, D
 Streamlining management practices based on the size allometry of tropical street trees (in prep).
 }
 \usage{
-data(urbantrees)
+urbantrees
 }
 \description{
 A sample dataset containing the height and trunk diameter of five tree species,

@@ -16,44 +16,38 @@ measurement for an individual tree.}
 \code{diameter}.}
 }
 \value{
-A list of 3 elements:
-\enumerate{
-\item Table showing models ranked by AICc value, named \code{all_models_rank}.
-\item Best-fit model object, named \code{best_model}.
-\item Table showing information on the best-fit model, named \code{best_model_info}.
-}
+A list of 3 elements: \describe{ \item{all_models_rank}{Table showing
+models ranked by AICc value.} \item{best_model}{Best-fit model object.}
+\item{best_model_info}{Table showing information on the best-fit model.} }
 \subsection{best_model_info}{
 
-\code{best_model_info} is a dataframe with the following variables:
-\describe{
-\item{modelcode}{Model code for the best-fit equation}
-\item{a, b, c, d, e}{Parameter estimates}
+A dataframe with the following variables: \describe{ \item{modelcode}{Model
+code for the best-fit equation} \item{a, b, c, d, e}{Parameter estimates}
 \item{response_geom_mean}{Geometric mean of the response variable used in
 calculation of AICc (only for transformed models)}
 \item{correctn_factor}{Bias correction factor to use on model predictions
-(only for transformed models)}
-\item{predictor_min, predictor_max}{Range of the predictor variable within
-the data used to generate the model (i.e. threshold values for model extrapolation)}
-\item{residual_SE}{Residual standard error of the model}
-\item{mean_SE}{Mean standard error of the model}
-\item{adj_R2}{Adjusted \eqn{R^2} of the model}
-\item{n}{Sample size (no. of trees used to fit model)}
-}
+(only for transformed models)} \item{predictor_min, predictor_max}{Range of
+the predictor variable within the data used to generate the model (i.e.
+threshold values for model extrapolation)} \item{residual_SE}{Residual
+standard error of the model} \item{mean_SE}{Mean standard error of the
+model} \item{adj_R2}{Adjusted \eqn{R^2} of the model} \item{n}{Sample size
+(no. of trees used to fit model)} }
 }
 }
 \description{
-Select a best-fit equation for one species, based on the
-lowest bias-corrected Aikaike’s information criterion (AICc).
+Select a best-fit equation for one species, based on the lowest
+bias-corrected Aikaike’s information criterion (AICc).
 }
 \details{
-All allometric equations considered (and ranked) can be found in
-\code{?eqns_info} and \code{data(eqns_info)}. To make the AICc values of equations with a transformed
-response variable comparable to untransformed equations, \eqn{log(y_{i})} is
-multiplied by the geometric mean of the response variable in \code{data}.
+All allometric equations considered (and ranked) can be found in \code{?eqns_info}
+and \code{data(eqns_info)}. To make the AICc values of equations with a
+transformed response variable comparable to untransformed equations,
+\eqn{log(y_{i})} is multiplied by the geometric mean of the response variable
+in \code{data}.
 }
 \examples{
 data(urbantrees)
-Alb_sam <- urbantrees[urbantrees$species == 'Albizia saman', ]  # subset data for one species
+Alb_sam <- urbantrees[urbantrees$species == 'Albizia saman', ]  # subset data for 1 species
 results <- sp_modelselect(Alb_sam, response = 'height', predictor = 'diameter')
 
 head(results$all_models_rank)
@@ -72,9 +66,9 @@ Xiao, X., White, E. P., Hooten, M. B., & Durham, S. L. (2011). On the use
 of log-transformation vs. nonlinear regression for analyzing biological
 power laws. \emph{Ecology}, \strong{92}(10), 1887–1894.
 
-Burnham, K. P., & Anderson, D. R. (2004). Multimodel inference: Understanding
-AIC and BIC in model selection. \emph{Sociological Methods and Research}, \strong{33}(2),
-261–304.
+Burnham, K. P., & Anderson, D. R. (2004). Multimodel inference:
+Understanding AIC and BIC in model selection. \emph{Sociological Methods and
+Research}, \strong{33}(2), 261–304.
 }
 \seealso{
 \code{\link[=sp_modelselect_multi]{sp_modelselect_multi()}} to select best-fit models across multiple

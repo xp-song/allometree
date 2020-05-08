@@ -12,56 +12,51 @@ sp_modelselect_multi(
 )
 }
 \arguments{
-\item{data}{Dataframe that contains the variables of interest. Each row is a measurement
-for an individual tree of a particular species.}
+\item{data}{Dataframe that contains the variables of interest. Each row is a
+measurement for an individual tree of a particular species.}
 
 \item{species}{Column name of the species variable. Defaults to \code{species}.}
 
 \item{response}{Column name of the response variable. Defaults to \code{height}.}
 
-\item{predictor}{Column name of the predictor variable. Defaults to \code{diameter}.}
+\item{predictor}{Column name of the predictor variable. Defaults to
+\code{diameter}.}
 }
 \value{
-A list of 3 elements:
-\enumerate{
-\item List of tables showing each species' candidate models ranked by AICc value,
-named \code{sp_models_rank}.
-\item List of each species' best-fit model object, named \code{sp_models}.
-\item Table showing each species' best-fit model information, named \code{sp_models_info}.
-}
+A list of 3 elements:  \describe{ \item{sp_models_rank}{List of
+tables showing each species' candidate models ranked by AICc value.}
+\item{sp_models}{List of each species' best-fit model object.}
+\item{sp_models_info}{Table showing each species' best-fit model
+information.} }
 \subsection{sp_models_info}{
 
-\code{sp_models_info} is a dataframe with the following variables:
-\describe{
-\item{species}{Name of tree species}
-\item{modelcode}{Model code for the best-fit equation}
-\item{a, b, c, d, e}{Parameter estimates}
-\item{response_geom_mean}{Geometric mean of the response variable used in
-calculation of AICc (only for transformed models)}
-\item{correctn_factor}{Bias correction factor to use on model predictions
-(only for transformed models)}
-\item{predictor_min, predictor_max}{Range of the predictor variable within
-the data used to generate the model (i.e. threshold values for model extrapolation)}
-\item{residual_SE}{Residual standard error of the model}
-\item{mean_SE}{Mean standard error of the model}
-\item{adj_R2}{Adjusted \eqn{R^2} of the model}
-\item{n}{Sample size (no. of trees used to fit model)}
-}
+A dataframe with the following variables: \describe{ \item{species}{Name of
+tree species} \item{modelcode}{Model code for the best-fit equation} \item{a,
+b, c, d, e}{Parameter estimates} \item{response_geom_mean}{Geometric mean of
+the response variable used in calculation of AICc (only for transformed
+models)} \item{correctn_factor}{Bias correction factor to use on model
+predictions (only for transformed models)} \item{predictor_min,
+predictor_max}{Range of the predictor variable within the data used to
+generate the model (i.e. threshold values for model extrapolation)}
+\item{residual_SE}{Residual standard error of the model} \item{mean_SE}{Mean
+standard error of the model} \item{adj_R2}{Adjusted \eqn{R^2} of the model}
+\item{n}{Sample size (no. of trees used to fit model)} }
 }
 }
 \description{
-Wrapper function that runs \code{sp_modelselect()} across multiple species in a dataframe.
-A single best-fit equation is selected per species, based on the lowest AICc value.
-All allometric equations considered (and ranked) can be found in \code{?eqns_info} and \code{data(eqns_info)}.
+Wrapper function that runs \code{sp_modelselect()} across multiple species in a
+dataframe. A single best-fit equation is selected per species, based on the
+lowest AICc value. All allometric equations considered (and ranked) can be
+found in \code{?eqns_info} and \code{data(eqns_info)}.
 }
 \examples{
 data(urbantrees)
 results <- sp_modelselect_multi(urbantrees, species = 'species',
                                 response = 'height', predictor = 'diameter')
 
-head(results$sp_models_rank[[1]]) # Highly-ranked models for first species in list
+head(results$sp_models_rank[[1]]) # Highly-ranked models for 1st species in list
 
-results$sp_models[[1]] # model object for first species in list
+results$sp_models[[1]] # model object for 1st species in list
 
 results$sp_models_info # summary of best-fit models
 

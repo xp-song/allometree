@@ -20,12 +20,9 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r include = FALSE, eval = F}
-devtools::load_all() # if don't want to use installed version
-```
-
 ```{r include = FALSE, eval = T}
-library(allometree) # if installed (FOR TRAVIS CI)
+library(allometree) # Needed for R CMD Check
+#devtools::load_all() # if don't want to use installed version
 ```
 
 
@@ -69,7 +66,7 @@ head(eqns_info)
 
 ## 1. Single-species models
 
-We can run `sp_modelselect_multi()` to select the best-fit model for each species in the dataset `urbantrees`. This can also be done for  individual species using `sp_modelselect()`. 
+We can run `sp_modelselect_multi()` to select the best-fit model for each species in the dataset `urbantrees`. This can also be done for  individual species using `sp_modelselect()`. Note that you can also fit data to specified (i.e. pre-defined) equations, using the functions `sp_modelfit()` and `sp_modelfit_multi()`. This can be done, for example, after the removal of outliers from the full dataset. See the vignette [Single-species linear models](single-species_models.html) for a full demonstration.
 
 ```{r}
 results <- sp_modelselect_multi(urbantrees, species = "species", # specify colname of species
@@ -81,11 +78,6 @@ The `results` variable is a list of 3 elements:
 1. List of tables showing each species' candidate models ranked by AICc value, named `sp_models_rank`.
 2. List of each species' best-fit model object, named `sp_models`.
 3. Table showing each species' best-fit model information, named `sp_models_info`. 
-
-&nbsp;
-
-Note that you can also fit data to specified (i.e. pre-defined) equations, using the functions `sp_modelfit()` and `sp_modelfit_multi()`. This can be done, for example, after the removal of outliers from the full dataset. See the vignette 
-[Single-species linear models](single-species_models.html) for a full demonstration.
 
 &nbsp;
 

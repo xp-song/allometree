@@ -15,7 +15,7 @@ A dataframe with 5 variables:
 }
 }
 \usage{
-data(eqns_info)
+eqns_info
 }
 \description{
 Allometric equations that are considered in the development of

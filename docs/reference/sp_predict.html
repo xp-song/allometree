@@ -173,8 +173,7 @@ response variable.</p>
   <span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"species"</span>,
   <span class='kw'>predictor</span> <span class='kw'>=</span> <span class='st'>"diameter"</span>,
   <span class='kw'>cf</span> <span class='kw'>=</span> <span class='st'>"correctn_factor"</span>,
-  <span class='kw'>geom_mean</span> <span class='kw'>=</span> <span class='st'>"response_geom_mean"</span>,
-  <span class='no'>...</span>
+  <span class='kw'>geom_mean</span> <span class='kw'>=</span> <span class='st'>"response_geom_mean"</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -249,16 +248,27 @@ argument <code>level</code>.</p></dd>
     <pre class="examples"><div class='input'><span class='co'># first select best-fit model</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>urbantrees</span>)
 <span class='no'>Alb_sam</span> <span class='kw'>&lt;-</span> <span class='no'>urbantrees</span>[<span class='no'>urbantrees</span>$<span class='no'>species</span> <span class='kw'>==</span> <span class='st'>"Albizia saman"</span>, ]  <span class='co'># we use one species as an example</span>
-<span class='no'>results</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='sp_modelselect_multi.html'>sp_modelselect_multi</a></span>(<span class='no'>Alb_sam</span>, <span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>'species'</span>, <span class='kw'>response</span> <span class='kw'>=</span> <span class='st'>'height'</span>, <span class='kw'>predictor</span> <span class='kw'>=</span> <span class='st'>'diameter'</span>)
+<span class='no'>results</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='sp_modelselect_multi.html'>sp_modelselect_multi</a></span>(<span class='no'>Alb_sam</span>,
+                                <span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>'species'</span>,
+                                <span class='kw'>response</span> <span class='kw'>=</span> <span class='st'>'height'</span>,
+                                <span class='kw'>predictor</span> <span class='kw'>=</span> <span class='st'>'diameter'</span>)
 
 <span class='co'># simulate data</span>
-<span class='no'>predict_range</span> <span class='kw'>&lt;-</span> <span class='no'>results</span>$<span class='no'>sp_models_info</span>[,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"species"</span>,<span class='st'>"predictor_min"</span>, <span class='st'>"predictor_max"</span>)]
-<span class='no'>predict_range_full</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/apply.html'>apply</a></span>(<span class='no'>predict_range</span>, <span class='fl'>1</span>, <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='no'>x</span>[<span class='st'>"predictor_min"</span>], <span class='no'>x</span>[<span class='st'>"predictor_max"</span>], <span class='kw'>length.out</span> <span class='kw'>=</span> <span class='fl'>100</span>)))
+<span class='no'>predict_range</span> <span class='kw'>&lt;-</span> <span class='no'>results</span>$<span class='no'>sp_models_info</span>[ ,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"species"</span>,<span class='st'>"predictor_min"</span>, <span class='st'>"predictor_max"</span>)]
+<span class='no'>predict_range_full</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/apply.html'>apply</a></span>(<span class='no'>predict_range</span>, <span class='fl'>1</span>,
+                                          <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='no'>x</span>[<span class='st'>"predictor_min"</span>], <span class='no'>x</span>[<span class='st'>"predictor_max"</span>],
+                                          <span class='kw'>length.out</span> <span class='kw'>=</span> <span class='fl'>100</span>)))
 <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='no'>predict_range_full</span>) <span class='kw'>&lt;-</span> <span class='no'>predict_range</span>$<span class='no'>species</span>
-<span class='no'>predict_range_full</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>tidyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://tidyr.tidyverse.org/reference/pivot_longer.html'>pivot_longer</a></span>(<span class='no'>predict_range_full</span>, <span class='kw'>cols</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='no'>predict_range_full</span>), <span class='kw'>names_to</span> <span class='kw'>=</span> <span class='st'>"species"</span>, <span class='kw'>values_to</span> <span class='kw'>=</span> <span class='st'>"predictor"</span>)
+<span class='no'>predict_range_full</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>tidyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://tidyr.tidyverse.org/reference/pivot_longer.html'>pivot_longer</a></span>(<span class='no'>predict_range_full</span>,
+                                          <span class='kw'>cols</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='no'>predict_range_full</span>),
+                                          <span class='kw'>names_to</span> <span class='kw'>=</span> <span class='st'>"species"</span>,
+                                          <span class='kw'>values_to</span> <span class='kw'>=</span> <span class='st'>"predictor"</span>)
 
 <span class='co'># run function</span>
-<span class='no'>predictions</span> <span class='kw'>&lt;-</span> <span class='fu'>sp_predict</span>(<span class='no'>predict_range_full</span>, <span class='kw'>models</span> <span class='kw'>=</span> <span class='no'>results</span>$<span class='no'>sp_models</span>, <span class='kw'>ref_table</span> <span class='kw'>=</span> <span class='no'>results</span>$<span class='no'>sp_models_info</span>, <span class='kw'>predictor</span> <span class='kw'>=</span> <span class='st'>"predictor"</span>)
+<span class='no'>predictions</span> <span class='kw'>&lt;-</span> <span class='fu'>sp_predict</span>(<span class='no'>predict_range_full</span>,
+                          <span class='kw'>models</span> <span class='kw'>=</span> <span class='no'>results</span>$<span class='no'>sp_models</span>,
+                          <span class='kw'>ref_table</span> <span class='kw'>=</span> <span class='no'>results</span>$<span class='no'>sp_models_info</span>,
+                          <span class='kw'>predictor</span> <span class='kw'>=</span> <span class='st'>"predictor"</span>)
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>predictions</span>)</div><div class='output co'>#&gt;         species predictor       fit      lwr      upr
 #&gt; 1 Albizia saman 0.3119437  9.669697 5.212233 14.12716
 #&gt; 2 Albizia saman 0.3242260  9.785937 5.332736 14.23914

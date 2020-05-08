@@ -47,9 +47,9 @@
 
 
 <meta property="og:title" content="Fit data to a specified linear model for one species — sp_modelfit" />
-<meta property="og:description" content="Fit data to a specified allometric equation, for one species.
-Allometric equations that may be considered as an input to this function
-can be found in ?eqns_info and data(eqns_info)." />
+<meta property="og:description" content="Fit data to a specified allometric equation, for one species. Allometric
+equations that may be considered as an input to this function can be found in
+?eqns_info and data(eqns_info)." />
 <meta property="og:image" content="https://xp-song.github.io/allometree/reference/figures/logo.png" />
 <meta property="og:image:alt" content="Allometric Scaling of Urban Trees" />
 <meta name="twitter:card" content="summary_large_image" />
@@ -153,9 +153,9 @@ can be found in ?eqns_info and data(eqns_info)." />
     </div>
 
     <div class="ref-description">
-    <p>Fit data to a specified allometric equation, for one species.
-Allometric equations that may be considered as an input to this function
-can be found in <code><a href='eqns_info.html'>?eqns_info</a></code> and <code><a href='https://rdrr.io/r/utils/data.html'>data(eqns_info)</a></code>.</p>
+    <p>Fit data to a specified allometric equation, for one species. Allometric
+equations that may be considered as an input to this function can be found in
+<code><a href='eqns_info.html'>?eqns_info</a></code> and <code><a href='https://rdrr.io/r/utils/data.html'>data(eqns_info)</a></code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>sp_modelfit</span>(<span class='no'>data</span>, <span class='no'>modelcode</span>, <span class='kw'>response</span> <span class='kw'>=</span> <span class='st'>"height"</span>, <span class='kw'>predictor</span> <span class='kw'>=</span> <span class='st'>"diameter"</span>)</pre>
@@ -187,27 +187,26 @@ information.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list of 2 elements:</p><ol>
-<li><p>Resulting model object, named <code>fitted_model</code>.</p></li>
-<li><p>Table showing information on the resulting model, named <code>fitted_model_info</code>.</p></li>
-</ol>
+    <p>A list of 2 elements:</p><dl'>
+<dt>fitted_model</dt><dd><p>Resulting model
+object.</p></dd> <dt>fitted_model_info</dt><dd><p>Table showing information on the
+resulting model.</p></dd> 
+</dl>
 <h3>fitted_model_info</h3>
 
 
-<p><code>fitted_model_info</code> is a dataframe with the following variables:</p><dl'>
-<dt>modelcode</dt><dd><p>Model code for the allometric equation used</p></dd>
-<dt>a, b, c, d, e</dt><dd><p>Parameter estimates</p></dd>
-<dt>response_geom_mean</dt><dd><p>Geometric mean of the response variable used in
-calculation of AICc (only for transformed models)</p></dd>
-<dt>correctn_factor</dt><dd><p>Bias correction factor to use on model predictions
-(only for transformed models)</p></dd>
-<dt>predictor_min, predictor_max</dt><dd><p>Range of the predictor variable within
-the data used to generate the model (i.e. threshold values for model extrapolation)</p></dd>
+<p>A dataframe with the following variables:</p><dl'>
+<dt>modelcode</dt><dd><p>Model code for the allometric equation used</p></dd> <dt>a, b,
+c, d, e</dt><dd><p>Parameter estimates</p></dd> <dt>response_geom_mean</dt><dd><p>Geometric mean of
+the response variable used in calculation of AICc (only for transformed
+models)</p></dd> <dt>correctn_factor</dt><dd><p>Bias correction factor to use on model
+predictions (only for transformed models)</p></dd> <dt>predictor_min,
+predictor_max</dt><dd><p>Range of the predictor variable within the data used to
+generate the model (i.e. threshold values for model extrapolation)</p></dd>
 <dt>residual_SE</dt><dd><p>Residual standard error of the model</p></dd>
-<dt>mean_SE</dt><dd><p>Mean standard error of the model</p></dd>
-<dt>adj_R2</dt><dd><p>Adjusted \(R^2\) of the model</p></dd>
-<dt>n</dt><dd><p>Sample size (no. of trees used to fit model)</p></dd>
-
+<dt>mean_SE</dt><dd><p>Mean standard error of the model</p></dd> <dt>adj_R2</dt><dd><p>Adjusted
+\(R^2\) of the model</p></dd> <dt>n</dt><dd><p>Sample size (no. of trees used to fit
+model)</p></dd> 
 </dl>
 
 
@@ -232,7 +231,8 @@ species.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>urbantrees</span>)
 <span class='no'>Alb_sam</span> <span class='kw'>&lt;-</span> <span class='no'>urbantrees</span>[<span class='no'>urbantrees</span>$<span class='no'>species</span> <span class='kw'>==</span> <span class='st'>'Albizia saman'</span>, ]
-<span class='no'>results</span> <span class='kw'>&lt;-</span> <span class='fu'>sp_modelfit</span>(<span class='no'>Alb_sam</span>, <span class='kw'>modelcode</span> <span class='kw'>=</span> <span class='st'>'quad_w1'</span>, <span class='co'># manually specify equation to use</span>
+<span class='no'>results</span> <span class='kw'>&lt;-</span> <span class='fu'>sp_modelfit</span>(<span class='no'>Alb_sam</span>,
+                       <span class='kw'>modelcode</span> <span class='kw'>=</span> <span class='st'>'quad_w1'</span>, <span class='co'># manually specify equation to use</span>
                        <span class='kw'>response</span> <span class='kw'>=</span> <span class='st'>'height'</span>, <span class='kw'>predictor</span> <span class='kw'>=</span> <span class='st'>'diameter'</span>)
 
 <span class='no'>results</span>$<span class='no'>fitted_model</span></div><div class='output co'>#&gt; 

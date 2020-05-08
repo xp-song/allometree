@@ -47,8 +47,8 @@
 
 
 <meta property="og:title" content="Fit data to specified linear models across multiple species — sp_modelfit_multi" />
-<meta property="og:description" content="Wrapper function that runs sp_modelfit() across multiple species. Data is fit to
-specified allometric equations for each species, as defined within
+<meta property="og:description" content="Wrapper function that runs sp_modelfit() across multiple species. Data is
+fit to specified allometric equations for each species, as defined within
 ref_table. The full list of allometric equations that may be considered in
 ref_table can be found in ?eqns_info and data(eqns_info)." />
 <meta property="og:image" content="https://xp-song.github.io/allometree/reference/figures/logo.png" />
@@ -154,8 +154,8 @@ ref_table can be found in ?eqns_info and data(eqns_info)." />
     </div>
 
     <div class="ref-description">
-    <p>Wrapper function that runs <code><a href='sp_modelfit.html'>sp_modelfit()</a></code> across multiple species. Data is fit to
-specified allometric equations for each species, as defined within
+    <p>Wrapper function that runs <code><a href='sp_modelfit.html'>sp_modelfit()</a></code> across multiple species. Data is
+fit to specified allometric equations for each species, as defined within
 <code>ref_table</code>. The full list of allometric equations that may be considered in
 <code>ref_table</code> can be found in <code><a href='eqns_info.html'>?eqns_info</a></code> and <code><a href='https://rdrr.io/r/utils/data.html'>data(eqns_info)</a></code>.</p>
     </div>
@@ -206,29 +206,26 @@ to <code><a href='https://rdrr.io/r/utils/data.html'>data(eqns_info)</a></code> 
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list of 2 elements:</p><ol>
-<li><p>List of each species' resulting model object, named <code>sp_models</code>.</p></li>
-<li><p>Table showing each species' resulting model information, named
-<code>sp_models_info</code>.</p></li>
-</ol>
+    <p>A list of 2 elements:</p><dl'>
+<dt>sp_models</dt><dd><p>List of each
+species' resulting model object.</p></dd> <dt>sp_models_info</dt><dd><p>Table showing each
+species' resulting model information.</p></dd> 
+</dl>
 <h3>sp_models_info</h3>
 
 
-<p><code>sp_models_info</code> is a dataframe with the following variables:</p><dl'>
-<dt>species</dt><dd><p>Name of tree species</p></dd>
-<dt>modelcode</dt><dd><p>Model code for the allometric equation used</p></dd>
-<dt>a, b, c, d, e</dt><dd><p>Parameter estimates</p></dd>
+<p>A dataframe with the following variables:</p><dl'>
+<dt>species</dt><dd><p>Name of tree species</p></dd> <dt>modelcode</dt><dd><p>Model code for the
+allometric equation used</p></dd> <dt>a, b, c, d, e</dt><dd><p>Parameter estimates</p></dd>
 <dt>response_geom_mean</dt><dd><p>Geometric mean of the response variable used in
 calculation of AICc (only for transformed models)</p></dd>
 <dt>correctn_factor</dt><dd><p>Bias correction factor to use on model predictions
-(only for transformed models)</p></dd>
-<dt>predictor_min, predictor_max</dt><dd><p>Range of the predictor variable within
-the data used to generate the model (i.e. threshold values for model extrapolation)</p></dd>
-<dt>residual_SE</dt><dd><p>Residual standard error of the model</p></dd>
-<dt>mean_SE</dt><dd><p>Mean standard error of the model</p></dd>
-<dt>adj_R2</dt><dd><p>Adjusted \(R^2\) of the model</p></dd>
-<dt>n</dt><dd><p>Sample size (no. of trees used to fit model)</p></dd>
-
+(only for transformed models)</p></dd> <dt>predictor_min, predictor_max</dt><dd><p>Range of
+the predictor variable within the data used to generate the model (i.e.
+threshold values for model extrapolation)</p></dd> <dt>residual_SE</dt><dd><p>Residual
+standard error of the model</p></dd> <dt>mean_SE</dt><dd><p>Mean standard error of the
+model</p></dd> <dt>adj_R2</dt><dd><p>Adjusted \(R^2\) of the model</p></dd> <dt>n</dt><dd><p>Sample size
+(no. of trees used to fit model)</p></dd> 
 </dl>
 
 
@@ -247,12 +244,13 @@ the data used to generate the model (i.e. threshold values for model extrapolati
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># first select best-fit model for all species in data</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>urbantrees</span>)
-<span class='no'>selected</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='sp_modelselect_multi.html'>sp_modelselect_multi</a></span>(<span class='no'>urbantrees</span>, <span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>'species'</span>, <span class='kw'>response</span> <span class='kw'>=</span> <span class='st'>'height'</span>, <span class='kw'>predictor</span> <span class='kw'>=</span> <span class='st'>'diameter'</span>)
+<span class='no'>selected</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='sp_modelselect_multi.html'>sp_modelselect_multi</a></span>(<span class='no'>urbantrees</span>, <span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>'species'</span>,
+                                 <span class='kw'>response</span> <span class='kw'>=</span> <span class='st'>'height'</span>, <span class='kw'>predictor</span> <span class='kw'>=</span> <span class='st'>'diameter'</span>)
 
 <span class='co'># use function</span>
 <span class='no'>results</span> <span class='kw'>&lt;-</span> <span class='fu'>sp_modelfit_multi</span>(
-  <span class='no'>urbantrees</span>, <span class='co'># any dataset with similar species can be used (in this case, we re-use the same data)</span>
-  <span class='kw'>ref_table</span> <span class='kw'>=</span> <span class='no'>selected</span>$<span class='no'>sp_models_info</span>, <span class='co'># refer to reference table from results above</span>
+  <span class='no'>urbantrees</span>, <span class='co'># any data with similar species (re-use same data in this case)</span>
+  <span class='kw'>ref_table</span> <span class='kw'>=</span> <span class='no'>selected</span>$<span class='no'>sp_models_info</span>,
   <span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>'species'</span>, <span class='kw'>modelcode</span> <span class='kw'>=</span> <span class='st'>'modelcode'</span>,
   <span class='kw'>response</span> <span class='kw'>=</span> <span class='st'>'height'</span>, <span class='kw'>predictor</span> <span class='kw'>=</span> <span class='st'>'diameter'</span>
 )

@@ -47,9 +47,10 @@
 
 
 <meta property="og:title" content="Select best-fit linear models across multiple species — sp_modelselect_multi" />
-<meta property="og:description" content="Wrapper function that runs sp_modelselect() across multiple species in a dataframe.
-A single best-fit equation is selected per species, based on the lowest AICc value.
-All allometric equations considered (and ranked) can be found in ?eqns_info and data(eqns_info)." />
+<meta property="og:description" content="Wrapper function that runs sp_modelselect() across multiple species in a
+dataframe. A single best-fit equation is selected per species, based on the
+lowest AICc value. All allometric equations considered (and ranked) can be
+found in ?eqns_info and data(eqns_info)." />
 <meta property="og:image" content="https://xp-song.github.io/allometree/reference/figures/logo.png" />
 <meta property="og:image:alt" content="Allometric Scaling of Urban Trees" />
 <meta name="twitter:card" content="summary_large_image" />
@@ -153,9 +154,10 @@ All allometric equations considered (and ranked) can be found in ?eqns_info and 
     </div>
 
     <div class="ref-description">
-    <p>Wrapper function that runs <code><a href='sp_modelselect.html'>sp_modelselect()</a></code> across multiple species in a dataframe.
-A single best-fit equation is selected per species, based on the lowest AICc value.
-All allometric equations considered (and ranked) can be found in <code><a href='eqns_info.html'>?eqns_info</a></code> and <code><a href='https://rdrr.io/r/utils/data.html'>data(eqns_info)</a></code>.</p>
+    <p>Wrapper function that runs <code><a href='sp_modelselect.html'>sp_modelselect()</a></code> across multiple species in a
+dataframe. A single best-fit equation is selected per species, based on the
+lowest AICc value. All allometric equations considered (and ranked) can be
+found in <code><a href='eqns_info.html'>?eqns_info</a></code> and <code><a href='https://rdrr.io/r/utils/data.html'>data(eqns_info)</a></code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>sp_modelselect_multi</span>(
@@ -170,8 +172,8 @@ All allometric equations considered (and ranked) can be found in <code><a href='
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>Dataframe that contains the variables of interest. Each row is a measurement
-for an individual tree of a particular species.</p></td>
+      <td><p>Dataframe that contains the variables of interest. Each row is a
+measurement for an individual tree of a particular species.</p></td>
     </tr>
     <tr>
       <th>species</th>
@@ -183,36 +185,35 @@ for an individual tree of a particular species.</p></td>
     </tr>
     <tr>
       <th>predictor</th>
-      <td><p>Column name of the predictor variable. Defaults to <code>diameter</code>.</p></td>
+      <td><p>Column name of the predictor variable. Defaults to
+<code>diameter</code>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list of 3 elements:</p><ol>
-<li><p>List of tables showing each species' candidate models ranked by AICc value,
-named <code>sp_models_rank</code>.</p></li>
-<li><p>List of each species' best-fit model object, named <code>sp_models</code>.</p></li>
-<li><p>Table showing each species' best-fit model information, named <code>sp_models_info</code>.</p></li>
-</ol>
+    <p>A list of 3 elements:</p><dl'>
+<dt>sp_models_rank</dt><dd><p>List of
+tables showing each species' candidate models ranked by AICc value.</p></dd>
+<dt>sp_models</dt><dd><p>List of each species' best-fit model object.</p></dd>
+<dt>sp_models_info</dt><dd><p>Table showing each species' best-fit model
+information.</p></dd> 
+</dl>
 <h3>sp_models_info</h3>
 
 
-<p><code>sp_models_info</code> is a dataframe with the following variables:</p><dl'>
-<dt>species</dt><dd><p>Name of tree species</p></dd>
-<dt>modelcode</dt><dd><p>Model code for the best-fit equation</p></dd>
-<dt>a, b, c, d, e</dt><dd><p>Parameter estimates</p></dd>
-<dt>response_geom_mean</dt><dd><p>Geometric mean of the response variable used in
-calculation of AICc (only for transformed models)</p></dd>
-<dt>correctn_factor</dt><dd><p>Bias correction factor to use on model predictions
-(only for transformed models)</p></dd>
-<dt>predictor_min, predictor_max</dt><dd><p>Range of the predictor variable within
-the data used to generate the model (i.e. threshold values for model extrapolation)</p></dd>
-<dt>residual_SE</dt><dd><p>Residual standard error of the model</p></dd>
-<dt>mean_SE</dt><dd><p>Mean standard error of the model</p></dd>
-<dt>adj_R2</dt><dd><p>Adjusted \(R^2\) of the model</p></dd>
-<dt>n</dt><dd><p>Sample size (no. of trees used to fit model)</p></dd>
-
+<p>A dataframe with the following variables:</p><dl'>
+<dt>species</dt><dd><p>Name of
+tree species</p></dd> <dt>modelcode</dt><dd><p>Model code for the best-fit equation</p></dd> <dt>a,
+b, c, d, e</dt><dd><p>Parameter estimates</p></dd> <dt>response_geom_mean</dt><dd><p>Geometric mean of
+the response variable used in calculation of AICc (only for transformed
+models)</p></dd> <dt>correctn_factor</dt><dd><p>Bias correction factor to use on model
+predictions (only for transformed models)</p></dd> <dt>predictor_min,
+predictor_max</dt><dd><p>Range of the predictor variable within the data used to
+generate the model (i.e. threshold values for model extrapolation)</p></dd>
+<dt>residual_SE</dt><dd><p>Residual standard error of the model</p></dd> <dt>mean_SE</dt><dd><p>Mean
+standard error of the model</p></dd> <dt>adj_R2</dt><dd><p>Adjusted \(R^2\) of the model</p></dd>
+<dt>n</dt><dd><p>Sample size (no. of trees used to fit model)</p></dd> 
 </dl>
 
 
@@ -233,14 +234,14 @@ the data used to generate the model (i.e. threshold values for model extrapolati
 <span class='no'>results</span> <span class='kw'>&lt;-</span> <span class='fu'>sp_modelselect_multi</span>(<span class='no'>urbantrees</span>, <span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>'species'</span>,
                                 <span class='kw'>response</span> <span class='kw'>=</span> <span class='st'>'height'</span>, <span class='kw'>predictor</span> <span class='kw'>=</span> <span class='st'>'diameter'</span>)
 
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>results</span>$<span class='no'>sp_models_rank</span><span class='kw'>[[</span><span class='fl'>1</span>]]) <span class='co'># Highly-ranked models for first species in list</span></div><div class='output co'>#&gt;   df     AICc    model
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>results</span>$<span class='no'>sp_models_rank</span><span class='kw'>[[</span><span class='fl'>1</span>]]) <span class='co'># Highly-ranked models for 1st species in list</span></div><div class='output co'>#&gt;   df     AICc    model
 #&gt; 1  3 591.9422   lin_w1
 #&gt; 2  4 593.0074  quad_w1
 #&gt; 3  5 593.4045   cub_w1
 #&gt; 4  6 594.0030 quart_w1
 #&gt; 5  3 594.0139   lin_w2
 #&gt; 6  5 595.5983   cub_w2</div><div class='input'>
-<span class='no'>results</span>$<span class='no'>sp_models</span><span class='kw'>[[</span><span class='fl'>1</span>]] <span class='co'># model object for first species in list</span></div><div class='output co'>#&gt; 
+<span class='no'>results</span>$<span class='no'>sp_models</span><span class='kw'>[[</span><span class='fl'>1</span>]] <span class='co'># model object for 1st species in list</span></div><div class='output co'>#&gt; 
 #&gt; Call:
 #&gt; lm(formula = y ~ x)
 #&gt; 
