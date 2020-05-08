@@ -34,7 +34,7 @@ reference:
   desc: "Linear regression models developed separately for each species."
 - contents:
   - starts_with("sp_")
-- title: "Linear models: Mixed-effects"
+- title: "Linear model: Mixed-effects"
   desc: "Linear mixed-effects model that includes all species as random effects."
 - contents:
   - starts_with("mix_")
