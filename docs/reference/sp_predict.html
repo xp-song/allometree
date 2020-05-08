@@ -6,7 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Fit data to specified linear models across multiple species — sp_modelfit_multi • allometree</title>
+<title>Make predictions for all species in a dataset using single-species linear
+models — sp_predict • allometree</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,11 +47,13 @@
 
 
 
-<meta property="og:title" content="Fit data to specified linear models across multiple species — sp_modelfit_multi" />
-<meta property="og:description" content="Wrapper function that runs sp_modelfit() across multiple species. Data is fit to
-specified allometric equations for each species, as defined within
-ref_table. The full list of allometric equations that may be considered in
-ref_table can be found in ?eqns_info and data(eqns_info)." />
+<meta property="og:title" content="Make predictions for all species in a dataset using single-species linear
+models — sp_predict" />
+<meta property="og:description" content="Make predictions across rows in a dataset that may contain multiple species.
+The model associated with each species is used to predict values for the
+response variable, as well as it's prediction interval. Necessary
+bias-corrections are made for species with models that have a transformed
+response variable." />
 <meta property="og:image" content="https://xp-song.github.io/allometree/reference/figures/logo.png" />
 <meta property="og:image:alt" content="Allometric Scaling of Urban Trees" />
 <meta name="twitter:card" content="summary_large_image" />
@@ -148,25 +151,30 @@ ref_table can be found in ?eqns_info and data(eqns_info)." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Fit data to specified linear models across multiple species</h1>
-    <small class="dont-index">Source: <a href='https://github.com/xp-song/allometree/blob/master/R/sp_modelfit.R'><code>R/sp_modelfit.R</code></a></small>
-    <div class="hidden name"><code>sp_modelfit_multi.Rd</code></div>
+    <h1>Make predictions for all species in a dataset using single-species linear
+models</h1>
+    <small class="dont-index">Source: <a href='https://github.com/xp-song/allometree/blob/master/R/sp_predict.R'><code>R/sp_predict.R</code></a></small>
+    <div class="hidden name"><code>sp_predict.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Wrapper function that runs <code><a href='sp_modelfit.html'>sp_modelfit()</a></code> across multiple species. Data is fit to
-specified allometric equations for each species, as defined within
-<code>ref_table</code>. The full list of allometric equations that may be considered in
-<code>ref_table</code> can be found in <code><a href='eqns_info.html'>?eqns_info</a></code> and <code><a href='https://rdrr.io/r/utils/data.html'>data(eqns_info)</a></code>.</p>
+    <p>Make predictions across rows in a dataset that may contain multiple species.
+The model associated with each species is used to predict values for the
+response variable, as well as it's prediction interval. Necessary
+bias-corrections are made for species with models that have a transformed
+response variable.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sp_modelfit_multi</span>(
+    <pre class="usage"><span class='fu'>sp_predict</span>(
   <span class='no'>data</span>,
+  <span class='no'>models</span>,
   <span class='no'>ref_table</span>,
+  <span class='kw'>level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>,
   <span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"species"</span>,
-  <span class='kw'>modelcode</span> <span class='kw'>=</span> <span class='st'>"modelcode"</span>,
-  <span class='kw'>response</span> <span class='kw'>=</span> <span class='st'>"height"</span>,
-  <span class='kw'>predictor</span> <span class='kw'>=</span> <span class='st'>"diameter"</span>
+  <span class='kw'>predictor</span> <span class='kw'>=</span> <span class='st'>"diameter"</span>,
+  <span class='kw'>cf</span> <span class='kw'>=</span> <span class='st'>"correctn_factor"</span>,
+  <span class='kw'>geom_mean</span> <span class='kw'>=</span> <span class='st'>"response_geom_mean"</span>,
+  <span class='no'>...</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -174,115 +182,90 @@ specified allometric equations for each species, as defined within
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>Dataframe that contains the variables of interest. Each row is a
-measurement for an individual tree of a particular species.</p></td>
+      <td><p>Dataframe with columns containing the species and variables of
+interest. Species names in the <code>species</code> column should be present in those
+within <code>ref_table</code>, as well as those in <code>models</code>.</p></td>
+    </tr>
+    <tr>
+      <th>models</th>
+      <td><p>A named list of each species' linear regression models.
+<code><a href='https://rdrr.io/r/base/names.html'>names(models)</a></code> should correspond to species names in <code>data</code> and
+<code>ref_table</code>.</p></td>
     </tr>
     <tr>
       <th>ref_table</th>
-      <td><p>Dataframe containing an allometric equation for each tree
-species, in the form of a model code. Each row is a unique species.</p></td>
+      <td><p>Dataframe containing information to correct bias introduced
+in models with a transformed response variable. It should include columns
+for <code>species</code>, <code>cf</code>, and <code>geom_mean</code>.</p></td>
+    </tr>
+    <tr>
+      <th>level</th>
+      <td><p>Level of confidence for the prediction interval. Defaults to
+<code>0.95</code>.</p></td>
     </tr>
     <tr>
       <th>species</th>
-      <td><p>Column name of the species variable in both the dataframes
-<code>data</code> and <code>ref_table</code>. Defaults to <code>species</code>.</p></td>
-    </tr>
-    <tr>
-      <th>modelcode</th>
-      <td><p>Column name containing the model codes in <code>ref_table</code>. Refer
-to <code><a href='https://rdrr.io/r/utils/data.html'>data(eqns_info)</a></code> for more information on model codes.</p></td>
-    </tr>
-    <tr>
-      <th>response</th>
-      <td><p>Column name of the response variable in <code>data</code>. Defaults to
-<code>height</code>.</p></td>
+      <td><p>Column name of the species variable in <code>data</code> and <code>ref_table</code>.
+Defaults to <code>species</code>.</p></td>
     </tr>
     <tr>
       <th>predictor</th>
       <td><p>Column name of the predictor variable in <code>data</code>. Defaults to
 <code>diameter</code>.</p></td>
     </tr>
+    <tr>
+      <th>cf</th>
+      <td><p>Column name of the bias correction factor in <code>ref_table</code>. Defaults
+to <code>correctn_factor</code>.</p></td>
+    </tr>
+    <tr>
+      <th>geom_mean</th>
+      <td><p>Column name of the geometric mean of response variable in
+<code>ref_table</code>, that was used in to fit the <code>models</code>. Defaults to
+<code>response_geom_mean</code>.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list of 2 elements:</p><ol>
-<li><p>List of each species' resulting model object, named <code>sp_models</code>.</p></li>
-<li><p>Table showing each species' resulting model information, named
-<code>sp_models_info</code>.</p></li>
-</ol>
-<h3>sp_models_info</h3>
-
-
-<p><code>sp_models_info</code> is a dataframe with the following variables:</p><dl'>
-<dt>species</dt><dd><p>Name of tree species</p></dd>
-<dt>modelcode</dt><dd><p>Model code for the allometric equation used</p></dd>
-<dt>a, b, c, d, e</dt><dd><p>Parameter estimates</p></dd>
-<dt>response_geom_mean</dt><dd><p>Geometric mean of the response variable used in
-calculation of AICc (only for transformed models)</p></dd>
-<dt>correctn_factor</dt><dd><p>Bias correction factor to use on model predictions
-(only for transformed models)</p></dd>
-<dt>predictor_min, predictor_max</dt><dd><p>Range of the predictor variable within
-the data used to generate the model (i.e. threshold values for model extrapolation)</p></dd>
-<dt>residual_SE</dt><dd><p>Residual standard error of the model</p></dd>
-<dt>mean_SE</dt><dd><p>Mean standard error of the model</p></dd>
-<dt>adj_R2</dt><dd><p>Adjusted \(R^2\) of the model</p></dd>
-<dt>n</dt><dd><p>Sample size (no. of trees used to fit model)</p></dd>
-
+    <p>Dataframe of input <code>data</code> with columns appended:</p><dl'>
+<dt>fit</dt><dd><p>Predicted value for the response variable.</p></dd> <dt>lwr</dt><dd><p>Lower
+bound of the prediction interval, based on the input argument <code>level</code>.</p></dd>
+<dt>upr</dt><dd><p>Upper bound of the prediction interval, based on the input
+argument <code>level</code>.</p></dd> 
 </dl>
-
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='sp_modelfit.html'>sp_modelfit()</a></code> to fit a specified model for one species.</p>
-<p><code><a href='sp_modelselect.html'>sp_modelselect()</a></code> to select a best-fit model for one species.</p>
-<p><code><a href='sp_modelselect_multi.html'>sp_modelselect_multi()</a></code> to select best-fit models across multiple species.</p>
+    <div class='dont-index'><p><code><a href='sp_simulate.html'>sp_simulate()</a></code> to run <code>sp_predict()</code> on simulated data.</p>
 <p>Other single-species model functions: 
+<code><a href='sp_modelfit_multi.html'>sp_modelfit_multi</a>()</code>,
 <code><a href='sp_modelfit.html'>sp_modelfit</a>()</code>,
 <code><a href='sp_modelselect_multi.html'>sp_modelselect_multi</a>()</code>,
 <code><a href='sp_modelselect.html'>sp_modelselect</a>()</code>,
-<code><a href='sp_predict.html'>sp_predict</a>()</code>,
 <code><a href='sp_simulate.html'>sp_simulate</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># first select best-fit model for all species in data</span>
+    <pre class="examples"><div class='input'><span class='co'># first select best-fit model</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>urbantrees</span>)
-<span class='no'>selected</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='sp_modelselect_multi.html'>sp_modelselect_multi</a></span>(<span class='no'>urbantrees</span>, <span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>'species'</span>, <span class='kw'>response</span> <span class='kw'>=</span> <span class='st'>'height'</span>, <span class='kw'>predictor</span> <span class='kw'>=</span> <span class='st'>'diameter'</span>)
+<span class='no'>Alb_sam</span> <span class='kw'>&lt;-</span> <span class='no'>urbantrees</span>[<span class='no'>urbantrees</span>$<span class='no'>species</span> <span class='kw'>==</span> <span class='st'>"Albizia saman"</span>, ]  <span class='co'># we use one species as an example</span>
+<span class='no'>results</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='sp_modelselect_multi.html'>sp_modelselect_multi</a></span>(<span class='no'>Alb_sam</span>, <span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>'species'</span>, <span class='kw'>response</span> <span class='kw'>=</span> <span class='st'>'height'</span>, <span class='kw'>predictor</span> <span class='kw'>=</span> <span class='st'>'diameter'</span>)
 
-<span class='co'># use function</span>
-<span class='no'>results</span> <span class='kw'>&lt;-</span> <span class='fu'>sp_modelfit_multi</span>(
-  <span class='no'>urbantrees</span>, <span class='co'># any dataset with similar species can be used (in this case, we re-use the same data)</span>
-  <span class='kw'>ref_table</span> <span class='kw'>=</span> <span class='no'>selected</span>$<span class='no'>sp_models_info</span>, <span class='co'># refer to reference table from results above</span>
-  <span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>'species'</span>, <span class='kw'>modelcode</span> <span class='kw'>=</span> <span class='st'>'modelcode'</span>,
-  <span class='kw'>response</span> <span class='kw'>=</span> <span class='st'>'height'</span>, <span class='kw'>predictor</span> <span class='kw'>=</span> <span class='st'>'diameter'</span>
-)
+<span class='co'># simulate data</span>
+<span class='no'>predict_range</span> <span class='kw'>&lt;-</span> <span class='no'>results</span>$<span class='no'>sp_models_info</span>[,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"species"</span>,<span class='st'>"predictor_min"</span>, <span class='st'>"predictor_max"</span>)]
+<span class='no'>predict_range_full</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/apply.html'>apply</a></span>(<span class='no'>predict_range</span>, <span class='fl'>1</span>, <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='no'>x</span>[<span class='st'>"predictor_min"</span>], <span class='no'>x</span>[<span class='st'>"predictor_max"</span>], <span class='kw'>length.out</span> <span class='kw'>=</span> <span class='fl'>100</span>)))
+<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='no'>predict_range_full</span>) <span class='kw'>&lt;-</span> <span class='no'>predict_range</span>$<span class='no'>species</span>
+<span class='no'>predict_range_full</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>tidyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://tidyr.tidyverse.org/reference/pivot_longer.html'>pivot_longer</a></span>(<span class='no'>predict_range_full</span>, <span class='kw'>cols</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='no'>predict_range_full</span>), <span class='kw'>names_to</span> <span class='kw'>=</span> <span class='st'>"species"</span>, <span class='kw'>values_to</span> <span class='kw'>=</span> <span class='st'>"predictor"</span>)
 
-<span class='no'>results</span>$<span class='no'>sp_models</span><span class='kw'>[[</span><span class='fl'>1</span>]] <span class='co'># model object for first species in list</span></div><div class='output co'>#&gt; 
-#&gt; Call:
-#&gt; lm(formula = y ~ x)
-#&gt; 
-#&gt; Coefficients:
-#&gt; (Intercept)            x  
-#&gt;       6.717        9.464  
-#&gt; </div><div class='input'>
-<span class='no'>results</span>$<span class='no'>sp_models_info</span> <span class='co'># summary of fitted models</span></div><div class='output co'>#&gt;                    species modelcode         a          b          c        d
-#&gt; 1            Albizia saman    lin_w1  6.717431   9.464096         NA       NA
-#&gt; 2            Hopea odorata  quart_w4 -1.149669 149.317848 -1522.6122 7908.410
-#&gt; 3     Syzygium myrtifolium  quart_w2 -4.614100 158.512849  -748.2492 1638.676
-#&gt; 4       Terminalia mantaly   expo_w1  9.430067  29.320921         NA       NA
-#&gt; 5 Xanthostemon chrysanthus loglog_w1 14.926404   2.982932         NA       NA
-#&gt;            e response_geom_mean correctn_factor predictor_min predictor_max
-#&gt; 1         NA          13.566083               1    0.31194369     1.5278875
-#&gt; 2 -14225.442           5.390829               1    0.03183099     0.2928451
-#&gt; 3  -1321.221           7.735643               1    0.04138029     0.5665916
-#&gt; 4         NA           7.596013               1    0.03501409     0.5602254
-#&gt; 5         NA           5.067462               1    0.02864789     0.3533240
-#&gt;   residual_SE mean_SE adj_R2   n
-#&gt; 1      2.2050  4.7889 0.4276 133
-#&gt; 2     11.9430  2.6339 0.5460 483
-#&gt; 3      2.1674  2.2536 0.6662 353
-#&gt; 4      1.8938  3.5502 0.6702 197
-#&gt; 5      1.2064  1.4484 0.5551 419</div><div class='input'>
+<span class='co'># run function</span>
+<span class='no'>predictions</span> <span class='kw'>&lt;-</span> <span class='fu'>sp_predict</span>(<span class='no'>predict_range_full</span>, <span class='kw'>models</span> <span class='kw'>=</span> <span class='no'>results</span>$<span class='no'>sp_models</span>, <span class='kw'>ref_table</span> <span class='kw'>=</span> <span class='no'>results</span>$<span class='no'>sp_models_info</span>, <span class='kw'>predictor</span> <span class='kw'>=</span> <span class='st'>"predictor"</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>predictions</span>)</div><div class='output co'>#&gt;         species predictor       fit      lwr      upr
+#&gt; 1 Albizia saman 0.3119437  9.669697 5.212233 14.12716
+#&gt; 2 Albizia saman 0.3242260  9.785937 5.332736 14.23914
+#&gt; 3 Albizia saman 0.3365082  9.902177 5.453124 14.35123
+#&gt; 4 Albizia saman 0.3487905 10.018418 5.573397 14.46344
+#&gt; 5 Albizia saman 0.3610727 10.134658 5.693553 14.57576
+#&gt; 6 Albizia saman 0.3733550 10.250899 5.813594 14.68820</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

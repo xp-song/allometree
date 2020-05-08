@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Select a best-fit model for one species — sp_modelselect • allometree</title>
+<title>Select a best-fit linear model for one species — sp_modelselect • allometree</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,7 +46,7 @@
 
 
 
-<meta property="og:title" content="Select a best-fit model for one species — sp_modelselect" />
+<meta property="og:title" content="Select a best-fit linear model for one species — sp_modelselect" />
 <meta property="og:description" content="Select a best-fit equation for one species, based on the
 lowest bias-corrected Aikaike’s information criterion (AICc)." />
 <meta property="og:image" content="https://xp-song.github.io/allometree/reference/figures/logo.png" />
@@ -113,6 +113,18 @@ lowest bias-corrected Aikaike’s information criterion (AICc)." />
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/single-species_models.html">Single-species linear models</a>
+    </li>
+  </ul>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
@@ -134,7 +146,7 @@ lowest bias-corrected Aikaike’s information criterion (AICc)." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Select a best-fit model for one species</h1>
+    <h1>Select a best-fit linear model for one species</h1>
     <small class="dont-index">Source: <a href='https://github.com/xp-song/allometree/blob/master/R/sp_modelselect.R'><code>R/sp_modelselect.R</code></a></small>
     <div class="hidden name"><code>sp_modelselect.Rd</code></div>
     </div>
@@ -218,7 +230,9 @@ species.</p>
 <p>Other single-species model functions: 
 <code><a href='sp_modelfit_multi.html'>sp_modelfit_multi</a>()</code>,
 <code><a href='sp_modelfit.html'>sp_modelfit</a>()</code>,
-<code><a href='sp_modelselect_multi.html'>sp_modelselect_multi</a>()</code></p></div>
+<code><a href='sp_modelselect_multi.html'>sp_modelselect_multi</a>()</code>,
+<code><a href='sp_predict.html'>sp_predict</a>()</code>,
+<code><a href='sp_simulate.html'>sp_simulate</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>urbantrees</span>)
@@ -234,11 +248,11 @@ species.</p>
 #&gt; 6  5 595.5983   cub_w2</div><div class='input'>
 <span class='no'>results</span>$<span class='no'>best_model</span></div><div class='output co'>#&gt; 
 #&gt; Call:
-#&gt; lm(formula = data[[response]] ~ data[[predictor]])
+#&gt; lm(formula = y ~ x)
 #&gt; 
 #&gt; Coefficients:
-#&gt;       (Intercept)  data[[predictor]]  
-#&gt;             6.717              9.464  
+#&gt; (Intercept)            x  
+#&gt;       6.717        9.464  
 #&gt; </div><div class='input'>
 <span class='no'>results</span>$<span class='no'>best_model_info</span></div><div class='output co'>#&gt;   modelcode        a        b  c  d  e response_geom_mean correctn_factor
 #&gt; 1    lin_w1 6.717431 9.464096 NA NA NA           13.56608               1

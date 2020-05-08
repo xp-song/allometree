@@ -66,6 +66,18 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li>
+      <a href="../articles/single-species_models.html">Single-species linear models</a>
+    </li>
+  </ul>
+</li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
@@ -89,7 +101,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Get started with allometree</h1>
             
-            <h4 class="date">2020-05-06</h4>
+            <h4 class="date">2020-05-08</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/xp-song/allometree/blob/master/vignettes/allometree.Rmd"><code>vignettes/allometree.Rmd</code></a></small>
       <div class="hidden name"><code>allometree.Rmd</code></div>
@@ -155,170 +167,46 @@
 <div id="single-species-models" class="section level2">
 <h2 class="hasAnchor">
 <a href="#single-species-models" class="anchor"></a>1. Single-species models</h2>
-<div id="section1-1" class="section level3">
-<h3 class="hasAnchor">
-<a href="#section1-1" class="anchor"></a>1.1. Model selection</h3>
-<div id="for-one-species" class="section level4">
-<h4 class="hasAnchor">
-<a href="#for-one-species" class="anchor"></a>For one species</h4>
-<p>For a particular species of interest, data will be fit to all allometric equations. The best-fit model is selected based on the lowest bias-corrected Aikaike’s information criterion (AICc) value. Here’s an example to select the best-fit model for the species <em>Albizia saman</em>, using the function <code><a href="../reference/sp_modelselect.html">sp_modelselect()</a></code>.</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">Alb_sam</span> <span class="kw">&lt;-</span> <span class="no">urbantrees</span>[<span class="no">urbantrees</span>$<span class="no">species</span> <span class="kw">==</span> <span class="st">"Albizia saman"</span>, ]  <span class="co"># subset data for one species</span>
-
-<span class="no">results</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/sp_modelselect.html">sp_modelselect</a></span>(<span class="no">Alb_sam</span>,
-                          <span class="kw">response</span> <span class="kw">=</span> <span class="st">"height"</span>, <span class="kw">predictor</span> <span class="kw">=</span> <span class="st">"diameter"</span>)  <span class="co"># specify colnames of variables</span></pre></body></html></div>
+<p>We can run <code><a href="../reference/sp_modelselect_multi.html">sp_modelselect_multi()</a></code> to select the best-fit model for each species in the dataset <code>urbantrees</code>. This can also be done for individual species using <code><a href="../reference/sp_modelselect.html">sp_modelselect()</a></code>.</p>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">results</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/sp_modelselect_multi.html">sp_modelselect_multi</a></span>(<span class="no">urbantrees</span>, <span class="kw">species</span> <span class="kw">=</span> <span class="st">"species"</span>, <span class="co"># specify colname of species</span>
+                                <span class="kw">response</span> <span class="kw">=</span> <span class="st">"height"</span>, <span class="kw">predictor</span> <span class="kw">=</span> <span class="st">"diameter"</span>) <span class="co"># specify colnames of variables</span></pre></body></html></div>
 <p>The <code>results</code> variable is a list of 3 elements:</p>
-<ol style="list-style-type: decimal">
-<li>Table showing models ranked by AICc value, named <code>all_models_rank</code>.</li>
-<li>Best-fit model object, named <code>best_model</code>.</li>
-<li>Table showing information on the best-fit model, named <code>best_model_info</code>. More information on the output columns can be found at <code><a href="../reference/sp_modelselect.html">?sp_modelselect</a></code>.</li>
-</ol>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">results</span>$<span class="no">all_models_rank</span>)
-<span class="co">#&gt;   df     AICc    model</span>
-<span class="co">#&gt; 1  3 591.9422   lin_w1</span>
-<span class="co">#&gt; 2  4 593.0074  quad_w1</span>
-<span class="co">#&gt; 3  5 593.4045   cub_w1</span>
-<span class="co">#&gt; 4  6 594.0030 quart_w1</span>
-<span class="co">#&gt; 5  3 594.0139   lin_w2</span>
-<span class="co">#&gt; 6  5 595.5983   cub_w2</span></pre></body></html></div>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">results</span>$<span class="no">best_model</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Call:</span>
-<span class="co">#&gt; lm(formula = data[[response]] ~ data[[predictor]])</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Coefficients:</span>
-<span class="co">#&gt;       (Intercept)  data[[predictor]]  </span>
-<span class="co">#&gt;             6.717              9.464</span></pre></body></html></div>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">results</span>$<span class="no">best_model_info</span>
-<span class="co">#&gt;   modelcode        a        b  c  d  e response_geom_mean correctn_factor</span>
-<span class="co">#&gt; 1    lin_w1 6.717431 9.464096 NA NA NA           13.56608               1</span>
-<span class="co">#&gt;   predictor_min predictor_max residual_SE mean_SE adj_R2   n</span>
-<span class="co">#&gt; 1     0.3119437      1.527887       2.205  4.7889 0.4276 133</span></pre></body></html></div>
-</div>
-<div id="for-multiple-species" class="section level4">
-<h4 class="hasAnchor">
-<a href="#for-multiple-species" class="anchor"></a>For multiple species</h4>
-<p>We can also run <code><a href="../reference/sp_modelselect.html">sp_modelselect()</a></code> across multiple species in the full dataset <code>urbantrees</code>. For this, we use the wrapper function <code><a href="../reference/sp_modelselect_multi.html">sp_modelselect_multi()</a></code>.</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">results_all</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/sp_modelselect_multi.html">sp_modelselect_multi</a></span>(<span class="no">urbantrees</span>, <span class="kw">species</span> <span class="kw">=</span> <span class="st">"species"</span>, <span class="co"># specify colname of species</span>
-                                    <span class="kw">response</span> <span class="kw">=</span> <span class="st">"height"</span>, <span class="kw">predictor</span> <span class="kw">=</span> <span class="st">"diameter"</span>)</pre></body></html></div>
-<p>The <code>results_all</code> variable is a list of 3 elements:</p>
 <ol style="list-style-type: decimal">
 <li>List of tables showing each species’ candidate models ranked by AICc value, named <code>sp_models_rank</code>.</li>
 <li>List of each species’ best-fit model object, named <code>sp_models</code>.</li>
 <li>Table showing each species’ best-fit model information, named <code>sp_models_info</code>.</li>
 </ol>
 <p> </p>
+<p>Note that you can also fit data to specified (i.e. pre-defined) equations, using the functions <code><a href="../reference/sp_modelfit.html">sp_modelfit()</a></code> and <code><a href="../reference/sp_modelfit_multi.html">sp_modelfit_multi()</a></code>. This can be done, for example, after the removal of outliers from the full dataset. See the vignette <a href="single-species_models.html">Single-species linear models</a> for a full demonstration.</p>
+<p> </p>
 <p>An overview of the best-fit models across the 5 species:</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">results_all</span>$<span class="no">sp_models_info</span>
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">results</span>$<span class="no">sp_models_info</span>
 <span class="co">#&gt;                    species modelcode         a          b          c        d</span>
 <span class="co">#&gt; 1            Albizia saman    lin_w1  6.717431   9.464096         NA       NA</span>
 <span class="co">#&gt; 2            Hopea odorata  quart_w4 -1.149669 149.317848 -1522.6122 7908.410</span>
 <span class="co">#&gt; 3     Syzygium myrtifolium  quart_w2 -4.614100 158.512849  -748.2492 1638.676</span>
-<span class="co">#&gt; 4       Terminalia mantaly   expo_w1 10.461310  29.320921         NA       NA</span>
-<span class="co">#&gt; 5 Xanthostemon chrysanthus loglog_w1 15.955007   2.982932         NA       NA</span>
+<span class="co">#&gt; 4       Terminalia mantaly   expo_w1  9.430067  29.320921         NA       NA</span>
+<span class="co">#&gt; 5 Xanthostemon chrysanthus loglog_w1 14.926404   2.982932         NA       NA</span>
 <span class="co">#&gt;            e response_geom_mean correctn_factor predictor_min predictor_max</span>
-<span class="co">#&gt; 1         NA          13.566083        1.000000    0.31194369     1.5278875</span>
-<span class="co">#&gt; 2 -14225.442           5.390829        1.000000    0.03183099     0.2928451</span>
-<span class="co">#&gt; 3  -1321.221           7.735643        1.000000    0.04138029     0.5665916</span>
-<span class="co">#&gt; 4         NA           7.596013        1.031243    0.03501409     0.5602254</span>
-<span class="co">#&gt; 5         NA           5.067462        1.028603    0.02864789     0.3533240</span>
+<span class="co">#&gt; 1         NA          13.566083               1    0.31194369     1.5278875</span>
+<span class="co">#&gt; 2 -14225.442           5.390829               1    0.03183099     0.2928451</span>
+<span class="co">#&gt; 3  -1321.221           7.735643               1    0.04138029     0.5665916</span>
+<span class="co">#&gt; 4         NA           7.596013               1    0.03501409     0.5602254</span>
+<span class="co">#&gt; 5         NA           5.067462               1    0.02864789     0.3533240</span>
 <span class="co">#&gt;   residual_SE mean_SE adj_R2   n</span>
 <span class="co">#&gt; 1      2.2050  4.7889 0.4276 133</span>
 <span class="co">#&gt; 2     11.9430  2.6339 0.5460 483</span>
 <span class="co">#&gt; 3      2.1674  2.2536 0.6662 353</span>
 <span class="co">#&gt; 4      1.8938  3.5502 0.6702 197</span>
 <span class="co">#&gt; 5      1.2064  1.4484 0.5551 419</span></pre></body></html></div>
-</div>
-</div>
-<div id="outlier-removal" class="section level3">
-<h3 class="hasAnchor">
-<a href="#outlier-removal" class="anchor"></a>1.2. Outlier removal</h3>
-<p>Let’s say we want to check for outlier/influential data points, remove them, and re-fit the filtered dataset to the pre-selected models as defined in <code>results_all$sp_models_info</code>. First, lets visualise these outliers, say, for the species <em>Xanthostemon chrysanthus</em>.</p>
-<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span>(<span class="kw">mfrow</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2</span>,<span class="fl">2</span>)); <span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="no">results_all</span>$<span class="no">sp_models</span>$<span class="no">`Xanthostemon chrysanthus`</span>)</pre></body></html></div>
-<p><img src="allometree_files/figure-html/unnamed-chunk-8-1.png" width="528" style="display: block; margin: auto;">  </p>
-<p>There are numerous ways to <a href="http://r-statistics.co/Outlier-Treatment-With-R.html">deal with outliers</a>. One way is to remove them based on Cook’s Distance (bottom-right plot). In general use, outliers may be defined as points with a Cook’s distance more than four times the mean Cook’s distance (red line in plot below). Note that this threshold is not fixed, and may be adjusted according to expert knowledge.</p>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">cooks_dist</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/influence.measures.html">cooks.distance</a></span>(<span class="no">results_all</span>$<span class="no">sp_models</span>$<span class="no">`Xanthostemon chrysanthus`</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="no">cooks_dist</span>, <span class="kw">pch</span> <span class="kw">=</span> <span class="st">"."</span>, <span class="kw">cex</span> <span class="kw">=</span> <span class="fl">2</span>, <span class="kw">main</span> <span class="kw">=</span> <span class="st">"Outliers by Cook's Distance"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span>(<span class="kw">h</span> <span class="kw">=</span> <span class="fl">4</span>*<span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="no">cooks_dist</span>, <span class="kw">na.rm</span> <span class="kw">=</span> <span class="no">T</span>), <span class="kw">col</span> <span class="kw">=</span> <span class="st">"red"</span>)  <span class="co"># threshold line</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="fl">1</span>:<span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="no">cooks_dist</span>) + <span class="fl">1</span>, <span class="kw">y</span> <span class="kw">=</span> <span class="no">cooks_dist</span>,
-     <span class="kw">labels</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span>(<span class="no">cooks_dist</span> <span class="kw">&gt;</span> <span class="fl">4</span> * <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="no">cooks_dist</span>, <span class="kw">na.rm</span><span class="kw">=</span><span class="no">T</span>), <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">cooks_dist</span>), <span class="st">""</span>), <span class="kw">col</span> <span class="kw">=</span> <span class="st">"red"</span>)  <span class="co"># outlier labels</span></pre></body></html></div>
-<p><img src="allometree_files/figure-html/unnamed-chunk-9-1.png" width="384" style="display: block; margin: auto;"></p>
-<p>We can create a function <code>uncooker()</code> that removes outliers for each species in the dataset <code>urbantrees</code>, based on their respective best-fit models in <code>results_all$sp_models</code>:</p>
-<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="no">uncooker</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">data</span>, <span class="no">modellist</span>){
-
-  <span class="no">result</span> <span class="kw">&lt;-</span> <span class="no">data</span>[<span class="fl">0</span>,]
-
-  <span class="kw">for</span>(<span class="no">i</span> <span class="kw">in</span> <span class="fl">1</span>:<span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="no">modellist</span>)){ <span class="co"># loop over all species </span>
-
-    <span class="no">cooks_dist</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/influence.measures.html">cooks.distance</a></span>(<span class="no">modellist</span><span class="kw">[[</span><span class="no">i</span>]])
-    <span class="no">outliers</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span>(<span class="no">cooks_dist</span> <span class="kw">&gt;</span> <span class="fl">4</span>*<span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="no">cooks_dist</span>, <span class="kw">na.rm</span><span class="kw">=</span><span class="no">T</span>)))  <span class="co"># row numbers</span>
-    <span class="no">subset</span> <span class="kw">&lt;-</span> <span class="no">data</span>[(<span class="no">data</span>$<span class="no">species</span> <span class="kw">==</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">modellist</span>[<span class="no">i</span>])),][-<span class="no">outliers</span>,]
-    <span class="no">result</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind.data.frame</a></span>(<span class="no">result</span>, <span class="no">subset</span>)
-  }
-  <span class="fu"><a href="https://rdrr.io/r/base/function.html">return</a></span>(<span class="no">result</span>)
-}
-
-<span class="co"># run the function uncooker()</span>
-<span class="no">urbantrees_clean</span> <span class="kw">&lt;-</span> <span class="fu">uncooker</span>(<span class="no">urbantrees</span>, <span class="no">results_all</span>$<span class="no">sp_models</span>)
-
-<span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="no">urbantrees_clean</span>)
-<span class="co">#&gt; [1] 1526</span></pre></body></html></div>
-<p>59 data points were removed to obtain the filtered dataset <code>urbantrees_clean</code> (n = 1526).</p>
-</div>
-<div id="re-fit-filtered-data" class="section level3">
-<h3 class="hasAnchor">
-<a href="#re-fit-filtered-data" class="anchor"></a>1.3. Re-fit filtered data</h3>
-<div id="for-one-species-1" class="section level4">
-<h4 class="hasAnchor">
-<a href="#for-one-species-1" class="anchor"></a>For one species</h4>
-<p>We can now fit <code>urbantrees_clean</code> to the best-fit equations we defined in <a href="#section1.1">Section 1.1</a>. Here’s an example for the species <em>Albizia saman</em> again, using the function <code><a href="../reference/sp_modelfit.html">sp_modelfit()</a></code>.</p>
-<p>This function has an additional argument <code>modelcode</code>. In the case of <em>Albizia saman</em>, it is <code>lin_w1</code> (see <code>results_all$sp_models_info</code>). Note that you can also pick any one of the options found in <code>eqns_info$modelcode</code>.</p>
-<p>We’ll overwrite our previously-defined variables, this time with the filtered dataset:</p>
-<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="no">Alb_sam</span> <span class="kw">&lt;-</span> <span class="no">urbantrees_clean</span>[<span class="no">urbantrees_clean</span>$<span class="no">species</span> <span class="kw">==</span> <span class="st">"Albizia saman"</span>, ]
-
-<span class="no">results</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/sp_modelfit.html">sp_modelfit</a></span>(<span class="no">Alb_sam</span>, <span class="kw">modelcode</span> <span class="kw">=</span> <span class="st">"lin_w1"</span>, <span class="co"># specify modelcode</span>
-                       <span class="kw">response</span> <span class="kw">=</span> <span class="st">"height"</span>, <span class="kw">predictor</span> <span class="kw">=</span> <span class="st">"diameter"</span>)</pre></body></html></div>
-<p>The new <code>results</code> variable is a list of 2 elements:</p>
-<ol style="list-style-type: decimal">
-<li>Resulting model object, named <code>fitted_model</code>.</li>
-<li>Table showing information on the resulting model, named <code>fitted_model_info</code>.</li>
-</ol>
-</div>
-<div id="for-multiple-species-1" class="section level4">
-<h4 class="hasAnchor">
-<a href="#for-multiple-species-1" class="anchor"></a>For multiple species</h4>
-<p>Similar to the the wrapper function <code><a href="../reference/sp_modelselect_multi.html">sp_modelselect_multi()</a></code>, we can also run <code><a href="../reference/sp_modelfit_multi.html">sp_modelfit_multi()</a></code> to fit pre-selected models across multiple species. In this function, we need to input a reference table <code>ref_table</code> (i.e. <code>results_all$sp_models_info</code>) that provides information on the <code>species</code> and their corresponding <code>modelcode</code>.</p>
-<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="no">results_all</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/sp_modelfit_multi.html">sp_modelfit_multi</a></span>(<span class="no">urbantrees_clean</span>,
-                                 <span class="kw">ref_table</span> <span class="kw">=</span> <span class="no">results_all</span>$<span class="no">sp_models_info</span>,
-                                 <span class="kw">species</span> <span class="kw">=</span> <span class="st">"species"</span>, <span class="co"># colname in both data &amp; ref_table</span>
-                                 <span class="kw">modelcode</span> <span class="kw">=</span> <span class="st">"modelcode"</span>, <span class="co"># colname in ref_table</span>
-                                 <span class="kw">response</span> <span class="kw">=</span> <span class="st">"height"</span>, <span class="kw">predictor</span> <span class="kw">=</span> <span class="st">"diameter"</span>)</pre></body></html></div>
-<p>The new <code>results_all</code> variable is a list of 2 elements:</p>
-<ol style="list-style-type: decimal">
-<li>List of each species’ resulting model object, named <code>sp_models</code>.</li>
-<li>Table showing each species’ resulting model information, named <code>sp_models_info</code>.</li>
-</ol>
 <p> </p>
-<p>To make our subsequent code less verbose, let’s assign the elements <code>sp_models</code> and <code>sp_models_info</code> to variables with the same name:</p>
-<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="no">sp_models</span> <span class="kw">&lt;-</span> <span class="no">results_all</span>$<span class="no">sp_models</span>
-<span class="no">sp_models_info</span> <span class="kw">&lt;-</span> <span class="no">results_all</span>$<span class="no">sp_models_info</span></pre></body></html></div>
-</div>
-</div>
-<div id="make-predictions" class="section level3">
-<h3 class="hasAnchor">
-<a href="#make-predictions" class="anchor"></a>1.4. Make predictions</h3>
-<p>In the works…</p>
 <hr>
-</div>
 </div>
 <div id="mixed-effects-model" class="section level2">
 <h2 class="hasAnchor">
 <a href="#mixed-effects-model" class="anchor"></a>2. Mixed-effects model</h2>
-<div id="model-selection" class="section level3">
-<h3 class="hasAnchor">
-<a href="#model-selection" class="anchor"></a>2.1. Model selection</h3>
 <p>In the works…</p>
 <hr>
-</div>
 </div>
 <div id="references" class="section level2">
 <h2 class="hasAnchor">
