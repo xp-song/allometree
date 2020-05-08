@@ -2,7 +2,7 @@
 % Please edit documentation in R/sp_modelselect.R
 \name{sp_modelselect_multi}
 \alias{sp_modelselect_multi}
-\title{Select best-fit models across multiple species}
+\title{Select best-fit linear models across multiple species}
 \usage{
 sp_modelselect_multi(
   data,
@@ -50,7 +50,7 @@ the data used to generate the model (i.e. threshold values for model extrapolati
 }
 }
 \description{
-Wrapper to run \code{sp_modelselect()} across multiple species in a dataframe.
+Wrapper function that runs \code{sp_modelselect()} across multiple species in a dataframe.
 A single best-fit equation is selected per species, based on the lowest AICc value.
 All allometric equations considered (and ranked) can be found in \code{?eqns_info} and \code{data(eqns_info)}.
 }
@@ -76,6 +76,8 @@ results$sp_models_info # summary of best-fit models
 Other single-species model functions: 
 \code{\link{sp_modelfit_multi}()},
 \code{\link{sp_modelfit}()},
-\code{\link{sp_modelselect}()}
+\code{\link{sp_modelselect}()},
+\code{\link{sp_predict}()},
+\code{\link{sp_simulate}()}
 }
 \concept{single-species model functions}

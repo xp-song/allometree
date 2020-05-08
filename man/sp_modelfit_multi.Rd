@@ -2,7 +2,7 @@
 % Please edit documentation in R/sp_modelfit.R
 \name{sp_modelfit_multi}
 \alias{sp_modelfit_multi}
-\title{Fit data to pre-selected models across multiple species}
+\title{Fit data to specified linear models across multiple species}
 \usage{
 sp_modelfit_multi(
   data,
@@ -60,8 +60,8 @@ the data used to generate the model (i.e. threshold values for model extrapolati
 }
 }
 \description{
-Wrapper to run \code{sp_modelfit()} across multiple species. Data is fit to
-pre-selected allometric equations for each species, as defined within
+Wrapper function that runs \code{sp_modelfit()} across multiple species. Data is fit to
+specified allometric equations for each species, as defined within
 \code{ref_table}. The full list of allometric equations that may be considered in
 \code{ref_table} can be found in \code{?eqns_info} and \code{data(eqns_info)}.
 }
@@ -84,7 +84,7 @@ results$sp_models_info # summary of fitted models
 
 }
 \seealso{
-\code{\link[=sp_modelfit]{sp_modelfit()}} to fit pre-selected model for one species.
+\code{\link[=sp_modelfit]{sp_modelfit()}} to fit a specified model for one species.
 
 \code{\link[=sp_modelselect]{sp_modelselect()}} to select a best-fit model for one species.
 
@@ -93,6 +93,8 @@ results$sp_models_info # summary of fitted models
 Other single-species model functions: 
 \code{\link{sp_modelfit}()},
 \code{\link{sp_modelselect_multi}()},
-\code{\link{sp_modelselect}()}
+\code{\link{sp_modelselect}()},
+\code{\link{sp_predict}()},
+\code{\link{sp_simulate}()}
 }
 \concept{single-species model functions}

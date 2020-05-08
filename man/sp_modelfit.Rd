@@ -2,7 +2,7 @@
 % Please edit documentation in R/sp_modelfit.R
 \name{sp_modelfit}
 \alias{sp_modelfit}
-\title{Fit data to a pre-selected model for one species}
+\title{Fit data to a specified linear model for one species}
 \usage{
 sp_modelfit(data, modelcode, response = "height", predictor = "diameter")
 }
@@ -45,7 +45,7 @@ the data used to generate the model (i.e. threshold values for model extrapolati
 }
 }
 \description{
-Fit data to a pre-selected allometric equation, for one species.
+Fit data to a specified allometric equation, for one species.
 Allometric equations that may be considered as an input to this function
 can be found in \code{?eqns_info} and \code{data(eqns_info)}.
 }
@@ -66,7 +66,7 @@ Database and Allometric Equations. \emph{General Technical Report PSW-GTR-253,
 USDA Forest Service}, 86.
 }
 \seealso{
-\code{\link[=sp_modelfit_multi]{sp_modelfit_multi()}} to fit pre-selected models across multiple
+\code{\link[=sp_modelfit_multi]{sp_modelfit_multi()}} to fit specified models across multiple
 species.
 
 \code{\link[=sp_modelselect]{sp_modelselect()}} to select a best-fit model for one species.
@@ -76,6 +76,8 @@ species.
 Other single-species model functions: 
 \code{\link{sp_modelfit_multi}()},
 \code{\link{sp_modelselect_multi}()},
-\code{\link{sp_modelselect}()}
+\code{\link{sp_modelselect}()},
+\code{\link{sp_predict}()},
+\code{\link{sp_simulate}()}
 }
 \concept{single-species model functions}

@@ -2,7 +2,7 @@
 % Please edit documentation in R/sp_modelselect.R
 \name{sp_modelselect}
 \alias{sp_modelselect}
-\title{Select a best-fit model for one species}
+\title{Select a best-fit linear model for one species}
 \usage{
 sp_modelselect(data, response = "height", predictor = "diameter")
 }
@@ -87,6 +87,8 @@ species.
 Other single-species model functions: 
 \code{\link{sp_modelfit_multi}()},
 \code{\link{sp_modelfit}()},
-\code{\link{sp_modelselect_multi}()}
+\code{\link{sp_modelselect_multi}()},
+\code{\link{sp_predict}()},
+\code{\link{sp_simulate}()}
 }
 \concept{single-species model functions}
