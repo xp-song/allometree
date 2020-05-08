@@ -18,11 +18,13 @@ knitr::opts_chunk$set(
   comment = "#>",
   message = FALSE, warning = FALSE
 )
-
-#devtools::load_all() # if don't want to use installed version
 ```
 
 ```{r include = FALSE, eval = TRUE}
+devtools::load_all() # if don't want to use installed version
+```
+
+```{r include = FALSE, eval = FALSE}
 library(allometree) # if installed (FOR TRAVIS CI)
 ```
 
@@ -67,48 +69,14 @@ head(eqns_info)
 
 ## 1. Single-species models
 
-### 1.1. Model selection {#section1.1}
+We can run `sp_modelselect_multi()` to select the best-fit model for each species in the dataset `urbantrees`. This can also be done for  individual species using `sp_modelselect()`. 
 
-#### For one species
-
-For a particular species of interest, data will be fit to all allometric equations. The best-fit model is selected based on the lowest bias-corrected Aikaike’s information criterion (AICc) value. Here's an example to select the best-fit model for the species *Albizia saman*, using the function `sp_modelselect()`.
-
-```{r sp_modelselect}
-Alb_sam <- urbantrees[urbantrees$species == "Albizia saman", ]  # subset data for one species
-
-results <- sp_modelselect(Alb_sam, 
-                          response = "height", predictor = "diameter")  # specify colnames of variables
+```{r}
+results <- sp_modelselect_multi(urbantrees, species = "species", # specify colname of species
+                                response = "height", predictor = "diameter") # specify colnames of variables
 ```
 
 The `results` variable is a list of 3 elements:
-
-1. Table showing models ranked by AICc value, named `all_models_rank`.
-2. Best-fit model object, named `best_model`.
-3. Table showing information on the best-fit model, named `best_model_info`. More information on the output columns can be found at `?sp_modelselect`.
-
-```{r}
-head(results$all_models_rank)
-```
-
-```{r}
-results$best_model
-```
-
-```{r}
-results$best_model_info
-```
-
-
-#### For multiple species
-
-We can also run `sp_modelselect()` across multiple species in the full dataset `urbantrees`. For this, we use the wrapper function `sp_modelselect_multi()`.
-
-```{r}
-results_all <- sp_modelselect_multi(urbantrees, species = "species", # specify colname of species
-                                    response = "height", predictor = "diameter")
-```
-
-The `results_all` variable is a list of 3 elements:
 
 1. List of tables showing each species' candidate models ranked by AICc value, named `sp_models_rank`.
 2. List of each species' best-fit model object, named `sp_models`.
@@ -116,124 +84,26 @@ The `results_all` variable is a list of 3 elements:
 
 &nbsp;
 
-An overview of the best-fit models across the `r nrow(results_all$sp_models_info)` species:
-```{r}
-results_all$sp_models_info
-```
-
-
-### 1.2. Outlier removal
-
-Let's say we want to check for outlier/influential data points, remove them, and re-fit the filtered dataset to the pre-selected models as defined in `results_all$sp_models_info`. First, lets visualise these outliers, say, for the species *Xanthostemon chrysanthus*.
-
-```{r fig.align='center', fig.width=5.5, fig.height=5.5}
-par(mfrow=c(2,2)); plot(results_all$sp_models$`Xanthostemon chrysanthus`)
-```
-&nbsp;
-
-There are numerous ways to [deal with outliers](http://r-statistics.co/Outlier-Treatment-With-R.html). One way is to remove them based on Cook's Distance (bottom-right plot). In general use, outliers may be defined as points with a Cook's distance more than four times the mean Cook's distance (red line in plot below). Note that this threshold is not fixed, and may be adjusted according to expert knowledge.
-
-```{r, fig.align='center', fig.width=4, fig.height=4}
-cooks_dist <- cooks.distance(results_all$sp_models$`Xanthostemon chrysanthus`)
-plot(cooks_dist, pch = ".", cex = 2, main = "Outliers by Cook's Distance")
-abline(h = 4*mean(cooks_dist, na.rm = T), col = "red")  # threshold line
-text(x = 1:length(cooks_dist) + 1, y = cooks_dist, 
-     labels = ifelse(cooks_dist > 4 * mean(cooks_dist, na.rm=T), names(cooks_dist), ""), col = "red")  # outlier labels
-```
-
-We can create a function `uncooker()` that removes outliers for each species in the dataset `urbantrees`, based on their respective best-fit models in `results_all$sp_models`:
-
-```{r}
-uncooker <- function(data, modellist){
-  
-  result <- data[0,]
-  
-  for(i in 1:length(modellist)){ # loop over all species 
-    
-    cooks_dist <- cooks.distance(modellist[[i]]) 
-    outliers <- as.numeric(which(cooks_dist > 4*mean(cooks_dist, na.rm=T)))  # row numbers
-    subset <- data[(data$species == names(modellist[i])),][-outliers,]
-    result <- rbind.data.frame(result, subset)
-  }
-  return(result)
-}
-
-# run the function uncooker()
-urbantrees_clean <- uncooker(urbantrees, results_all$sp_models)
-
-nrow(urbantrees_clean)
-```
-
-`r nrow(urbantrees) - nrow(urbantrees_clean)` data points were removed to obtain the filtered dataset `urbantrees_clean` (n = `r nrow(urbantrees_clean)`).
-
-```{r include = FALSE}
-rm(cooks_dist, uncooker, outliers)
-```
-
-
-### 1.3. Re-fit filtered data
-
-#### For one species
-
-We can now fit `urbantrees_clean` to the best-fit equations we defined in [Section 1.1](#section1.1). Here's an example for the species *Albizia saman* again, using the function `sp_modelfit()`. 
-
-This function has an additional argument `modelcode`. In the case of *Albizia saman*, it is `lin_w1` (see `results_all$sp_models_info`). Note that you can also pick any one of the options found in `eqns_info$modelcode`.
-
-We'll overwrite our previously-defined variables, this time with the filtered dataset:
-
-```{r fit data to pre-selected model, eval = FALSE}
-Alb_sam <- urbantrees_clean[urbantrees_clean$species == "Albizia saman", ]
-
-results <- sp_modelfit(Alb_sam, modelcode = "lin_w1", # specify modelcode
-                       response = "height", predictor = "diameter") 
-```
-
-The new `results` variable is a list of 2 elements:
-
-1. Resulting model object, named `fitted_model`.
-2. Table showing information on the resulting model, named `fitted_model_info`.
-
-#### For multiple species
-
-Similar to the the wrapper function `sp_modelselect_multi()`, we can also run  `sp_modelfit_multi()` to fit pre-selected models across multiple species. In this function, we need to input a reference table `ref_table` (i.e. `results_all$sp_models_info`) that provides information on the `species` and their corresponding `modelcode`.
-
-```{r}
-results_all <- sp_modelfit_multi(urbantrees_clean, 
-                                 ref_table = results_all$sp_models_info,
-                                 species = "species", # colname in both data & ref_table
-                                 modelcode = "modelcode", # colname in ref_table
-                                 response = "height", predictor = "diameter")
-```
-
-The new `results_all` variable is a list of 2 elements:
-
-1. List of each species' resulting model object, named `sp_models`.
-2. Table showing each species' resulting model information, named `sp_models_info`.
+Note that you can also fit data to specified (i.e. pre-defined) equations, using the functions `sp_modelfit()` and `sp_modelfit_multi()`. This can be done, for example, after the removal of outliers from the full dataset. See the vignette 
+[Single-species linear models](single-species_models.html) for a full demonstration.
 
 &nbsp;
 
-To make our subsequent code less verbose, let's assign the elements `sp_models` and `sp_models_info` to variables with the same name:
-
+An overview of the best-fit models across the `r nrow(results$sp_models_info)` species:
 ```{r}
-sp_models <- results_all$sp_models
-sp_models_info <- results_all$sp_models_info
+results$sp_models_info
 ```
 
-```{r include = FALSE}
-rm(results_all, results, Alb_sam)
-```
+&nbsp;
 
-### 1.4. Make predictions
 
-In the works...
 
 ---
 
 ## 2. Mixed-effects model
 
-### 2.1. Model selection
-
 In the works...
+
 
 ---
 
