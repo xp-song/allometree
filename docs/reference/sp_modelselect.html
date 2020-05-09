@@ -189,16 +189,17 @@ models ranked by AICc value.</p></dd> <dt>best_model</dt><dd><p>Best-fit model o
 
 <p>A dataframe with the following variables:</p><dl'>
 <dt>modelcode</dt><dd><p>Model
-code for the best-fit equation</p></dd> <dt>a, b, c, d, e</dt><dd><p>Parameter estimates</p></dd>
+code for the best-fit equation.</p></dd> <dt>a, b, c, d, e</dt><dd><p>Parameter estimates.</p></dd>
 <dt>response_geom_mean</dt><dd><p>Geometric mean of the response variable used in
-calculation of AICc (only for transformed models)</p></dd>
+calculation of AICc (only for transformed models).</p></dd>
 <dt>correctn_factor</dt><dd><p>Bias correction factor to use on model predictions
-(only for transformed models)</p></dd> <dt>predictor_min, predictor_max</dt><dd><p>Range of
-the predictor variable within the data used to generate the model (i.e.
-threshold values for model extrapolation)</p></dd> <dt>residual_SE</dt><dd><p>Residual
-standard error of the model</p></dd> <dt>mean_SE</dt><dd><p>Mean standard error of the
-model</p></dd> <dt>adj_R2</dt><dd><p>Adjusted \(R^2\) of the model</p></dd> <dt>n</dt><dd><p>Sample size
-(no. of trees used to fit model)</p></dd> 
+(only for transformed models).</p></dd> <dt>predictor_min, predictor_max</dt><dd><p>Range of
+the predictor variable within the data used to generate the model.</p></dd>
+<dt>response_min, response_max</dt><dd><p>Range of the response variable within the
+data used to generate the model.</p></dd> <dt>residual_SE</dt><dd><p>Residual standard error
+of the model.</p></dd> <dt>mean_SE</dt><dd><p>Mean standard error of the model.</p></dd>
+<dt>adj_R2</dt><dd><p>Adjusted \(R^2\) of the model.</p></dd> <dt>n</dt><dd><p>Sample size (no. of
+trees used to fit model).</p></dd> 
 </dl>
 
 
@@ -255,8 +256,10 @@ species.</p>
 #&gt; </div><div class='input'>
 <span class='no'>results</span>$<span class='no'>best_model_info</span></div><div class='output co'>#&gt;   modelcode        a        b  c  d  e response_geom_mean correctn_factor
 #&gt; 1    lin_w1 6.717431 9.464096 NA NA NA           13.56608               1
-#&gt;   predictor_min predictor_max residual_SE mean_SE adj_R2   n
-#&gt; 1     0.3119437      1.527887       2.205  4.7889 0.4276 133</div><div class='input'>
+#&gt;   predictor_min predictor_max response_min response_max residual_SE mean_SE
+#&gt; 1     0.3119437      1.527887            8           20       2.205  4.7889
+#&gt;   adj_R2   n
+#&gt; 1 0.4276 133</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

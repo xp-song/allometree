@@ -204,16 +204,18 @@ information.</p></dd>
 
 <p>A dataframe with the following variables:</p><dl'>
 <dt>species</dt><dd><p>Name of
-tree species</p></dd> <dt>modelcode</dt><dd><p>Model code for the best-fit equation</p></dd> <dt>a,
-b, c, d, e</dt><dd><p>Parameter estimates</p></dd> <dt>response_geom_mean</dt><dd><p>Geometric mean of
-the response variable used in calculation of AICc (only for transformed
-models)</p></dd> <dt>correctn_factor</dt><dd><p>Bias correction factor to use on model
-predictions (only for transformed models)</p></dd> <dt>predictor_min,
-predictor_max</dt><dd><p>Range of the predictor variable within the data used to
-generate the model (i.e. threshold values for model extrapolation)</p></dd>
-<dt>residual_SE</dt><dd><p>Residual standard error of the model</p></dd> <dt>mean_SE</dt><dd><p>Mean
-standard error of the model</p></dd> <dt>adj_R2</dt><dd><p>Adjusted \(R^2\) of the model</p></dd>
-<dt>n</dt><dd><p>Sample size (no. of trees used to fit model)</p></dd> 
+tree species.</p></dd> <dt>modelcode</dt><dd><p>Model code for the best-fit equation.</p></dd>
+<dt>a, b, c, d, e</dt><dd><p>Parameter estimates.</p></dd>
+<dt>response_geom_mean</dt><dd><p>Geometric mean of the response variable used in
+calculation of AICc (only for transformed models).</p></dd>
+<dt>correctn_factor</dt><dd><p>Bias correction factor to use on model predictions
+(only for transformed models).</p></dd> <dt>predictor_min, predictor_max</dt><dd><p>Range of
+the predictor variable within the data used to generate the model.</p></dd>
+<dt>response_min, response_max</dt><dd><p>Range of the response variable within the
+data used to generate the model.</p></dd> <dt>residual_SE</dt><dd><p>Residual standard error
+of the model.</p></dd> <dt>mean_SE</dt><dd><p>Mean standard error of the model.</p></dd>
+<dt>adj_R2</dt><dd><p>Adjusted \(R^2\) of the model.</p></dd> <dt>n</dt><dd><p>Sample size (no. of
+trees used to fit model).</p></dd> 
 </dl>
 
 
@@ -261,12 +263,12 @@ standard error of the model</p></dd> <dt>adj_R2</dt><dd><p>Adjusted \(R^2\) of t
 #&gt; 3  -1321.221           7.735643               1    0.04138029     0.5665916
 #&gt; 4         NA           7.596013               1    0.03501409     0.5602254
 #&gt; 5         NA           5.067462               1    0.02864789     0.3533240
-#&gt;   residual_SE mean_SE adj_R2   n
-#&gt; 1      2.2050  4.7889 0.4276 133
-#&gt; 2     11.9430  2.6339 0.5460 483
-#&gt; 3      2.1674  2.2536 0.6662 353
-#&gt; 4      1.8938  3.5502 0.6702 197
-#&gt; 5      1.2064  1.4484 0.5551 419</div><div class='input'>
+#&gt;   response_min response_max residual_SE mean_SE adj_R2   n
+#&gt; 1            8           20      2.2050  4.7889 0.4276 133
+#&gt; 2            2           15     11.9430  2.6339 0.5460 483
+#&gt; 3            1           18      2.1674  2.2536 0.6662 353
+#&gt; 4            3           18      1.8938  3.5502 0.6702 197
+#&gt; 5            2           43      1.2064  1.4484 0.5551 419</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
