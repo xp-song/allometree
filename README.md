@@ -9,8 +9,7 @@
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![R build
 status](https://github.com/xp-song/allometree/workflows/R-CMD-check/badge.svg)](https://github.com/xp-song/allometree/actions)
-[![R build
-status](https://github.com/xp-song/allometree/workflows/test-coverage/badge.svg)](https://github.com/xp-song/allometree/actions)
+[![codecov](https://codecov.io/gh/xp-song/allometree/branch/master/graph/badge.svg?token=HS5Q0TAXTK)](https://codecov.io/gh/xp-song/allometree)
 ![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
 <!-- badges: end -->
 
