@@ -18,8 +18,8 @@
 #'@param models A named list of each species' linear regression models.
 #'  `names(models)` should correspond to species names in `ref_table`.
 #'@param select_sp Character vector of species names, if you want to run this
-#'  function only for selected species in `ref_table`. Defaults to `NULL`, to run
-#'  function across all species.
+#'  function only for selected species in `ref_table`. Defaults to `NULL`, to
+#'  run function across all species.
 #'@param level Level of confidence for the prediction interval. Defaults to
 #'  `0.95`.
 #'@param extrapolate Numeric vector of 2 elements (e.g. `c(0,4)`), representing
@@ -31,26 +31,27 @@
 #'  predictor variable used to fit the model. Defaults to `predictor_min`.
 #'@param predictor_max Column name in `ref_table` for maximum value of the
 #'  predictor variable used to fit the model. Defaults to `predictor_max`.
+#'@param response_min Column name in `ref_table` for minimum value of the
+#'  response variable used to fit the model. Defaults to `response_min`.
+#'@param response_max Column name in `ref_table` for maximum value of the
+#'  response variable used to fit the model. Defaults to `response_max`.
 #'@param cf Column name in `ref_table` for the bias correction factor. Defaults
 #'  to `correctn_factor`.
 #'@param geom_mean Column name in `ref_table` for the geometric mean of response
 #'  variable that was used in to fit the `models`. Defaults to
 #'  `response_geom_mean`.
 #'
-#'@return A dataframe with columns:
-#'\describe{
-#'  \item{species}{Name of tree species.}
-#'  \item{predictor}{Variable used to make predictions.}
-#'  \item{fit}{Predicted value.}
-#'  \item{lwr}{Lower bound of the prediction interval, based on the input argument `level`.}
-#'  \item{upr}{Upper bound of the prediction interval, based on the input argument `level`.}
+#'@return A dataframe with columns: \describe{ \item{species}{Name of tree
+#'  species.} \item{predictor}{Variable used to make predictions.}
+#'  \item{fit}{Predicted value.} \item{lwr}{Lower bound of the prediction
+#'  interval, based on the input argument `level`.} \item{upr}{Upper bound of
+#'  the prediction interval, based on the input argument `level`.}
 #'  \item{extrapolated}{Logical variable; whether the predictions are based on
-#'  extropolated values.}
-#'  }
+#'  extropolated values.} }
 #'
 #'@family single-species model functions
-#'@seealso [sp_predict()] to make predictions for all species in a dataset
-#'using single-species linear models.
+#'@seealso [sp_predict()] to make predictions for all species in a dataset using
+#'  single-species linear models.
 #'
 #' @examples
 #' # first select best-fit model for all species in data
@@ -75,12 +76,14 @@
 #' }
 #'
 #'@import checkmate
+#'@import magrittr
 #'@importFrom tidyr pivot_longer
-#' @importFrom stats complete.cases
+#'@importFrom stats complete.cases
 #'
 #'@export
 sp_simulate <- function(ref_table, models, select_sp = NULL, level = 0.95, extrapolate = NULL, species = "species",
-    predictor_min = "predictor_min", predictor_max = "predictor_max", cf = "correctn_factor", geom_mean = "response_geom_mean") {
+    predictor_min = "predictor_min", predictor_max = "predictor_max", response_min = "response_min", response_max = "response_max",
+    cf = "correctn_factor", geom_mean = "response_geom_mean") {
 
     # Error checking ------------------
     coll <- checkmate::makeAssertCollection()
@@ -125,9 +128,18 @@ sp_simulate <- function(ref_table, models, select_sp = NULL, level = 0.95, extra
     output <- sp_predict(predict_range_full, models, ref_table, level = level, species = "species",
         predictor = "predictor", cf = "correctn_factor", geom_mean = "response_geom_mean")
 
-    output$extrapolated <- FALSE
+    # classify extrapolated for height
+    response_ranges <- ref_table[,colnames(ref_table) %in% c(species, response_min, response_max)]
+    response_ranges$species <- as.character(response_ranges$species)
+    colnames(response_ranges) <- c("species", "ymin", 'ymax') # avoid confusion with function arguments
 
-    # extrapolation
+    output <- output %>%
+        dplyr::left_join(response_ranges, by = c("species" = "species")) %>%
+        dplyr::group_by(species) %>%
+        dplyr::mutate(extrapolated = ifelse(fit < ymin | fit > ymax, TRUE, FALSE)) %>%
+        dplyr::select(-ymin, -ymax)
+
+    # extrapolated diameter values
     if (!is.null(extrapolate)) {
         assert_numeric(extrapolate, len = 2, lower = 0, sorted = TRUE, any.missing = FALSE)
 
