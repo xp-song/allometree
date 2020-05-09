@@ -136,7 +136,7 @@ sp_simulate <- function(ref_table, models, select_sp = NULL, level = 0.95, extra
     output <- output %>%
         dplyr::left_join(response_ranges, by = c("species" = "species")) %>%
         dplyr::group_by(species) %>%
-        dplyr::mutate(extrapolated = ifelse(fit < ymin | fit > ymax, TRUE, FALSE)) %>%
+        dplyr::mutate(extrapolated = ifelse(fit < ymin, "Low", ifelse(fit > ymax, "High", "No"))) %>%
         dplyr::select(-ymin, -ymax)
 
     # extrapolated diameter values
@@ -151,6 +151,7 @@ sp_simulate <- function(ref_table, models, select_sp = NULL, level = 0.95, extra
 
             predict_range_low <- tidyr::pivot_longer(predict_range_low, cols = colnames(predict_range_low), names_to = "species",
                                                       values_to = "predictor")
+            predict_range_low$extrapolated <- "Low"
         }
 
         # extrapolate[2] to predictor_max
@@ -161,6 +162,7 @@ sp_simulate <- function(ref_table, models, select_sp = NULL, level = 0.95, extra
             colnames(predict_range_high) <- predict_range$species
             predict_range_high <- tidyr::pivot_longer(predict_range_high, cols = colnames(predict_range_high), names_to = "species",
                                                      values_to = "predictor")
+            predict_range_high$extrapolated <- "High"
         }
 
         predict_range_extra <- rbind.data.frame(predict_range_low, predict_range_high)
@@ -171,7 +173,6 @@ sp_simulate <- function(ref_table, models, select_sp = NULL, level = 0.95, extra
         output_extra <- sp_predict(predict_range_extra, models, ref_table, level = level, species = "species",
                              predictor = "predictor", cf = "correctn_factor", geom_mean = "response_geom_mean")
 
-        output_extra$extrapolated <- TRUE
         output <- rbind.data.frame(output, output_extra)
     }
 
