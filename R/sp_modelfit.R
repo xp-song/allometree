@@ -19,18 +19,18 @@
 #'
 #'   ## fitted_model_info
 #'
-#'   A dataframe with the following variables: \describe{
-#'   \item{modelcode}{Model code for the allometric equation used} \item{a, b,
-#'   c, d, e}{Parameter estimates} \item{response_geom_mean}{Geometric mean of
-#'   the response variable used in calculation of AICc (only for transformed
-#'   models)} \item{correctn_factor}{Bias correction factor to use on model
-#'   predictions (only for transformed models)} \item{predictor_min,
-#'   predictor_max}{Range of the predictor variable within the data used to
-#'   generate the model (i.e. threshold values for model extrapolation)}
-#'   \item{residual_SE}{Residual standard error of the model}
-#'   \item{mean_SE}{Mean standard error of the model} \item{adj_R2}{Adjusted
-#'   \eqn{R^2} of the model} \item{n}{Sample size (no. of trees used to fit
-#'   model)} }
+#'   A dataframe with the following variables: \describe{ \item{modelcode}{Model
+#'   code for the allometric equation used} \item{a, b, c, d, e}{Parameter
+#'   estimates} \item{response_geom_mean}{Geometric mean of the response
+#'   variable used in calculation of AICc (only for transformed models)}
+#'   \item{correctn_factor}{Bias correction factor to use on model predictions
+#'   (only for transformed models)} \item{predictor_min, predictor_max}{Range of
+#'   the predictor variable within the data used to generate the model}
+#'   \item{response_min, response_max}{Range of the response variable within the
+#'   data used to generate the model} \item{residual_SE}{Residual standard error
+#'   of the model} \item{mean_SE}{Mean standard error of the model}
+#'   \item{adj_R2}{Adjusted \eqn{R^2} of the model} \item{n}{Sample size (no. of
+#'   trees used to fit model)} }
 #'
 #' @references McPherson E. G., van Doorn N. S. & Peper P. J. (2016) Urban Tree
 #'   Database and Allometric Equations. *General Technical Report PSW-GTR-253,
@@ -163,6 +163,8 @@ sp_modelfit <- function(data, modelcode, response = "height", predictor = "diame
 
     fitted_model_info$predictor_min <- min(data[[predictor]])
     fitted_model_info$predictor_max <- max(data[[predictor]])
+    fitted_model_info$response_min <- min(data[[response]])
+    fitted_model_info$response_max <- max(data[[response]])
 
     fitted_model_info$residual_SE <- round(summary(fitted_model)$sigma, 4)
     fitted_model_info$mean_SE <- round(mean(residuals(fitted_model)^2), 4)
@@ -205,18 +207,19 @@ sp_modelfit <- function(data, modelcode, response = "height", predictor = "diame
 #'
 #'   ## sp_models_info
 #'
-#'   A dataframe with the following variables: \describe{
-#'   \item{species}{Name of tree species} \item{modelcode}{Model code for the
-#'   allometric equation used} \item{a, b, c, d, e}{Parameter estimates}
+#'   A dataframe with the following variables: \describe{ \item{species}{Name of
+#'   tree species} \item{modelcode}{Model code for the allometric equation used}
+#'   \item{a, b, c, d, e}{Parameter estimates}
 #'   \item{response_geom_mean}{Geometric mean of the response variable used in
 #'   calculation of AICc (only for transformed models)}
 #'   \item{correctn_factor}{Bias correction factor to use on model predictions
 #'   (only for transformed models)} \item{predictor_min, predictor_max}{Range of
-#'   the predictor variable within the data used to generate the model (i.e.
-#'   threshold values for model extrapolation)} \item{residual_SE}{Residual
-#'   standard error of the model} \item{mean_SE}{Mean standard error of the
-#'   model} \item{adj_R2}{Adjusted \eqn{R^2} of the model} \item{n}{Sample size
-#'   (no. of trees used to fit model)} }
+#'   the predictor variable within the data used to generate the model}
+#'   \item{response_min, response_max}{Range of the response variable within the
+#'   data used to generate the model} \item{residual_SE}{Residual standard error
+#'   of the model} \item{mean_SE}{Mean standard error of the model}
+#'   \item{adj_R2}{Adjusted \eqn{R^2} of the model} \item{n}{Sample size (no. of
+#'   trees used to fit model)} }
 #'
 #' @examples
 #' # first select best-fit model for all species in data
@@ -279,7 +282,7 @@ sp_modelfit_multi <- function(data, ref_table, species = "species", modelcode = 
     # create empty dfs to collate info in loop
     sp_models_info <- data.frame(species = as.character(), modelcode = as.character(), a = as.numeric(), b = as.numeric(),
         c = as.numeric(), d = as.numeric(), e = as.numeric(), response_geom_mean = as.numeric(), correctn_factor = as.numeric(),
-        predictor_max = as.numeric(), predictor_min = as.numeric(), residual_SE = as.numeric(), mean_SE = as.numeric(),
+        predictor_max = as.numeric(), predictor_min = as.numeric(), response_min = as.numeric(), response_max = as.numeric(), residual_SE = as.numeric(), mean_SE = as.numeric(),
         adj_R2 = as.numeric(), n = as.numeric())
 
     sp_models <- list()

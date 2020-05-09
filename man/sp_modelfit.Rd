@@ -25,18 +25,18 @@ object.} \item{fitted_model_info}{Table showing information on the
 resulting model.} }
 \subsection{fitted_model_info}{
 
-A dataframe with the following variables: \describe{
-\item{modelcode}{Model code for the allometric equation used} \item{a, b,
-c, d, e}{Parameter estimates} \item{response_geom_mean}{Geometric mean of
-the response variable used in calculation of AICc (only for transformed
-models)} \item{correctn_factor}{Bias correction factor to use on model
-predictions (only for transformed models)} \item{predictor_min,
-predictor_max}{Range of the predictor variable within the data used to
-generate the model (i.e. threshold values for model extrapolation)}
-\item{residual_SE}{Residual standard error of the model}
-\item{mean_SE}{Mean standard error of the model} \item{adj_R2}{Adjusted
-\eqn{R^2} of the model} \item{n}{Sample size (no. of trees used to fit
-model)} }
+A dataframe with the following variables: \describe{ \item{modelcode}{Model
+code for the allometric equation used} \item{a, b, c, d, e}{Parameter
+estimates} \item{response_geom_mean}{Geometric mean of the response
+variable used in calculation of AICc (only for transformed models)}
+\item{correctn_factor}{Bias correction factor to use on model predictions
+(only for transformed models)} \item{predictor_min, predictor_max}{Range of
+the predictor variable within the data used to generate the model}
+\item{response_min, response_max}{Range of the response variable within the
+data used to generate the model} \item{residual_SE}{Residual standard error
+of the model} \item{mean_SE}{Mean standard error of the model}
+\item{adj_R2}{Adjusted \eqn{R^2} of the model} \item{n}{Sample size (no. of
+trees used to fit model)} }
 }
 }
 \description{
