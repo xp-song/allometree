@@ -26,11 +26,12 @@ License: MIT + file LICENSE
 URL: https://xp-song.github.io/allometree/, https://github.com/xp-song/allometree, https://xpsong.shinyapps.io/allometree-sg/
 BugReports: https://github.com/xp-song/allometree/issues
 Imports:
-	checkmate,
-	MuMIn (>= 1.43.15),
-	sjstats (>= 0.17.8),
-	stringr,
-	tidyr
+    checkmate,
+    MuMIn (>= 1.43.15),
+    sjstats (>= 0.17.8),
+    stringr,
+    tidyr,
+    magrittr
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.0
@@ -38,8 +39,11 @@ Suggests:
     knitr,
     rmarkdown,
     testthat,
-    ggplot2
+    ggplot2,
+    covr,
+    spelling
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
 Depends: 
     R (>= 2.10)
+Language: en-GB
