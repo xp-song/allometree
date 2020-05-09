@@ -7,8 +7,10 @@
 
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
-[![Travis build
-status](https://travis-ci.com/xp-song/allometree.svg?branch=master)](https://travis-ci.com/xp-song/allometree)
+[![R build
+status](https://github.com/xp-song/allometree/workflows/R-CMD-check/badge.svg)](https://github.com/xp-song/allometree/actions)
+[![R build
+status](https://github.com/xp-song/allometree/workflows/test-coverage/badge.svg)](https://github.com/xp-song/allometree/actions)
 <!-- badges: end -->
 
 <a href='https://xp-song.github.io/allometree/'><img src='man/figures/logo.png' align="right" height="175" /></a>
