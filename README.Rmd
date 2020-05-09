@@ -16,7 +16,12 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![R build status](https://github.com/xp-song/allometree/workflows/R-CMD-check/badge.svg)](https://github.com/xp-song/allometree/actions)
+[![R build status](https://github.com/xp-song/allometree/workflows/check-standard/badge.svg)](https://github.com/xp-song/allometree/actions)
+[![R build status](https://github.com/xp-song/allometree/workflows/test-coverage/badge.svg)](https://github.com/xp-song/allometree/actions)
+![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
 [![Travis build status](https://travis-ci.com/xp-song/allometree.svg?branch=master)](https://travis-ci.com/xp-song/allometree)
+[![Coveralls test coverage](https://coveralls.io/repos/github/xp-song/allometree/badge.svg)](https://coveralls.io/r/xp-song/allometree?branch=master)
 <!-- badges: end -->
 
 ## Allometric Scaling of Urban Trees
