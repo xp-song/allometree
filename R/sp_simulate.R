@@ -175,5 +175,7 @@ sp_simulate <- function(ref_table, models, select_sp = NULL, level = 0.95, extra
         output <- rbind.data.frame(output, output_extra)
     }
 
+    output <- output[complete.cases(output), ]
+
     return(output)
 }
