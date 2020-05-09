@@ -13,6 +13,8 @@ sp_simulate(
   species = "species",
   predictor_min = "predictor_min",
   predictor_max = "predictor_max",
+  response_min = "response_min",
+  response_max = "response_max",
   cf = "correctn_factor",
   geom_mean = "response_geom_mean"
 )
@@ -26,8 +28,8 @@ columns for \code{species}, \code{predictor_min}, \code{predictor_max}, \code{cf
 \code{names(models)} should correspond to species names in \code{ref_table}.}
 
 \item{select_sp}{Character vector of species names, if you want to run this
-function only for selected species in \code{ref_table}. Defaults to \code{NULL}, to run
-function across all species.}
+function only for selected species in \code{ref_table}. Defaults to \code{NULL}, to
+run function across all species.}
 
 \item{level}{Level of confidence for the prediction interval. Defaults to
 \code{0.95}.}
@@ -45,6 +47,12 @@ predictor variable used to fit the model. Defaults to \code{predictor_min}.}
 \item{predictor_max}{Column name in \code{ref_table} for maximum value of the
 predictor variable used to fit the model. Defaults to \code{predictor_max}.}
 
+\item{response_min}{Column name in \code{ref_table} for minimum value of the
+response variable used to fit the model. Defaults to \code{response_min}.}
+
+\item{response_max}{Column name in \code{ref_table} for maximum value of the
+response variable used to fit the model. Defaults to \code{response_max}.}
+
 \item{cf}{Column name in \code{ref_table} for the bias correction factor. Defaults
 to \code{correctn_factor}.}
 
@@ -53,16 +61,13 @@ variable that was used in to fit the \code{models}. Defaults to
 \code{response_geom_mean}.}
 }
 \value{
-A dataframe with columns:
-\describe{
-\item{species}{Name of tree species.}
-\item{predictor}{Variable used to make predictions.}
-\item{fit}{Predicted value.}
-\item{lwr}{Lower bound of the prediction interval, based on the input argument \code{level}.}
-\item{upr}{Upper bound of the prediction interval, based on the input argument \code{level}.}
+A dataframe with columns: \describe{ \item{species}{Name of tree
+species.} \item{predictor}{Variable used to make predictions.}
+\item{fit}{Predicted value.} \item{lwr}{Lower bound of the prediction
+interval, based on the input argument \code{level}.} \item{upr}{Upper bound of
+the prediction interval, based on the input argument \code{level}.}
 \item{extrapolated}{Logical variable; whether the predictions are based on
-extropolated values.}
-}
+extropolated values.} }
 }
 \description{
 Wrapper function that runs \code{sp_predict()} on simulated data. Data is simulated
@@ -102,8 +107,8 @@ sp_simulate(ref_table = results$sp_models_info,
 
 }
 \seealso{
-\code{\link[=sp_predict]{sp_predict()}} to make predictions for all species in a dataset
-using single-species linear models.
+\code{\link[=sp_predict]{sp_predict()}} to make predictions for all species in a dataset using
+single-species linear models.
 
 Other single-species model functions: 
 \code{\link{sp_modelfit_multi}()},

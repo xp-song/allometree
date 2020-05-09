@@ -277,27 +277,27 @@ sp_modelfit_multi <- function(data, ref_table, species = "species", modelcode = 
 
     # Calculations ------------------
 
-    data <- split(data, data[[species]])  #split df into list of species
+    data_list <- split(data, data[[species]])  #split df into list of species
 
     # create empty dfs to collate info in loop
     sp_models_info <- data.frame(species = as.character(), modelcode = as.character(), a = as.numeric(), b = as.numeric(),
         c = as.numeric(), d = as.numeric(), e = as.numeric(), response_geom_mean = as.numeric(), correctn_factor = as.numeric(),
-        predictor_max = as.numeric(), predictor_min = as.numeric(), response_min = as.numeric(), response_max = as.numeric(), residual_SE = as.numeric(), mean_SE = as.numeric(),
-        adj_R2 = as.numeric(), n = as.numeric())
+        predictor_max = as.numeric(), predictor_min = as.numeric(), response_min = as.numeric(), response_max = as.numeric(),
+        residual_SE = as.numeric(), mean_SE = as.numeric(), adj_R2 = as.numeric(), n = as.numeric())
 
     sp_models <- list()
 
-    for (i in 1:length(data)) {
+    for (i in 1:length(data_list)) {
 
-        results <- sp_modelfit(data[[i]], modelcode = ref_table[ref_table[[species]] == names(data)[i], modelcode],
+        results <- sp_modelfit(data_list[[i]], modelcode = ref_table[ref_table[[species]] == names(data_list)[i], modelcode],
             response, predictor)
 
         # extract model object
         sp_models[i] <- list(results[[1]])
-        names(sp_models)[i] <- names(data)[i]
+        names(sp_models)[i] <- names(data_list)[i]
 
         # extract model info
-        append <- cbind.data.frame(data.frame(species = names(data)[i]), results[[2]])
+        append <- cbind.data.frame(data.frame(species = names(data_list)[i]), results[[2]])
         sp_models_info <- rbind(sp_models_info, append)
     }
 

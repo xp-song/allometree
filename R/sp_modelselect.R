@@ -278,31 +278,31 @@ sp_modelselect_multi <- function(data, species = "species", response = "height",
 
     # Calculations ------------------
 
-    data <- split(data, data[[species]])  #split df into list of species
+    data_list <- split(data, data[[species]])  #split df into list of species
 
     # create empty dfs to collate info in loop
     sp_models_info <- data.frame(species = as.character(), modelcode = as.character(), a = as.numeric(), b = as.numeric(),
         c = as.numeric(), d = as.numeric(), e = as.numeric(), response_geom_mean = as.numeric(), correctn_factor = as.numeric(),
-        predictor_max = as.numeric(), predictor_min = as.numeric(), response_min = as.numeric(), response_max = as.numeric(), residual_SE = as.numeric(), mean_SE = as.numeric(),
-        adj_R2 = as.numeric(), n = as.numeric())
+        predictor_max = as.numeric(), predictor_min = as.numeric(), response_min = as.numeric(), response_max = as.numeric(),
+        residual_SE = as.numeric(), mean_SE = as.numeric(), adj_R2 = as.numeric(), n = as.numeric())
 
     sp_models <- list()
     sp_models_rank <- list()
 
 
-    for (i in 1:length(data)) {
-        results <- sp_modelselect(data[[i]], response, predictor)
+    for (i in 1:length(data_list)) {
+        results <- sp_modelselect(data_list[[i]], response, predictor)
 
         # extract model ranks
         sp_models_rank[i] <- list(results[[1]])
-        names(sp_models_rank)[i] <- names(data)[i]
+        names(sp_models_rank)[i] <- names(data_list)[i]
 
         # extract model object
         sp_models[i] <- list(results[[2]])
-        names(sp_models)[i] <- names(data)[i]
+        names(sp_models)[i] <- names(data_list)[i]
 
         # extract model info
-        append <- cbind.data.frame(data.frame(species = names(data)[i]), results[[3]])
+        append <- cbind.data.frame(data.frame(species = names(data_list)[i]), results[[3]])
         sp_models_info <- rbind(sp_models_info, append)
 
     }

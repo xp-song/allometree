@@ -62,28 +62,28 @@ response variable.
 \examples{
 # first select best-fit model
 data(urbantrees)
-Alb_sam <- urbantrees[urbantrees$species == "Albizia saman", ]  # we use one species as an example
+Alb_sam <- urbantrees[urbantrees$species == 'Albizia saman', ]  # we use one species as an example
 results <- sp_modelselect_multi(Alb_sam,
                                 species = 'species',
                                 response = 'height',
                                 predictor = 'diameter')
 
 # simulate data
-predict_range <- results$sp_models_info[ ,c("species","predictor_min", "predictor_max")]
+predict_range <- results$sp_models_info[ ,c('species','predictor_min', 'predictor_max')]
 predict_range_full <- as.data.frame(apply(predict_range, 1,
-                                          function(x) seq(x["predictor_min"], x["predictor_max"],
+                                          function(x) seq(x['predictor_min'], x['predictor_max'],
                                           length.out = 100)))
 colnames(predict_range_full) <- predict_range$species
 predict_range_full <- tidyr::pivot_longer(predict_range_full,
                                           cols = colnames(predict_range_full),
-                                          names_to = "species",
-                                          values_to = "predictor")
+                                          names_to = 'species',
+                                          values_to = 'predictor')
 
 # run function
 predictions <- sp_predict(predict_range_full,
                           models = results$sp_models,
                           ref_table = results$sp_models_info,
-                          predictor = "predictor")
+                          predictor = 'predictor')
 head(predictions)
 
 }
