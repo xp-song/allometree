@@ -1,7 +1,7 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^_pkgdown\.yml$
-^\.travis\.yml$
+^\.github$
 ^pkgdown$
 ^docs$
 ^admin$
@@ -9,7 +9,4 @@
 ^index\.md$
 ^index\.Rmd$
 ^README\.Rmd$
-
 ^logo\.png$
-
-^\.github$
