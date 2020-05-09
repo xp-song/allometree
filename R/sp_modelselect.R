@@ -171,7 +171,7 @@ sp_modelselect <- function(data, response = "height", predictor = "diameter") {
     best_model_info$response_geom_mean <- geom_mean_y
 
     # correction factor
-    if ("data$y_trans" %in% names(best_model$model)) {
+    if ("y_trans" %in% names(best_model$model)) {
         # for transformed (loglog or exp) models
         sp_rmse <- sjstats::rmse(best_model)/geom_mean_y
         cf <- exp((sp_rmse^2)/2)

@@ -149,7 +149,7 @@ sp_modelfit <- function(data, modelcode, response = "height", predictor = "diame
     fitted_model_info$response_geom_mean <- geom_mean_y
 
     # correction factor
-    if ("data$response_trans" %in% names(fitted_model$model)) {
+    if ("y_trans" %in% names(fitted_model$model)) {
         # for transformed (loglog or exp) models
         sp_rmse <- sjstats::rmse(fitted_model)/geom_mean_y
         cf <- exp((sp_rmse^2)/2)
