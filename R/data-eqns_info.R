@@ -37,11 +37,11 @@
 #'
 #' @format A dataframe with 5 variables:
 #' \describe{
-#'   \item{modeltype}{One of the six general types of allometric equations}
-#'   \item{base_equation}{Basic form of the allometric equation}
-#'   \item{base_formula}{The basic `formula` used to fit the model}
-#'   \item{weights}{The `weight` argument in the model}
-#'   \item{modelcode}{Character string used to represent the unique combinations of equations and weights}
+#'   \item{modeltype}{One of the six general types of allometric equations.}
+#'   \item{base_equation}{Basic form of the allometric equation.}
+#'   \item{base_formula}{The basic `formula` used to fit the model.}
+#'   \item{weights}{The `weight` argument in the model.}
+#'   \item{modelcode}{Character string used to represent the unique combinations of equations and weights.}
 #'  }
 #'
 #' @references McPherson E. G., van Doorn N. S. & Peper P. J. (2016) Urban Tree

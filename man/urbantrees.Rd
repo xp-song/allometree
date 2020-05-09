@@ -7,10 +7,10 @@
 \format{
 A dataframe with 1585 rows and 3 variables:
 \describe{
-\item{species}{Name of tree species}
-\item{height}{Tree height based on visual estimation by an arborist (m)}
+\item{species}{Name of tree species.}
+\item{height}{Tree height based on visual estimation by an arborist (m).}
 \item{diameter}{Tree girth measured with diameter tape (at breast-height),
-and converted to diameter size (m)}
+and converted to diameter size (m).}
 }
 }
 \source{

@@ -22,17 +22,17 @@
 #'   ## best_model_info
 #'
 #'   A dataframe with the following variables: \describe{ \item{modelcode}{Model
-#'   code for the best-fit equation} \item{a, b, c, d, e}{Parameter estimates}
+#'   code for the best-fit equation.} \item{a, b, c, d, e}{Parameter estimates.}
 #'   \item{response_geom_mean}{Geometric mean of the response variable used in
-#'   calculation of AICc (only for transformed models)}
+#'   calculation of AICc (only for transformed models).}
 #'   \item{correctn_factor}{Bias correction factor to use on model predictions
-#'   (only for transformed models)} \item{predictor_min, predictor_max}{Range of
-#'   the predictor variable within the data used to generate the model}
+#'   (only for transformed models).} \item{predictor_min, predictor_max}{Range of
+#'   the predictor variable within the data used to generate the model.}
 #'   \item{response_min, response_max}{Range of the response variable within the
-#'   data used to generate the model} \item{residual_SE}{Residual standard error
-#'   of the model} \item{mean_SE}{Mean standard error of the model}
-#'   \item{adj_R2}{Adjusted \eqn{R^2} of the model} \item{n}{Sample size (no. of
-#'   trees used to fit model)} }
+#'   data used to generate the model.} \item{residual_SE}{Residual standard error
+#'   of the model.} \item{mean_SE}{Mean standard error of the model.}
+#'   \item{adj_R2}{Adjusted \eqn{R^2} of the model.} \item{n}{Sample size (no. of
+#'   trees used to fit model).} }
 #'
 #' @references McPherson E. G., van Doorn N. S. & Peper P. J. (2016) Urban Tree
 #'   Database and Allometric Equations. *General Technical Report PSW-GTR-253,
@@ -227,18 +227,18 @@ sp_modelselect <- function(data, response = "height", predictor = "diameter") {
 #'   ## sp_models_info
 #'
 #'   A dataframe with the following variables: \describe{ \item{species}{Name of
-#'   tree species} \item{modelcode}{Model code for the best-fit equation}
-#'   \item{a, b, c, d, e}{Parameter estimates}
+#'   tree species.} \item{modelcode}{Model code for the best-fit equation.}
+#'   \item{a, b, c, d, e}{Parameter estimates.}
 #'   \item{response_geom_mean}{Geometric mean of the response variable used in
-#'   calculation of AICc (only for transformed models)}
+#'   calculation of AICc (only for transformed models).}
 #'   \item{correctn_factor}{Bias correction factor to use on model predictions
-#'   (only for transformed models)} \item{predictor_min, predictor_max}{Range of
-#'   the predictor variable within the data used to generate the model}
+#'   (only for transformed models).} \item{predictor_min, predictor_max}{Range of
+#'   the predictor variable within the data used to generate the model.}
 #'   \item{response_min, response_max}{Range of the response variable within the
-#'   data used to generate the model} \item{residual_SE}{Residual standard error
-#'   of the model} \item{mean_SE}{Mean standard error of the model}
-#'   \item{adj_R2}{Adjusted \eqn{R^2} of the model} \item{n}{Sample size (no. of
-#'   trees used to fit model)} }
+#'   data used to generate the model.} \item{residual_SE}{Residual standard error
+#'   of the model.} \item{mean_SE}{Mean standard error of the model.}
+#'   \item{adj_R2}{Adjusted \eqn{R^2} of the model.} \item{n}{Sample size (no. of
+#'   trees used to fit model).} }
 #'
 #' @family single-species model functions
 #' @seealso [sp_modelselect()] to select a best-fit model for one species.
