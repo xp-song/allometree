@@ -21,12 +21,12 @@ knitr::opts_chunk$set(
 ```
 
 ```{r include = FALSE, eval = T}
-library(allometree) # Needed for R CMD Check
-#devtools::load_all() # if don't want to use installed version
+library(allometree)
+#devtools::load_all() # to knit manually
 ```
 
 
-The `allometree` package enables you to develop and use allometric equations relating to the size and structure of urban trees. For example, these equations have been used to predict trunk diameter from tree age, as well as to predict tree height, crown height, crown diameter and leaf area from trunk diameter. They are foundational to other models that estimate the benefits and hazards associated with trees as they mature and grow in size. More information can be found in Song *et al.* (in prep).  
+The `allometree` package enables you to develop and use allometric equations relating to the size and structure of urban trees. For example, these equations have been used to predict trunk diameter from tree age, as well as to predict tree height, crown height, crown diameter and leaf area from trunk diameter. They are foundational to other models that estimate the benefits and hazards associated with trees as they mature and grow in size.
 
 This document demonstrates the workflow to develop these allometric models, taking the relationship between two size parameters as an example: Predicting tree *height* from trunk *diameter*. 
 
@@ -45,6 +45,7 @@ data(urbantrees, package = "allometree")
 urbantrees
 
 library(ggplot2)
+
 ggplot(urbantrees, aes(diameter, height)) +
   facet_wrap(~ species, scales = "free") +
   geom_point()
@@ -73,7 +74,7 @@ results <- sp_modelselect_multi(urbantrees, species = "species", # specify colna
                                 response = "height", predictor = "diameter") # specify colnames of variables
 ```
 
-The `results` variable is a list of 3 elements:
+`results` is a list of 3 elements:
 
 1. List of tables showing each species' candidate models ranked by AICc value, named `sp_models_rank`.
 2. List of each species' best-fit model object, named `sp_models`.
@@ -88,13 +89,51 @@ results$sp_models_info
 
 &nbsp;
 
+We can simulate data across a range of diameter sizes for each species, and use their respective models to make predictions of tree height. The simulated data can also be extrapolated beyond the range used to fit the model, using the argument `extrapolate`:
 
+```{r}
+predictions <- sp_simulate(ref_table = results$sp_models_info, models = results$sp_models,
+                           extrapolate = c(0,1))
+head(predictions)
+```
+
+&nbsp;
+
+`predictions` is a dataframe of simulated data for the diameter size (`predictor`) for each `species`. Other columns include the predicted height (`fit`), the lower (`lwr`) and upper (`upr`) bounds of the prediction interval, as well as whether the height/diameter variables are `extrapolated` beyond the original data used to fit the model.
 
 ---
 
 ## 2. Mixed-effects model
 
 In the works...
+
+---
+
+## 3. Comparision between model types
+
+In the works...
+
+```{r eval = FALSE, include = FALSE}
+
+ggplot() +
+  facet_wrap(~ species)+ 
+  geom_point(data = urbantrees, aes(x = diameter, y = height),
+             size=0.35, alpha = 0.2, color = "grey70") +
+  
+  # prediction interval
+  geom_ribbon(data = predictions, aes(x = predictor, ymin = lwr, ymax = upr), 
+              alpha = 0.10) +
+  
+  # regression line
+  geom_line(data = predictions, aes(x = predictor, y = fit, lty = extrapolated),
+            size = 0.8, alpha = 0.6) +
+  
+  scale_linetype_manual(values=c("No"= 1 , "Low" = 3, "High" = 3), name = "Extrapolated") +
+  
+  xlab("Diameter (m)") + ylab("Height (m)") +
+  
+  coord_cartesian(ylim=c(0, 25), xlim= c(0,max(predictions$predictor)))
+```
 
 
 ---
