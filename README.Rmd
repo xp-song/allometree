@@ -36,11 +36,11 @@ devtools::install_github("xp-song/allometree")
 
 ## Setup
 
-```{r eval = TRUE}
+```{r eval = FALSE}
 library(allometree)
 ```
 
-```{r include = FALSE, eval = FALSE}
+```{r include = FALSE, eval = TRUE}
 devtools::load_all() # to knit manually
 ```
 
@@ -108,4 +108,7 @@ ggplot() +
   coord_cartesian(ylim=c(0, 25), xlim= c(0,1))
 ```
 
+&nbsp;
+
+These allometric relationships can then be interpreted in conjunction with information on the biology and growth (e.g. environmental and management) conditions associated with the trees.
 

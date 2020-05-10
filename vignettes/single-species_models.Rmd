@@ -259,7 +259,8 @@ ggplot() +
 
 &nbsp;
 
-Interpretations of the allometric relationships will vary depending on what type of parameter is analysed (e.g. tree height, trunk diameter, age, crown height, crown diameter and leaf area). In our example, we'll have to be cautious in interpretating extrapolated predictions. As you can see in the figure, extrapolations down to a diameter size of zero for *Albizia saman* and *Terminalia mantaly* would not make sense (i.e. the tree cannot have a positive height at that diameter size). Also, while an exponential relationship shows rapid scaling in height for *Terminalia mantaly*, it would have a natural height limit (i.e. would not continue growing taller at such a steep slope). Hence, it is important to use these allometric models in conjunction with biological knowledge of trees.
+Interpretations of the allometric relationships will vary depending on what type of parameter is analysed (e.g. tree height, trunk diameter, age, crown height, crown diameter and leaf area). In our example, we'll have to be cautious in interpretating extrapolated predictions. As you can see in the figure, extrapolations down to a diameter size of zero for *Albizia saman* and *Terminalia mantaly* would not make sense (i.e. the tree cannot have a positive height at that diameter size). Also, while an exponential relationship shows rapid scaling in height for *Terminalia mantaly*, it would have a natural height limit (i.e. would not continue growing taller at such a steep slope). Hence, it is important that allometric relationships are interpreted in conjunction with information on the biology and growth (e.g. environmental and management) conditions associated with the trees.
+
 
 ---
 

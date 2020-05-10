@@ -15,8 +15,6 @@ knitr::opts_chunk$set(
 # Allometric Scaling of Urban Trees 
 <!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
-[![R build status](https://github.com/xp-song/allometree/workflows/R-CMD-check/badge.svg)](https://github.com/xp-song/allometree/actions)
-[![codecov](https://codecov.io/gh/xp-song/allometree/branch/master/graph/badge.svg?token=HS5Q0TAXTK)](https://codecov.io/gh/xp-song/allometree)
 <!-- badges: end -->
 
 <a href='https://xp-song.github.io/allometree/'><img src='man/figures/logo.png' align="right" height="175" /></a>
@@ -105,3 +103,7 @@ ggplot() +
   
   coord_cartesian(ylim=c(0, 25), xlim= c(0,1))
 ```
+
+&nbsp;
+
+These allometric relationships can then be interpreted in conjunction with information on the biology and growth (e.g. environmental and management) conditions associated with the trees.

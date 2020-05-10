@@ -7,9 +7,6 @@
 
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
-[![R build
-status](https://github.com/xp-song/allometree/workflows/R-CMD-check/badge.svg)](https://github.com/xp-song/allometree/actions)
-[![codecov](https://codecov.io/gh/xp-song/allometree/branch/master/graph/badge.svg?token=HS5Q0TAXTK)](https://codecov.io/gh/xp-song/allometree)
 <!-- badges: end -->
 
 <a href='https://xp-song.github.io/allometree/'><img src='man/figures/logo.png' align="right" height="175" /></a>
@@ -87,3 +84,9 @@ Model predictions can be visualised alongside the original data using
 `ggplot2::ggplot()`:
 
 <img src="man/figures/single-species_model_curves-1.png" style="display: block; margin: auto;" />
+
+ 
+
+These allometric relationships can then be interpreted in conjunction
+with information on the biology and growth (e.g. environmental and
+management) conditions associated with the trees.

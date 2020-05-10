@@ -88,3 +88,9 @@ Model predictions can be visualised alongside the original data using
 `ggplot2::ggplot()`:
 
 <img src="man/figures/single-species_model_curves-1.png" style="display: block; margin: auto;" />
+
+ 
+
+These allometric relationships can then be interpreted in conjunction
+with information on the biology and growth (e.g. environmental and
+management) conditions associated with the trees.
