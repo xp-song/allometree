@@ -153,7 +153,7 @@
 <a href="#allometric-equations-eqns_info" class="anchor"></a>Allometric equations: <code>eqns_info</code>
 </h2>
 <p>Allometric relationships for urban trees can vary drastically from those for forest trees, and are also influenced by human factors such as pruning and fertilisation. Empirical models are developed using six allometric equations used for urban trees (McPherson <em>et al.</em>, 2016).</p>
-<p>More information can be found in <code><a href="../reference/eqns_info.html">?eqns_info</a></code>, as well as in <code><a href="https://rdrr.io/r/utils/data.html">data(eqns_info)</a></code>. The column <code>modelcode</code> shows the unique model code for each equation:</p>
+<p>More information can be found in <code>?eqns_info</code>, as well as in <code><a href="https://rdrr.io/r/utils/data.html">data(eqns_info)</a></code>. The column <code>modelcode</code> shows the unique model code for each equation:</p>
 <div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">eqns_info</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"allometree"</span>)
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">eqns_info</span>)
 <span class="co">#&gt;   modeltype    base_equation   base_formula      weights modelcode</span>
@@ -168,8 +168,8 @@
 <div id="single-species-models" class="section level2">
 <h2 class="hasAnchor">
 <a href="#single-species-models" class="anchor"></a>1. Single-species models</h2>
-<p>We can run <code><a href="../reference/sp_modelselect_multi.html">sp_modelselect_multi()</a></code> to select the best-fit model for each species in the dataset <code>urbantrees</code>. This can also be done for individual species using <code><a href="../reference/sp_modelselect.html">sp_modelselect()</a></code>. Note that you can also fit data to specified (i.e. pre-defined) equations, using the functions <code><a href="../reference/sp_modelfit.html">sp_modelfit()</a></code> and <code><a href="../reference/sp_modelfit_multi.html">sp_modelfit_multi()</a></code>. This can be done, for example, after the removal of outliers from the full dataset. See the vignette <a href="single-species_models.html">Single-species linear models</a> for a full demonstration.</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">results</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/sp_modelselect_multi.html">sp_modelselect_multi</a></span>(<span class="no">urbantrees</span>, <span class="kw">species</span> <span class="kw">=</span> <span class="st">"species"</span>, <span class="co"># specify colname of species</span>
+<p>We can run <code>sp_modelselect_multi()</code> to select the best-fit model for each species in the dataset <code>urbantrees</code>. This can also be done for individual species using <code>sp_modelselect()</code>. Note that you can also fit data to specified (i.e. pre-defined) equations, using the functions <code>sp_modelfit()</code> and <code>sp_modelfit_multi()</code>. This can be done, for example, after the removal of outliers from the full dataset. See the vignette <a href="single-species_models.html">Single-species linear models</a> for a full demonstration.</p>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">results</span> <span class="kw">&lt;-</span> <span class="fu">sp_modelselect_multi</span>(<span class="no">urbantrees</span>, <span class="kw">species</span> <span class="kw">=</span> <span class="st">"species"</span>, <span class="co"># specify colname of species</span>
                                 <span class="kw">response</span> <span class="kw">=</span> <span class="st">"height"</span>, <span class="kw">predictor</span> <span class="kw">=</span> <span class="st">"diameter"</span>) <span class="co"># specify colnames of variables</span></pre></body></html></div>
 <p><code>results</code> is a list of 3 elements:</p>
 <ol style="list-style-type: decimal">
@@ -200,7 +200,7 @@
 <span class="co">#&gt; 5            2           43      1.2064  1.4484 0.5551 419</span></pre></body></html></div>
 <p> </p>
 <p>We can simulate data across a range of diameter sizes for each species, and use their respective models to make predictions of tree height. The simulated data can also be extrapolated beyond the range used to fit the model, using the argument <code>extrapolate</code>:</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">predictions</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/sp_simulate.html">sp_simulate</a></span>(<span class="kw">ref_table</span> <span class="kw">=</span> <span class="no">results</span>$<span class="no">sp_models_info</span>, <span class="kw">models</span> <span class="kw">=</span> <span class="no">results</span>$<span class="no">sp_models</span>,
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">predictions</span> <span class="kw">&lt;-</span> <span class="fu">sp_simulate</span>(<span class="kw">ref_table</span> <span class="kw">=</span> <span class="no">results</span>$<span class="no">sp_models_info</span>, <span class="kw">models</span> <span class="kw">=</span> <span class="no">results</span>$<span class="no">sp_models</span>,
                            <span class="kw">extrapolate</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>,<span class="fl">1</span>))
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">predictions</span>)
 <span class="co">#&gt; # A tibble: 6 x 6</span>
