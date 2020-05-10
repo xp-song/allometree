@@ -97,7 +97,7 @@ sp_simulate(ref_table = results$sp_models_info,
 # simulate for selected species
 sp_simulate(ref_table = results$sp_models_info,
             models = results$sp_models,
-            selected_spp = "Albizia saman")
+            selected_spp = 'Albizia saman')
 
 # simulate with extrapolated values
 sp_simulate(ref_table = results$sp_models_info,

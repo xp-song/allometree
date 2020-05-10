@@ -69,41 +69,38 @@
 #' @importFrom stats as.formula complete.cases predict
 #'
 #' @export
-sp_predict <- function(data, models, ref_table, level = 0.95, species = "species", predictor = "diameter", cf = "correctn_factor",
-    geom_mean = "response_geom_mean") {
-
+sp_predict <- function(data, models, ref_table, level = 0.95, species = "species", predictor = "diameter", cf = "correctn_factor", geom_mean = "response_geom_mean") {
+    
     # Error checking ------------------
     coll <- checkmate::makeAssertCollection()
     checkmate::assert_list(models, unique = TRUE, types = "list", add = coll)
     checkmate::assert_data_frame(ref_table, add = coll)
     checkmate::assert_subset(unique(data[[species]]), choices = names(models), empty.ok = FALSE, add = coll)  # species in data in models
-    checkmate::assert_subset(unique(data[[species]]), choices = as.character(ref_table[[species]]), empty.ok = FALSE,
-        add = coll)  # species in data in models
-
+    checkmate::assert_subset(unique(data[[species]]), choices = as.character(ref_table[[species]]), empty.ok = FALSE, add = coll)  # species in data in models
+    
     checkmate::assert_number(level, lower = 0, upper = 1, add = coll)
     checkmate::assert_numeric(data[[predictor]], lower = 0, finite = TRUE, .var.name = "predictor", add = coll)
     checkmate::reportAssertions(coll)
-
+    
     # remove missing data
     if (checkmate::anyMissing(data[[predictor]])) {
-        message(cat(sum(!complete.cases(data[, predictor])), " row(s) with missing value(s) removed from 'data'",
-            sep = ""))
+        message(cat(sum(!complete.cases(data[, predictor])), " row(s) with missing value(s) removed from 'data'", sep = ""))
         data <- data[complete.cases(data[, predictor]), ]
     }
-
+    
     # Calculations ------------------
-
+    
     data_list <- split(data, data$species)
-
+    
     for (i in 1:length(data_list)) {
-
+        
         spp <- names(data_list[i])
         index <- which(names(models) == spp)
-
+        
         data_sub <- data_list[i][[1]]
-
+        
         data_sub$x <- data_sub[[predictor]]  # IMPORTANT: align variable name with model
-
+        
         # extract weight info from model object
         if ("weights" %in% names(models[[index]])) {
             w <- as.character(models[[index]]$call)[length(models[[index]]$call)]
@@ -112,37 +109,35 @@ sp_predict <- function(data, models, ref_table, level = 0.95, species = "species
         } else {
             w <- 1
         }
-
-        results <- predict(models[[index]], newdata = data_sub, level = level, interval = "prediction", type = "response",
-            weights = w)
+        
+        results <- predict(models[[index]], newdata = data_sub, level = level, interval = "prediction", type = "response", weights = w)
         results <- as.data.frame(results)
-
-
+        
+        
         # Transformed models: Geom mean height
-        if (ref_table$modelcode[ref_table$species == spp] == "loglog_w1" | ref_table$modelcode[ref_table$species ==
-            spp] == "loglog_w2" | ref_table$modelcode[ref_table$species == spp] == "loglog_w3" | ref_table$modelcode[ref_table$species ==
-            spp] == "loglog_w4" | ref_table$modelcode[ref_table$species == spp] == "expo_w1" | ref_table$modelcode[ref_table$species ==
-            spp] == "expo_w2" | ref_table$modelcode[ref_table$species == spp] == "expo_w3" | ref_table$modelcode[ref_table$species ==
-            spp] == "expo_w4") {
-
+        if (ref_table$modelcode[ref_table$species == spp] == "loglog_w1" | ref_table$modelcode[ref_table$species == spp] == "loglog_w2" | ref_table$modelcode[ref_table$species == 
+            spp] == "loglog_w3" | ref_table$modelcode[ref_table$species == spp] == "loglog_w4" | ref_table$modelcode[ref_table$species == spp] == 
+            "expo_w1" | ref_table$modelcode[ref_table$species == spp] == "expo_w2" | ref_table$modelcode[ref_table$species == spp] == "expo_w3" | 
+            ref_table$modelcode[ref_table$species == spp] == "expo_w4") {
+            
             results$fit <- exp(results$fit/ref_table$response_geom_mean[ref_table$species == spp])
             results$lwr <- exp(results$lwr/ref_table$response_geom_mean[ref_table$species == spp])
             results$upr <- exp(results$upr/ref_table$response_geom_mean[ref_table$species == spp])
-
+            
             # Transformed models: bias correction
             results$fit <- ref_table$correctn_factor[ref_table$species == spp] * results$fit
             results$lwr <- ref_table$correctn_factor[ref_table$species == spp] * results$lwr
             results$upr <- ref_table$correctn_factor[ref_table$species == spp] * results$upr
         }
-
+        
         data_list[[i]] <- cbind.data.frame(data_list[[i]], results)
     }
-
+    
     data_list <- do.call(rbind, data_list)  #combine lists by rows
-
+    
     data_list <- data_list[complete.cases(data_list), ]
-
+    
     rownames(data_list) <- NULL
-
+    
     return(data_list)
 }
