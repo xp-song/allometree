@@ -154,10 +154,10 @@ ref_table can be found in ?eqns_info and data(eqns_info)." />
     </div>
 
     <div class="ref-description">
-    <p>Wrapper function that runs <code>sp_modelfit()</code> across multiple species. Data is
+    <p>Wrapper function that runs <code><a href='sp_modelfit.html'>sp_modelfit()</a></code> across multiple species. Data is
 fit to specified allometric equations for each species, as defined within
 <code>ref_table</code>. The full list of allometric equations that may be considered in
-<code>ref_table</code> can be found in <code>?eqns_info</code> and <code><a href='https://rdrr.io/r/utils/data.html'>data(eqns_info)</a></code>.</p>
+<code>ref_table</code> can be found in <code><a href='eqns_info.html'>?eqns_info</a></code> and <code><a href='https://rdrr.io/r/utils/data.html'>data(eqns_info)</a></code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>sp_modelfit_multi</span>(
@@ -233,20 +233,20 @@ trees used to fit model).</p></dd>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code>sp_modelfit()</code> to fit a specified model for one species.</p>
-<p><code>sp_modelselect()</code> to select a best-fit model for one species.</p>
-<p><code>sp_modelselect_multi()</code> to select best-fit models across multiple species.</p>
+    <div class='dont-index'><p><code><a href='sp_modelfit.html'>sp_modelfit()</a></code> to fit a specified model for one species.</p>
+<p><code><a href='sp_modelselect.html'>sp_modelselect()</a></code> to select a best-fit model for one species.</p>
+<p><code><a href='sp_modelselect_multi.html'>sp_modelselect_multi()</a></code> to select best-fit models across multiple species.</p>
 <p>Other single-species model functions: 
-<code>sp_modelfit()</code>,
-<code>sp_modelselect_multi()</code>,
-<code>sp_modelselect()</code>,
-<code>sp_predict()</code>,
-<code>sp_simulate()</code></p></div>
+<code><a href='sp_modelfit.html'>sp_modelfit</a>()</code>,
+<code><a href='sp_modelselect_multi.html'>sp_modelselect_multi</a>()</code>,
+<code><a href='sp_modelselect.html'>sp_modelselect</a>()</code>,
+<code><a href='sp_predict.html'>sp_predict</a>()</code>,
+<code><a href='sp_simulate.html'>sp_simulate</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># first select best-fit model for all species in data</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>urbantrees</span>)
-<span class='no'>selected</span> <span class='kw'>&lt;-</span> <span class='fu'>sp_modelselect_multi</span>(<span class='no'>urbantrees</span>, <span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>'species'</span>,
+<span class='no'>selected</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='sp_modelselect_multi.html'>sp_modelselect_multi</a></span>(<span class='no'>urbantrees</span>, <span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>'species'</span>,
                                  <span class='kw'>response</span> <span class='kw'>=</span> <span class='st'>'height'</span>, <span class='kw'>predictor</span> <span class='kw'>=</span> <span class='st'>'diameter'</span>)
 
 <span class='co'># use function</span>
@@ -269,14 +269,14 @@ trees used to fit model).</p></dd>
 #&gt; 1            Albizia saman    lin_w1  6.717431   9.464096         NA       NA
 #&gt; 2            Hopea odorata  quart_w4 -1.149669 149.317848 -1522.6122 7908.410
 #&gt; 3     Syzygium myrtifolium  quart_w2 -4.614100 158.512849  -748.2492 1638.676
-#&gt; 4       Terminalia mantaly   expo_w1  9.430067  29.320921         NA       NA
-#&gt; 5 Xanthostemon chrysanthus loglog_w1 14.926404   2.982932         NA       NA
+#&gt; 4       Terminalia mantaly   expo_w1 10.461310  29.320921         NA       NA
+#&gt; 5 Xanthostemon chrysanthus loglog_w1 15.955007   2.982932         NA       NA
 #&gt;            e response_geom_mean correctn_factor predictor_min predictor_max
-#&gt; 1         NA          13.566083               1    0.31194369     1.5278875
-#&gt; 2 -14225.442           5.390829               1    0.03183099     0.2928451
-#&gt; 3  -1321.221           7.735643               1    0.04138029     0.5665916
-#&gt; 4         NA           7.596013               1    0.03501409     0.5602254
-#&gt; 5         NA           5.067462               1    0.02864789     0.3533240
+#&gt; 1         NA          13.566083        1.000000    0.31194369     1.5278875
+#&gt; 2 -14225.442           5.390829        1.000000    0.03183099     0.2928451
+#&gt; 3  -1321.221           7.735643        1.000000    0.04138029     0.5665916
+#&gt; 4         NA           7.596013        1.031243    0.03501409     0.5602254
+#&gt; 5         NA           5.067462        1.028603    0.02864789     0.3533240
 #&gt;   response_min response_max residual_SE mean_SE adj_R2   n
 #&gt; 1            8           20      2.2050  4.7889 0.4276 133
 #&gt; 2            2           15     11.9430  2.6339 0.5460 483

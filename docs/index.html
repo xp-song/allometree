@@ -120,6 +120,20 @@
 <div id="example" class="section level2">
 <h2 class="hasAnchor">
 <a href="#example" class="anchor"></a>Example</h2>
+<p>Allometric equations in this package have been used to predict relationships between parameters related tree size and structure, such as age, height, trunk diameter, crown height, crown diameter, leaf area, etc. They are foundational to other models that estimate the benefits and hazards associated with trees as they mature and grow in size. See the vignette ‘<a href="allometree.html">Get started with allometree</a>’ for a full description of example datasets and allometric equations.</p>
+<p>Let’s develop models to predict tree <em>height</em> from trunk <em>diameter</em> for five species in our example dataset <code><a href="https://rdrr.io/r/utils/data.html">data(urbantrees)</a></code>:</p>
+<p><img src="reference/figures/urbantrees-1.png" style="display: block; margin: auto;"></p>
+<p> </p>
+<p>One method is to develop allometric models separately for each species, i.e., <a href="single-species_models.html">single-species linear models</a>. We can select the best-fit equation for each species in the dataset, or fit data to specified (i.e. pre-defined) equations, for example, after the removal of outliers. The example below selects the best-fit equation for each species in <code>urbantrees</code>:</p>
+<div class="sourceCode" id="cb3"><pre class="r"><span class="no">results</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/sp_modelselect_multi.html">sp_modelselect_multi</a></span>(<span class="no">urbantrees</span>, <span class="kw">species</span> <span class="kw">=</span> <span class="st">"species"</span>, <span class="co"># specify colname of species</span>
+                                <span class="kw">response</span> <span class="kw">=</span> <span class="st">"height"</span>, <span class="kw">predictor</span> <span class="kw">=</span> <span class="st">"diameter"</span>) <span class="co"># specify colnames of variables</span></pre></div>
+<p> </p>
+<p>We can simulate data across a range of diameter sizes for each species, and use their respective models to make predictions of tree height. The simulated data can also be extrapolated beyond the range used to fit the model:</p>
+<div class="sourceCode" id="cb4"><pre class="r"><span class="no">predictions</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/sp_simulate.html">sp_simulate</a></span>(<span class="kw">ref_table</span> <span class="kw">=</span> <span class="no">results</span>$<span class="no">sp_models_info</span>, <span class="kw">models</span> <span class="kw">=</span> <span class="no">results</span>$<span class="no">sp_models</span>,
+                           <span class="kw">extrapolate</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>,<span class="fl">1</span>)) <span class="co"># diameter from 0 to 1 m</span></pre></div>
+<p> </p>
+<p>Model predictions can be visualised alongside the original data using <code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot2::ggplot()</a></code>:</p>
+<p><img src="reference/figures/single-species_model_curves-1.png" style="display: block; margin: auto;"></p>
 </div>
 </div>
   </div>
@@ -165,7 +179,7 @@
 <ul class="list-unstyled">
 <li><a href="https://www.tidyverse.org/lifecycle/#experimental"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
 <li><a href="https://github.com/xp-song/allometree/actions"><img src="https://github.com/xp-song/allometree/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
-<li><a href="https://github.com/xp-song/allometree/actions"><img src="https://github.com/xp-song/allometree/workflows/test-coverage/badge.svg" alt="R build status"></a></li>
+<li><a href="https://codecov.io/gh/xp-song/allometree"><img src="https://codecov.io/gh/xp-song/allometree/branch/master/graph/badge.svg?token=HS5Q0TAXTK" alt="codecov"></a></li>
 </ul>
 </div>
 </div>

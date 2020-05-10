@@ -108,7 +108,7 @@ text(x = 1:length(cooks_dist) + 1, y = cooks_dist,
 
 &nbsp;
 
-Lets use this threshold across all species in `urbantrees`. We can create a function `uncooker()` that removes outliers for each species using a `for()` loop, based on their respective best-fit model in `results_all$sp_models`:
+Lets remove outliers across all species in `urbantrees`. We can create a function `uncooker()` that does so for each species using a `for()` loop, based on their respective best-fit model in `results_all$sp_models`:
 
 ```{r}
 uncooker <- function(data, modellist){
@@ -233,13 +233,13 @@ head(predictions)
 
 We can plot out our predictions using `ggplot()`:
 
-```{r message = FALSE, warning = FALSE, fig.width=7, fig.align='center'}
+```{r message = FALSE, warning = FALSE, fig.width=7, fig.height =2.5, fig.align='center'}
 library(ggplot2)
 
 ggplot() +
   facet_wrap(~ species)+ 
-  geom_point(data = dplyr::filter(urbantrees, species == unique(predictions$species)), aes(x = diameter, y = height),
-             size=0.35, alpha = 0.2, color = "grey70") +
+  geom_point(data = dplyr::filter(urbantrees, species %in% predictions$species), aes(x = diameter, y = height),
+             size=0.35, alpha = 0.9, color = "grey50") +
   
   # prediction interval
   geom_ribbon(data = predictions, aes(x = predictor, ymin = lwr, ymax = upr), 

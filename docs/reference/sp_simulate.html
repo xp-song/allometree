@@ -156,7 +156,7 @@ species, using the argument select_sp." />
     </div>
 
     <div class="ref-description">
-    <p>Wrapper function that runs <code>sp_predict()</code> on simulated data. Data is simulated
+    <p>Wrapper function that runs <code><a href='sp_predict.html'>sp_predict()</a></code> on simulated data. Data is simulated
 for each species based on the range of the predictor variable used to fit the
 model, which can be extrapolated to values defined by the user. The
 corresponding model object in <code>models</code> will be used to make predictions on the
@@ -173,6 +173,8 @@ species, using the argument <code>select_sp</code>.</p>
   <span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"species"</span>,
   <span class='kw'>predictor_min</span> <span class='kw'>=</span> <span class='st'>"predictor_min"</span>,
   <span class='kw'>predictor_max</span> <span class='kw'>=</span> <span class='st'>"predictor_max"</span>,
+  <span class='kw'>response_min</span> <span class='kw'>=</span> <span class='st'>"response_min"</span>,
+  <span class='kw'>response_max</span> <span class='kw'>=</span> <span class='st'>"response_max"</span>,
   <span class='kw'>cf</span> <span class='kw'>=</span> <span class='st'>"correctn_factor"</span>,
   <span class='kw'>geom_mean</span> <span class='kw'>=</span> <span class='st'>"response_geom_mean"</span>
 )</pre>
@@ -194,8 +196,8 @@ columns for <code>species</code>, <code>predictor_min</code>, <code>predictor_ma
     <tr>
       <th>select_sp</th>
       <td><p>Character vector of species names, if you want to run this
-function only for selected species in <code>ref_table</code>. Defaults to <code>NULL</code>, to run
-function across all species.</p></td>
+function only for selected species in <code>ref_table</code>. Defaults to <code>NULL</code>, to
+run function across all species.</p></td>
     </tr>
     <tr>
       <th>level</th>
@@ -224,6 +226,16 @@ predictor variable used to fit the model. Defaults to <code>predictor_min</code>
 predictor variable used to fit the model. Defaults to <code>predictor_max</code>.</p></td>
     </tr>
     <tr>
+      <th>response_min</th>
+      <td><p>Column name in <code>ref_table</code> for minimum value of the
+response variable used to fit the model. Defaults to <code>response_min</code>.</p></td>
+    </tr>
+    <tr>
+      <th>response_max</th>
+      <td><p>Column name in <code>ref_table</code> for maximum value of the
+response variable used to fit the model. Defaults to <code>response_max</code>.</p></td>
+    </tr>
+    <tr>
       <th>cf</th>
       <td><p>Column name in <code>ref_table</code> for the bias correction factor. Defaults
 to <code>correctn_factor</code>.</p></td>
@@ -239,14 +251,13 @@ variable that was used in to fit the <code>models</code>. Defaults to
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A dataframe with columns:</p><dl'>
-<dt>species</dt><dd><p>Name of tree species.</p></dd>
-<dt>predictor</dt><dd><p>Variable used to make predictions.</p></dd>
-<dt>fit</dt><dd><p>Predicted value.</p></dd>
-<dt>lwr</dt><dd><p>Lower bound of the prediction interval, based on the input argument <code>level</code>.</p></dd>
-<dt>upr</dt><dd><p>Upper bound of the prediction interval, based on the input argument <code>level</code>.</p></dd>
+<dt>species</dt><dd><p>Name of tree
+species.</p></dd> <dt>predictor</dt><dd><p>Variable used to make predictions.</p></dd>
+<dt>fit</dt><dd><p>Predicted value.</p></dd> <dt>lwr</dt><dd><p>Lower bound of the prediction
+interval, based on the input argument <code>level</code>.</p></dd> <dt>upr</dt><dd><p>Upper bound of
+the prediction interval, based on the input argument <code>level</code>.</p></dd>
 <dt>extrapolated</dt><dd><p>Logical variable; whether the predictions are based on
-extropolated values.</p></dd>
-
+extropolated values.</p></dd> 
 </dl>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
@@ -257,19 +268,19 @@ bias-corrections are made for species with models that have a transformed
 response variable.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code>sp_predict()</code> to make predictions for all species in a dataset
-using single-species linear models.</p>
+    <div class='dont-index'><p><code><a href='sp_predict.html'>sp_predict()</a></code> to make predictions for all species in a dataset using
+single-species linear models.</p>
 <p>Other single-species model functions: 
-<code>sp_modelfit_multi()</code>,
-<code>sp_modelfit()</code>,
-<code>sp_modelselect_multi()</code>,
-<code>sp_modelselect()</code>,
-<code>sp_predict()</code></p></div>
+<code><a href='sp_modelfit_multi.html'>sp_modelfit_multi</a>()</code>,
+<code><a href='sp_modelfit.html'>sp_modelfit</a>()</code>,
+<code><a href='sp_modelselect_multi.html'>sp_modelselect_multi</a>()</code>,
+<code><a href='sp_modelselect.html'>sp_modelselect</a>()</code>,
+<code><a href='sp_predict.html'>sp_predict</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># first select best-fit model for all species in data</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>urbantrees</span>)
-<span class='no'>results</span> <span class='kw'>&lt;-</span> <span class='fu'>sp_modelselect_multi</span>(<span class='no'>urbantrees</span>, <span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>'species'</span>,
+<span class='no'>results</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='sp_modelselect_multi.html'>sp_modelselect_multi</a></span>(<span class='no'>urbantrees</span>, <span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>'species'</span>,
                                 <span class='kw'>response</span> <span class='kw'>=</span> <span class='st'>'height'</span>, <span class='kw'>predictor</span> <span class='kw'>=</span> <span class='st'>'diameter'</span>)
 
 <span class='kw'>if</span> (<span class='fl'>FALSE</span>) {

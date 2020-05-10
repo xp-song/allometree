@@ -118,7 +118,7 @@ In the works...
 ggplot() +
   facet_wrap(~ species)+ 
   geom_point(data = urbantrees, aes(x = diameter, y = height),
-             size=0.35, alpha = 0.2, color = "grey70") +
+             size=0.35, alpha = 0.9, color = "grey50") +
   
   # prediction interval
   geom_ribbon(data = predictions, aes(x = predictor, ymin = lwr, ymax = upr), 
