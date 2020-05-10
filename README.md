@@ -46,7 +46,8 @@ relationships between parameters related tree size and structure, such
 as age, height, trunk diameter, crown height, crown diameter, leaf area,
 etc. They are foundational to other models that estimate the benefits
 and hazards associated with trees as they mature and grow in size. See
-the vignette ‘[Get started with allometree](articles/allometree.html)’
+the vignette ‘[Get started with
+allometree](https://xp-song.github.io/allometree/articles/allometree.html)’
 for a full description of example datasets and allometric equations.
 
 Let’s develop models to predict tree *height* from trunk *diameter* for
@@ -59,11 +60,11 @@ five species in our example dataset
 
 One method is to develop allometric models separately for each species,
 i.e., [single-species linear
-models](articles/single-species_models.html). We can select the best-fit
-equation for each species in the dataset, or fit data to specified
-(i.e. pre-defined) equations, for example, after the removal of
-outliers. The example below selects the best-fit equation for each
-species in
+models](https://xp-song.github.io/allometree/articles/single-species_models.html).
+We can select the best-fit equation for each species in the dataset, or
+fit data to specified (i.e. pre-defined) equations, for example, after
+the removal of outliers. The example below selects the best-fit equation
+for each species in
 `urbantrees`:
 
 ``` r
