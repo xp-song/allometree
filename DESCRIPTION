@@ -31,7 +31,9 @@ Imports:
     sjstats (>= 0.17.8),
     stringr,
     tidyr,
-    magrittr
+    magrittr,
+    dplyr,
+    rlang
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.0

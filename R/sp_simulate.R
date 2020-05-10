@@ -77,8 +77,10 @@
 #'
 #'@import checkmate
 #'@import magrittr
+#'@import dplyr
 #'@importFrom tidyr pivot_longer
 #'@importFrom stats complete.cases
+#'@importFrom rlang .data
 #'
 #'@export
 sp_simulate <- function(ref_table, models, select_sp = NULL, level = 0.95, extrapolate = NULL, species = "species",
@@ -136,8 +138,8 @@ sp_simulate <- function(ref_table, models, select_sp = NULL, level = 0.95, extra
     output <- output %>%
         dplyr::left_join(response_ranges, by = c("species" = "species")) %>%
         dplyr::group_by(species) %>%
-        dplyr::mutate(extrapolated = ifelse(fit < ymin, "Low", ifelse(fit > ymax, "High", "No"))) %>%
-        dplyr::select(-ymin, -ymax)
+        dplyr::mutate(extrapolated = ifelse(.data$fit < .data$ymin, "Low", ifelse(.data$fit > .data$ymax, "High", "No"))) %>%
+        dplyr::select(-.data$ymin, -.data$ymax)
 
     # extrapolated diameter values
     if (!is.null(extrapolate)) {
