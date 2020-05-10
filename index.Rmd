@@ -49,7 +49,7 @@ Allometric equations in this package have been used to predict relationships bet
 
 Let's develop models to predict tree *height* from trunk *diameter* for five species in our example dataset `data(urbantrees)`:
 
-```{r fig.width=5.5, fig.height=4, fig.align='center', echo = FALSE}
+```{r urbantrees, fig.width=5.5, fig.height=4, fig.align='center', echo = FALSE}
 data(urbantrees, package = "allometree")
 library(ggplot2)
 ggplot(urbantrees, aes(diameter, height)) +
@@ -71,7 +71,7 @@ results <- sp_modelselect_multi(urbantrees, species = "species", # specify colna
 
 &nbsp;
 
-We can simulate data across a range of diameter sizes for each species, and use their respective models to make predictions of tree height. The simulated data can also be extrapolated beyond the range used to fit the model, and subsequently visualised using `ggplot2:ggplot()`.
+We can simulate data across a range of diameter sizes for each species, and use their respective models to make predictions of tree height. The simulated data can also be extrapolated beyond the range used to fit the model:
 
 ```{r}
 predictions <- sp_simulate(ref_table = results$sp_models_info, models = results$sp_models, 
@@ -79,7 +79,11 @@ predictions <- sp_simulate(ref_table = results$sp_models_info, models = results$
 
 ```
 
-```{r message = FALSE, warning = FALSE, fig.width=6.5, fig.height =4, fig.align='center', echo = FALSE}
+&nbsp;
+
+Model predictions can be visualised alongside the original data using `ggplot2::ggplot()`:
+
+```{r single-species_model_curves, message = FALSE, warning = FALSE, fig.width=6.5, fig.height =4, fig.align='center', echo = FALSE}
 library(ggplot2)
 
 ggplot() +
@@ -101,4 +105,3 @@ ggplot() +
   
   coord_cartesian(ylim=c(0, 25), xlim= c(0,1))
 ```
-

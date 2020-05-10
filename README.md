@@ -53,7 +53,7 @@ Let’s develop models to predict tree *height* from trunk *diameter* for
 five species in our example dataset
 `data(urbantrees)`:
 
-<img src="man/figures/unnamed-chunk-5-1.png" style="display: block; margin: auto;" />
+<img src="man/figures/urbantrees-1.png" style="display: block; margin: auto;" />
 
  
 
@@ -75,12 +75,16 @@ results <- sp_modelselect_multi(urbantrees, species = "species", # specify colna
 We can simulate data across a range of diameter sizes for each species,
 and use their respective models to make predictions of tree height. The
 simulated data can also be extrapolated beyond the range used to fit the
-model, and subsequently visualised using
-`ggplot2:ggplot()`.
+model:
 
 ``` r
 predictions <- sp_simulate(ref_table = results$sp_models_info, models = results$sp_models, 
                            extrapolate = c(0,1)) # diameter from 0 to 1 m
 ```
 
-<img src="man/figures/unnamed-chunk-8-1.png" style="display: block; margin: auto;" />
+ 
+
+Model predictions can be visualised alongside the original data using
+`ggplot2::ggplot()`:
+
+<img src="man/figures/single-species_model_curves-1.png" style="display: block; margin: auto;" />
