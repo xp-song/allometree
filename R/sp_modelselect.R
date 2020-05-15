@@ -99,11 +99,13 @@ sp_modelselect <- function(data, response = "height", predictor = "diameter") {
 
     # Calculate geometric mean height
     geom_mean_y <- exp(mean(log(data[[response]])))
-    data$y_trans <- log(data[[response]]) * geom_mean_y  # use this for transformed models for AICc comparisons with non-transformed models
+    data$y_aic <- log(data[[response]]) * geom_mean_y  # * geom_mean_y for AICc comparisons with non-transformed models
+    data$y_trans <- log(data[[response]]) # for reporting
 
     # extract values to use in lm
     y <- data[[response]]
     x <- data[[predictor]]
+    y_aic <- data$y_aic
     y_trans <- data$y_trans
 
     # fit models
@@ -129,16 +131,16 @@ sp_modelselect <- function(data, response = "height", predictor = "diameter") {
     sp_model_list$quart_w3 <- lm(y ~ x + I(x^2) + I(x^3) + I(x^4), weights = I(1/x))
     sp_model_list$quart_w4 <- lm(y ~ x + I(x^2) + I(x^3) + I(x^4), weights = I(1/x^2))
 
-    # using y_trans
-    sp_model_list$loglog_w1 <- lm(y_trans ~ I(log(log(x + 1))))
-    sp_model_list$loglog_w2 <- lm(y_trans ~ I(log(log(x + 1))), weights = I(1/sqrt(x)))
-    sp_model_list$loglog_w3 <- lm(y_trans ~ I(log(log(x + 1))), weights = I(1/x))
-    sp_model_list$loglog_w4 <- lm(y_trans ~ I(log(log(x + 1))), weights = I(1/x^2))
+    # using y_aic
+    sp_model_list$loglog_w1 <- lm(y_aic ~ I(log(log(x + 1))))
+    sp_model_list$loglog_w2 <- lm(y_aic ~ I(log(log(x + 1))), weights = I(1/sqrt(x)))
+    sp_model_list$loglog_w3 <- lm(y_aic ~ I(log(log(x + 1))), weights = I(1/x))
+    sp_model_list$loglog_w4 <- lm(y_aic ~ I(log(log(x + 1))), weights = I(1/x^2))
 
-    sp_model_list$expo_w1 <- lm(y_trans ~ x)
-    sp_model_list$expo_w2 <- lm(y_trans ~ x, weights = I(1/sqrt(x)))
-    sp_model_list$expo_w3 <- lm(y_trans ~ x, weights = I(1/x))
-    sp_model_list$expo_w4 <- lm(y_trans ~ x, weights = I(1/x^2))
+    sp_model_list$expo_w1 <- lm(y_aic ~ x)
+    sp_model_list$expo_w2 <- lm(y_aic ~ x, weights = I(1/sqrt(x)))
+    sp_model_list$expo_w3 <- lm(y_aic ~ x, weights = I(1/x))
+    sp_model_list$expo_w4 <- lm(y_aic ~ x, weights = I(1/x^2))
 
     # compare AICc
     all_models_rank <- MuMIn::AICc(sp_model_list$lin_w1, sp_model_list$lin_w2, sp_model_list$lin_w3, sp_model_list$lin_w4, sp_model_list$quad_w1,
@@ -146,6 +148,16 @@ sp_modelselect <- function(data, response = "height", predictor = "diameter") {
         sp_model_list$cub_w4, sp_model_list$quart_w1, sp_model_list$quart_w2, sp_model_list$quart_w3, sp_model_list$quart_w4, sp_model_list$loglog_w1,
         sp_model_list$loglog_w2, sp_model_list$loglog_w3, sp_model_list$loglog_w4, sp_model_list$expo_w1, sp_model_list$expo_w2, sp_model_list$expo_w3,
         sp_model_list$expo_w4)
+
+    # re-fit transformed models with y_trans instead of y_aic
+    sp_model_list$loglog_w1 <- lm(y_trans ~ I(log(log(x + 1))))
+    sp_model_list$loglog_w2 <- lm(y_trans ~ I(log(log(x + 1))), weights = I(1/sqrt(x)))
+    sp_model_list$loglog_w3 <- lm(y_trans ~ I(log(log(x + 1))), weights = I(1/x))
+    sp_model_list$loglog_w4 <- lm(y_trans ~ I(log(log(x + 1))), weights = I(1/x^2))
+    sp_model_list$expo_w1 <- lm(y_trans ~ x)
+    sp_model_list$expo_w2 <- lm(y_trans ~ x, weights = I(1/sqrt(x)))
+    sp_model_list$expo_w3 <- lm(y_trans ~ x, weights = I(1/x))
+    sp_model_list$expo_w4 <- lm(y_trans ~ x, weights = I(1/x^2))
 
     # Prepare output ----------------------
 

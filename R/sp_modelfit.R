@@ -88,7 +88,7 @@ sp_modelfit <- function(data, modelcode, response = "height", predictor = "diame
 
     # Calculate geometric mean height
     geom_mean_y <- exp(mean(log(data[[response]])))
-    data$y_trans <- log(data[[response]]) * geom_mean_y  # use this for transformed models for AICc comparisons with non-transformed models
+    data$y_trans <- log(data[[response]]) # no need to * geom_mean_y (tt is for model selection via AICc)
 
     # extract values to use in lm
     y <- data[[response]]
