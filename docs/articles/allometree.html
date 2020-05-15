@@ -180,24 +180,24 @@
 <p> </p>
 <p>An overview of the best-fit models across the 5 species:</p>
 <div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">results</span>$<span class="no">sp_models_info</span>
-<span class="co">#&gt;                    species modelcode         a          b          c        d</span>
-<span class="co">#&gt; 1            Albizia saman    lin_w1  6.717431   9.464096         NA       NA</span>
-<span class="co">#&gt; 2            Hopea odorata  quart_w4 -1.149669 149.317848 -1522.6122 7908.410</span>
-<span class="co">#&gt; 3     Syzygium myrtifolium  quart_w2 -4.614100 158.512849  -748.2492 1638.676</span>
-<span class="co">#&gt; 4       Terminalia mantaly   expo_w1  9.460831  29.320921         NA       NA</span>
-<span class="co">#&gt; 5 Xanthostemon chrysanthus loglog_w1 14.954606   2.982932         NA       NA</span>
+<span class="co">#&gt;                    species modelcode         a           b          c        d</span>
+<span class="co">#&gt; 1            Albizia saman    lin_w1  6.717431   9.4640964         NA       NA</span>
+<span class="co">#&gt; 2            Hopea odorata  quart_w4 -1.149669 149.3178483 -1522.6122 7908.410</span>
+<span class="co">#&gt; 3     Syzygium myrtifolium  quart_w2 -4.614100 158.5128488  -748.2492 1638.676</span>
+<span class="co">#&gt; 4       Terminalia mantaly   expo_w1  1.241983   3.8600410         NA       NA</span>
+<span class="co">#&gt; 5 Xanthostemon chrysanthus loglog_w1  2.946637   0.5886442         NA       NA</span>
 <span class="co">#&gt;            e response_geom_mean correctn_factor predictor_min predictor_max</span>
 <span class="co">#&gt; 1         NA          13.566083        1.000000    0.31194369     1.5278875</span>
 <span class="co">#&gt; 2 -14225.442           5.390829        1.000000    0.03183099     0.2928451</span>
 <span class="co">#&gt; 3  -1321.221           7.735643        1.000000    0.04138029     0.5665916</span>
-<span class="co">#&gt; 4         NA           7.596013        1.031243    0.03501409     0.5602254</span>
-<span class="co">#&gt; 5         NA           5.067462        1.028603    0.02864789     0.3533240</span>
+<span class="co">#&gt; 4         NA           7.596013        1.000533    0.03501409     0.5602254</span>
+<span class="co">#&gt; 5         NA           5.067462        1.001099    0.02864789     0.3533240</span>
 <span class="co">#&gt;   response_min response_max residual_SE mean_SE adj_R2   n</span>
 <span class="co">#&gt; 1            8           20      2.2050  4.7889 0.4276 133</span>
 <span class="co">#&gt; 2            2           15     11.9430  2.6339 0.5460 483</span>
 <span class="co">#&gt; 3            1           18      2.1674  2.2536 0.6662 353</span>
-<span class="co">#&gt; 4            3           18      1.8938  3.5502 0.6702 197</span>
-<span class="co">#&gt; 5            2           43      1.2064  1.4484 0.5551 419</span></pre></body></html></div>
+<span class="co">#&gt; 4            3           18      0.2493  0.0615 0.6702 197</span>
+<span class="co">#&gt; 5            2           43      0.2381  0.0564 0.5551 419</span></pre></body></html></div>
 <p> </p>
 <p>We can simulate data across a range of diameter sizes for each species, and use their respective models to make predictions of tree height. The simulated data can also be extrapolated beyond the range used to fit the model, using the argument <code>extrapolate</code>:</p>
 <div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">predictions</span> <span class="kw">&lt;-</span> <span class="fu">sp_simulate</span>(<span class="kw">ref_table</span> <span class="kw">=</span> <span class="no">results</span>$<span class="no">sp_models_info</span>, <span class="kw">models</span> <span class="kw">=</span> <span class="no">results</span>$<span class="no">sp_models</span>,
