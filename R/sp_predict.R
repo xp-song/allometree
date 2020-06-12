@@ -67,6 +67,7 @@
 #' @import checkmate
 #' @importFrom stringr str_replace
 #' @importFrom stats as.formula complete.cases predict
+#' @importFrom dplyr filter_at vars all_vars
 #'
 #' @export
 sp_predict <- function(data, models, ref_table, level = 0.95, species = "species", predictor = "diameter", cf = "correctn_factor", geom_mean = "response_geom_mean") {
@@ -131,7 +132,8 @@ sp_predict <- function(data, models, ref_table, level = 0.95, species = "species
 
     data_list <- do.call(rbind, data_list)  #combine lists by rows
 
-    data_list <- data_list[complete.cases(data_list), ]
+    # extract complete cases for specific cols
+    data_list <-  dplyr::filter_at(data_list, vars(species, predictor, "fit", "lwr", "upr"), all_vars(complete.cases(.)))
 
     rownames(data_list) <- NULL
 

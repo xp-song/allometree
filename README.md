@@ -22,9 +22,9 @@ app](https://xpsong.shinyapps.io/allometree-sg/) for demonstrations of
 how the package may be used. The package supplements the following
 study:
 
-Song, X. P., Lai, H. R., Wijedasa, L. S., Yee, A. T. K., Tan, P. Y.,
-Richards, D. R., Streamlining management practices based on the size
-allometry of tropical street trees (in prep).
+Song, X. P., Lai, H. R., Wijedasa, L. S., Tan, P. Y., Richards, D. R.,
+Height–diameter allometry for the management of city trees in the
+tropics (in prep).
 
 ## Installation
 

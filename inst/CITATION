@@ -2,15 +2,15 @@ citHeader("To cite allometree in publications use:")
 
 citEntry(
   entry    = "Article",
-  title    = "Streamlining management practices based on the size allometry of tropical street trees",
-  author   = "Xiao Ping Song, Hao Ran Lai, Lahiru S. Wijedasa, Alex T. K. Yee, Puay Yok Tan, Daniel R. Richards",
+  title    = "Height–diameter allometry for the management of city trees in the tropics",
+  author   = "Xiao Ping Song, Hao Ran Lai, Lahiru S. Wijedasa, Puay Yok Tan, Daniel R. Richards",
   journal  = "in prep",
   year     = "in prep",
   volume   = "",
   number   = "",
   pages    = "",
   url      = "",
-  textVersion = paste("Song, X. P., Lai, H. R., Wijedasa, L. S., Yee, A. T. K., Tan, P. Y., Richards, D. R., Streamlining management practices based on the size allometry of tropical street trees (in prep)."
+  textVersion = paste("Song, X. P., Lai, H. R., Wijedasa, L. S., Tan, P. Y., Richards, D. R., Height–diameter allometry for the management of city trees in the tropics (in prep)."
   )
 )
 

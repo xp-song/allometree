@@ -18,8 +18,8 @@
 #' @source
 #' Independently sampled validation data reported in:
 #'
-#' Song, X. P., Lai, H. R., Wijedasa, L. S., Yee, A. T. K., Tan, P. Y., Richards, D. R.,
-#' Streamlining management practices based on the size allometry of tropical street trees (in prep).
+#' Song, X. P., Lai, H. R., Wijedasa, L. S., Tan, P. Y., Richards, D. R.,
+#' Height–diameter allometry for the management of city trees in the tropics (in prep).
 #'
 #' @examples
 #' data(urbantrees)
