@@ -96,12 +96,12 @@
 
       
 
-      </header><div class="row">
+      </header><script src="single-species_models_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Single-species linear models</h1>
             
-            <h4 class="date">2020-07-01</h4>
+            <h4 class="date">2020-09-02</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/xp-song/allometree/blob/master/vignettes/single-species_models.Rmd"><code>vignettes/single-species_models.Rmd</code></a></small>
       <div class="hidden name"><code>single-species_models.Rmd</code></div>
@@ -248,7 +248,7 @@
 <div id="for-multiple-species-1" class="section level3">
 <h3 class="hasAnchor">
 <a href="#for-multiple-species-1" class="anchor"></a>For multiple species</h3>
-<p>Similar to the the wrapper function <code>sp_modelselect_multi()</code>, we can also run <code>sp_modelfit_multi()</code> to fit pre-selected models across multiple species. In this function, we need to input a reference table <code>ref_table</code> (i.e. <code>results_all$sp_models_info</code>) that provides information on the <code>species</code> and their corresponding <code>modelcode</code>.</p>
+<p>Similar to the the wrapper function <code>sp_modelselect_multi()</code>, we can also run <code>sp_modelfit_multi()</code> to fit pre-selected models across multiple species. In this function, we need to input a reference table <code>ref_table</code> (i.e. <code>results_all$sp_models_info</code>) that provides information on the <code>species</code> and their corresponding <code>modelcode</code>.</p>
 <div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="no">results_all</span> <span class="kw">&lt;-</span> <span class="fu">sp_modelfit_multi</span>(<span class="no">urbantrees_clean</span>,
                                  <span class="kw">ref_table</span> <span class="kw">=</span> <span class="no">results_all</span>$<span class="no">sp_models_info</span>,
                                  <span class="kw">species</span> <span class="kw">=</span> <span class="st">"species"</span>, <span class="co"># colname in both data &amp; ref_table</span>
@@ -342,7 +342,7 @@
 <h2 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h2>
 <p>McPherson E. G., van Doorn N. S. &amp; Peper P. J. (2016) Urban Tree Database and Allometric Equations. <em>General Technical Report PSW-GTR-253, USDA Forest Service</em>, 86.</p>
-<p>Song, X. P., Lai, H. R., Wijedasa, L. S., Tan, P. Y., Edwards, P. J., &amp; Richards, D. R., Height–diameter allometry for the management of city trees in the tropics (in prep).</p>
+<p>Song, X. P., Lai, H. R., Wijedasa, L. S., Tan, P. Y., Edwards, P. J., &amp; Richards, D. R., Height–diameter allometry for the management of city trees in the tropics (in review).</p>
 </div>
   </div>
 
