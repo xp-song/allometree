@@ -28,6 +28,7 @@ BugReports: https://github.com/xp-song/allometree/issues
 Imports:
     checkmate,
     MuMIn (>= 1.43.15),
+    lme4,
     sjstats (>= 0.17.8),
     stringr,
     tidyr,
