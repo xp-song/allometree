@@ -73,11 +73,11 @@ allometree_mlm <-
       for (w in seq_len(length(weight.list))) {
         message(paste0("Fitting ", names(mlm.formula.list)[f], " model with weight ", names(weight.list)[w]))
         mlm.list[[i]] <-
-          lmer(
+          lme4::lmer(
             formula = mlm.formula.list[[f]],
             weights = weight.list[[w]],
-            control = lmerControl(optimizer = "bobyqa",
-                                  optCtrl = list(maxfun = 10000)),
+            control = lme4::lmerControl(optimizer = "bobyqa",
+                                        optCtrl = list(maxfun = 10000)),
             REML = FALSE
           )
         i <- i + 1
@@ -89,12 +89,9 @@ allometree_mlm <-
     # print convergence and warning messages
     mlm_msg <- lapply(mlm.list, function(m) m@optinfo$conv$lme4$messages)
     mlm_msg <- mlm_msg[!sapply(mlm_msg, is.null)]  # remove NULLs
-    if (length(mlm_msg) > 0) {
-      message("Opps, some models have warning messages. See 'warnings' in the output list.")
-    }
 
     # Model selection
-    mlm_comp <- model.sel(mlm.list)
+    mlm_comp <- MuMIn::model.sel(mlm.list)
     mlm_comp_cols_print <- c("df", "logLik", "AICc", "delta")
 
     # Best model
@@ -105,11 +102,11 @@ allometree_mlm <-
     # refit the best model using REML, and
     # change the response if it is a loglog or expo model
     best_mod_refit <-
-      lmer(
+      lme4::lmer(
         formula = refit.formula.list[[best_mod_formula]],
         weights = weight.list[[best_mod_weight]],
-        control = lmerControl(optimizer = "bobyqa",
-                              optCtrl = list(maxfun = 10000)),
+        control = lme4::lmerControl(optimizer = "bobyqa",
+                                    optCtrl = list(maxfun = 10000)),
         REML = TRUE
       )
 
@@ -120,7 +117,7 @@ allometree_mlm <-
     # Correction factor
     if (best_mod_formula %in% c("loglog", "expo")) {
       # for transformed (loglog or exp) models
-      sp_rmse <- rmse(best_mod_refit)
+      sp_rmse <- sjstats::rmse(best_mod_refit)
       cf <- exp((sp_rmse^2)/2)
       params[, "a"] <- params[, "a"] + log(cf)  #directly adjust intercept with cf
     } else {
@@ -138,9 +135,13 @@ allometree_mlm <-
     out <- list()
     out$models_rank <- mlm_comp[, mlm_comp_cols_print]
     out$best_model <- best_mod_refit
-    out$R2 <- r.squaredGLMM(best_mod_refit)
+    out$R2 <- MuMIn::r.squaredGLMM(best_mod_refit)
     out$warnings <- mlm_msg
 
     return(out)
+
+    if (length(mlm_msg) > 0) {
+      message("Opps, some models have warning messages. See 'warnings' in the output list.")
+    }
 
   }
