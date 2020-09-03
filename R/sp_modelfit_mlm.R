@@ -4,8 +4,7 @@
 #'
 #' @param data Dataframe that contains the variables of interest. Each row is a
 #'   measurement for an individual tree.
-#' @param species Column name of the species variable in both the dataframes
-#'   `data` and `ref_table`. Defaults to `species`.
+#' @param species Column name of the species variable in `data`. Defaults to `species`.
 #' @param response Column name of the response variable.
 #'   Defaults to `height`.
 #' @param predictor Column name of the predictor variable.

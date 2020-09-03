@@ -15,8 +15,7 @@ allometree_mlm(
 \item{data}{Dataframe that contains the variables of interest. Each row is a
 measurement for an individual tree.}
 
-\item{species}{Column name of the species variable in both the dataframes
-\code{data} and \code{ref_table}. Defaults to \code{species}.}
+\item{species}{Column name of the species variable in \code{data}. Defaults to \code{species}.}
 
 \item{response}{Column name of the response variable.
 Defaults to \code{height}.}
