@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 
 Develop and use allometric equations relating to the size and structure of urban trees. Refer to [package website](https://xp-song.github.io/allometree/) and [prototype web app](https://xpsong.shinyapps.io/allometree-sg/) for demonstrations of how the package may be used. The package supplements the following study:  
 
-Song, X. P., Lai, H. R., Wijedasa, L. S., Tan, P. Y., Edwards, P. J., & Richards, D. R., Height–diameter allometry for the management of city trees in the tropics (in prep). 
+Song, X. P., Lai, H. R., Wijedasa, L. S., Tan, P. Y., Edwards, P. J., & Richards, D. R., Height–diameter allometry for the management of city trees in the tropics (in review). 
 
 ## Installation
 

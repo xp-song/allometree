@@ -24,7 +24,7 @@ study:
 
 Song, X. P., Lai, H. R., Wijedasa, L. S., Tan, P. Y., Edwards, P. J., &
 Richards, D. R., Height–diameter allometry for the management of city
-trees in the tropics (in prep).
+trees in the tropics (in review).
 
 ## Installation
 
@@ -51,8 +51,7 @@ allometree](https://xp-song.github.io/allometree/articles/allometree.html)’
 for a full description of example datasets and allometric equations.
 
 Let’s develop models to predict tree *height* from trunk *diameter* for
-five species in our example dataset
-`data(urbantrees)`:
+five species in our example dataset `data(urbantrees)`:
 
 <img src="man/figures/urbantrees-1.png" style="display: block; margin: auto;" />
 
@@ -64,8 +63,7 @@ models](https://xp-song.github.io/allometree/articles/single-species_models.html
 We can select the best-fit equation for each species in the dataset, or
 fit data to specified (i.e. pre-defined) equations, for example, after
 the removal of outliers. The example below selects the best-fit equation
-for each species in
-`urbantrees`:
+for each species in `urbantrees`:
 
 ``` r
 results <- sp_modelselect_multi(urbantrees, species = "species", # specify colname of species
