@@ -1,15 +1,26 @@
-# Script to run mixed-effect models when fitting multiple species at once
-
-require(lme4)
-require(MuMIn)
-require(sjstats)
-
-# NOT RUN: testing only
-# load(file = "data/urbantrees.rda")
-# data <- subset(urbantrees, height < 40)
-# response = "height"
-# predictor = "diameter"
-# species = "species"
+#' Fit mixed-effects or multilevel models to all species
+#'
+#' Fit mixed-effects or multilevel models to the dataset pooled across all species, using the `lme4::lmer` function under the hood.
+#'
+#' @param data Dataframe that contains the variables of interest. Each row is a
+#'   measurement for an individual tree.
+#' @param species Column name of the species variable in both the dataframes
+#'   `data` and `ref_table`. Defaults to `species`.
+#' @param response Column name of the response variable.
+#'   Defaults to `height`.
+#' @param predictor Column name of the predictor variable.
+#'   Defaults to `diameter`.
+#' @return A list of 4 elements:
+#'   \describe{
+#'     \item{models_rank}{A model selection table of all types of mixed-effects models}
+#'     \item{best_model}{The best model object.}
+#'     \item{R2}{The conditional and marginal pseudo-\eqn{R^2} of the best model.}
+#'     \item{warnings}{Warning messages, if any, spit from the models.
+#'       These usually indicate failure of model convergence.}
+#'     }
+#' @examples
+#' m_test <- allometree_mlm(data = subset(urbantrees, height < 40))
+#' m_test
 
 allometree_mlm <-
   function(data,
@@ -134,6 +145,3 @@ allometree_mlm <-
     return(out)
 
   }
-
-# NOT RUN: test
-# m_test <- allometree_mlm(data = subset(urbantrees, height < 40))
