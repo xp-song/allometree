@@ -29,6 +29,7 @@ Imports:
     checkmate,
     MuMIn (>= 1.43.15),
     lme4,
+    merTools,
     sjstats (>= 0.17.8),
     stringr,
     tidyr,
