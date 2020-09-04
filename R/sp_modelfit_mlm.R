@@ -9,11 +9,12 @@
 #'   Defaults to `height`.
 #' @param predictor Column name of the predictor variable.
 #'   Defaults to `diameter`.
-#' @return A list of 4 elements:
+#' @return A list of 5 elements:
 #'   \describe{
 #'     \item{models_rank}{A model selection table of all types of mixed-effects models}
 #'     \item{best_model}{The best model object.}
 #'     \item{R2}{The conditional and marginal pseudo-\eqn{R^2} of the best model.}
+#'     \item{CF}{Correction factor to adjust prediction or simulation.}
 #'     \item{warnings}{Warning messages, if any, spit from the models.
 #'       These usually indicate failure of model convergence.}
 #'     }
@@ -90,6 +91,10 @@ allometree_mlm <-
     mlm_msg <- lapply(mlm.list, function(m) m@optinfo$conv$lme4$messages)
     mlm_msg <- mlm_msg[!sapply(mlm_msg, is.null)]  # remove NULLs
 
+    if (length(mlm_msg) > 0) {
+      message("Opps, some models have warning messages. See 'warnings' in the output list.")
+    }
+
     # Model selection
     mlm_comp <- MuMIn::model.sel(mlm.list)
     mlm_comp_cols_print <- c("df", "logLik", "AICc", "delta")
@@ -128,7 +133,6 @@ allometree_mlm <-
       data.frame(species = rownames(params),
                  modelcode = best_mod_name,
                  params,
-                 correctn_factor = cf,
                  row.names = NULL)
 
     # Compile outputs
@@ -136,12 +140,9 @@ allometree_mlm <-
     out$models_rank <- mlm_comp[, mlm_comp_cols_print]
     out$best_model <- best_mod_refit
     out$R2 <- MuMIn::r.squaredGLMM(best_mod_refit)
+    out$CF <- cf
     out$warnings <- mlm_msg
 
     return(out)
-
-    if (length(mlm_msg) > 0) {
-      message("Opps, some models have warning messages. See 'warnings' in the output list.")
-    }
 
   }

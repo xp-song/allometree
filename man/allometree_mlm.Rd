@@ -24,11 +24,12 @@ Defaults to \code{height}.}
 Defaults to \code{diameter}.}
 }
 \value{
-A list of 4 elements:
+A list of 5 elements:
 \describe{
 \item{models_rank}{A model selection table of all types of mixed-effects models}
 \item{best_model}{The best model object.}
 \item{R2}{The conditional and marginal pseudo-\eqn{R^2} of the best model.}
+\item{CF}{Correction factor to adjust prediction or simulation.}
 \item{warnings}{Warning messages, if any, spit from the models.
 These usually indicate failure of model convergence.}
 }
