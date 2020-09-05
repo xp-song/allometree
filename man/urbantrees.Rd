@@ -17,7 +17,7 @@ and converted to diameter size (m).}
 Independently sampled validation data reported in:
 
 Song, X. P., Lai, H. R., Wijedasa, L. S., Tan, P. Y., Edwards, P. J., & Richards, D. R.,
-Height–diameter allometry for the management of city trees in the tropics (in prep).
+Height–diameter allometry for the management of city trees in the tropics (in review).
 }
 \usage{
 urbantrees

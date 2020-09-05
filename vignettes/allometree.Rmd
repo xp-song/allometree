@@ -67,24 +67,24 @@ head(eqns_info)
 
 ## 1. Single-species models
 
-We can run `sp_modelselect_multi()` to select the best-fit model for each species in the dataset `urbantrees`. This can also be done for  individual species using `sp_modelselect()`. Note that you can also fit data to specified (i.e. pre-defined) equations, using the functions `sp_modelfit()` and `sp_modelfit_multi()`. This can be done, for example, after the removal of outliers from the full dataset. See the vignette [Single-species linear models](single-species_models.html) for a full demonstration.
+We can run `ss_modelselect_multi()` to select the best-fit model for each species in the dataset `urbantrees`. This can also be done for  individual species using `ss_modelselect()`. Note that you can also fit data to specified (i.e. pre-defined) equations, using the functions `ss_modelfit()` and `ss_modelfit_multi()`. This can be done, for example, after the removal of outliers from the full dataset. See the vignette [Single-species linear models](single-species_models.html) for a full demonstration.
 
 ```{r}
-results <- sp_modelselect_multi(urbantrees, species = "species", # specify colname of species
+results <- ss_modelselect_multi(urbantrees, species = "species", # specify colname of species
                                 response = "height", predictor = "diameter") # specify colnames of variables
 ```
 
 `results` is a list of 3 elements:
 
-1. List of tables showing each species' candidate models ranked by AICc value, named `sp_models_rank`.
-2. List of each species' best-fit model object, named `sp_models`.
-3. Table showing each species' best-fit model information, named `sp_models_info`. 
+1. List of tables showing each species' candidate models ranked by Aikake's Information Criterion corrected for small sample sizes (AICc), named `ss_models_rank`.
+2. List of each species' best-fit model object, named `ss_models`.
+3. Table showing each species' best-fit model information, named `ss_models_info`. 
 
 &nbsp;
 
-An overview of the best-fit models across the `r nrow(results$sp_models_info)` species:
+An overview of the best-fit models across the `r nrow(results$ss_models_info)` species:
 ```{r}
-results$sp_models_info
+results$ss_models_info
 ```
 
 &nbsp;
@@ -92,28 +92,48 @@ results$sp_models_info
 We can simulate data across a range of diameter sizes for each species, and use their respective models to make predictions of tree height. The simulated data can also be extrapolated beyond the range used to fit the model, using the argument `extrapolate`:
 
 ```{r}
-predictions <- sp_simulate(ref_table = results$sp_models_info, models = results$sp_models,
-                           extrapolate = c(0,1))
-head(predictions)
+predictions_ss <- ss_simulate(ref_table = results$ss_models_info, models = results$ss_models,
+                              extrapolate = c(0,1))
+head(predictions_ss)
 ```
 
 &nbsp;
 
-`predictions` is a dataframe of simulated data for the diameter size (`predictor`) for each `species`. Other columns include the predicted height (`fit`), the lower (`lwr`) and upper (`upr`) bounds of the prediction interval, as well as whether the height/diameter variables are `extrapolated` beyond the original data used to fit the model.
+`predictions_ss` is a dataframe of simulated data for the diameter size (`predictor`) for each `species`. Other columns include the predicted height (`fit`), the lower (`lwr`) and upper (`upr`) bounds of the prediction interval, as well as whether the height/diameter variables are `extrapolated` beyond the original data used to fit the model.
 
 ---
 
 ## 2. Mixed-effects model
 
-In the works...
+Alternatively, the `urbantrees` data can be fit to a linear mixed-effects model with 'species' specified as the random effect, using the `lme4::lmer` function under the hood.  
 
----
+```{r warning = FALSE, message = FALSE}
+results <- mix_modelselect(urbantrees)
+```
 
-## 3. Comparision between model types
+`results` is a list of 5 elements:
 
-In the works...
+1. Model selection table showing all the types of mixed-effects models considered, ranked in order of ascending AICc. 
+2. The best-fit model object, named `best_model`.
+3. The conditional and marginal pseudo-\eqn{R^2} of the best-fit model.
+4. Correction factor used to adjust predicted values if response variable is transformed (incorporated into reported parameters).
+5. Warning messages, if any, spit from the models.
 
-```{r eval = FALSE, include = FALSE}
+&nbsp;
+
+Likewise, we can simulate data across a range of diameter sizes for each species, and make predictions of tree height. Extrapolation is also possible using the argument `extrapolate`:
+```{r warning = FALSE, message = FALSE}
+predictions_mix <- mix_simulate(data = urbantrees, 
+                                modelselect = results,
+                                extrapolate = c(0, 4))
+head(predictions_mix)
+```
+
+## Visualisations
+
+Single-species models:  
+
+```{r single-species_model curves, message = FALSE, warning = FALSE, fig.width=6.5, fig.height =4, fig.align='center', echo = FALSE}
 
 ggplot() +
   facet_wrap(~ species)+ 
@@ -121,18 +141,43 @@ ggplot() +
              size=0.35, alpha = 0.9, color = "grey50") +
   
   # prediction interval
-  geom_ribbon(data = predictions, aes(x = predictor, ymin = lwr, ymax = upr), 
+  geom_ribbon(data = predictions_ss, aes(x = predictor, ymin = lwr, ymax = upr), 
               alpha = 0.10) +
   
   # regression line
-  geom_line(data = predictions, aes(x = predictor, y = fit, lty = extrapolated),
+  geom_line(data = predictions_ss, aes(x = predictor, y = fit, lty = extrapolated),
             size = 0.8, alpha = 0.6) +
   
   scale_linetype_manual(values=c("No"= 1 , "Low" = 3, "High" = 3), name = "Extrapolated") +
   
   xlab("Diameter (m)") + ylab("Height (m)") +
   
-  coord_cartesian(ylim=c(0, 25), xlim= c(0,max(predictions$predictor)))
+  coord_cartesian(ylim=c(0, 25), xlim= c(0,1))
+```
+
+
+Mixed-effects models:  
+
+```{r mixed-effects model curves, fig.width = 6.5, fig.height = 4, fig.align = 'center', echo = FALSE}
+
+ggplot() +
+  facet_wrap(~ species)+ 
+  geom_point(data = urbantrees, aes(x = diameter, y = height),
+             size=0.35, alpha = 0.9, color = "grey50") +
+  
+  # prediction interval
+  geom_ribbon(data = predictions_mix, aes(x = predictor, ymin = lwr, ymax = upr), 
+              alpha = 0.10) +
+  
+  # regression line
+  geom_line(data = predictions_mix, aes(x = predictor, y = fit, lty = extrapolated),
+            size = 0.8, alpha = 0.6) +
+  
+  scale_linetype_manual(values=c("No"= 1 , "Low" = 3, "High" = 3), name = "Extrapolated") +
+  
+  xlab("Diameter (m)") + ylab("Height (m)") +
+  
+  coord_cartesian(ylim=c(0, 25), xlim= c(0,max(predictions_mix$predictor)))
 ```
 
 

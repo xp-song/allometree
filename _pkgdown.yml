@@ -33,11 +33,14 @@ reference:
 - title: "Linear models: Single-species"
   desc: "Linear regression models developed separately for each species."
 - contents:
-  - starts_with("sp_")
+  - starts_with("ss_")
 - title: "Linear model: Mixed-effects"
   desc: "Linear mixed-effects model that includes all species as random effects."
 - contents:
   - starts_with("mix_")
+- title: "Helper functions"
+- contents:
+  - generate_x
 
 authors:
   Xiao Ping Song:

@@ -61,7 +61,7 @@ outliers. The example below selects the best-fit equation for each
 species in `urbantrees`:
 
 ``` r
-results <- sp_modelselect_multi(urbantrees, species = "species", # specify colname of species
+results <- ss_modelselect_multi(urbantrees, species = "species", # specify colname of species
                                 response = "height", predictor = "diameter") # specify colnames of variables
 ```
 
@@ -73,7 +73,7 @@ simulated data can also be extrapolated beyond the range used to fit the
 model:
 
 ``` r
-predictions <- sp_simulate(ref_table = results$sp_models_info, models = results$sp_models, 
+predictions <- ss_simulate(ref_table = results$ss_models_info, models = results$ss_models, 
                            extrapolate = c(0,1)) # diameter from 0 to 1 m
 ```
 

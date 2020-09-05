@@ -48,7 +48,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">allometree</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1</span>
       </span>
     </div>
 
@@ -101,7 +101,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Get started with allometree</h1>
             
-            <h4 class="date">2020-09-02</h4>
+            <h4 class="date">2020-09-06</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/xp-song/allometree/blob/master/vignettes/allometree.Rmd"><code>vignettes/allometree.Rmd</code></a></small>
       <div class="hidden name"><code>allometree.Rmd</code></div>
@@ -126,7 +126,7 @@
 <p>We will be using <code><a href="https://rdrr.io/r/utils/data.html">data(urbantrees)</a></code>. It contains five species planted along streets in Singapore, each spanning a wide range of heights and diameter sizes (in metres).</p>
 <div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">urbantrees</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"allometree"</span>)
 <span class="no">urbantrees</span>
-<span class="co">#&gt; # A tibble: 1,585 x 3</span>
+<span class="co">#&gt; # A tibble: 1,584 x 3</span>
 <span class="co">#&gt;    species                  diameter height</span>
 <span class="co">#&gt;    &lt;chr&gt;                       &lt;dbl&gt;  &lt;int&gt;</span>
 <span class="co">#&gt;  1 Hopea odorata              0.0987      4</span>
@@ -139,7 +139,7 @@
 <span class="co">#&gt;  8 Xanthostemon chrysanthus   0.162       5</span>
 <span class="co">#&gt;  9 Xanthostemon chrysanthus   0.134       5</span>
 <span class="co">#&gt; 10 Xanthostemon chrysanthus   0.105       3</span>
-<span class="co">#&gt; # … with 1,575 more rows</span>
+<span class="co">#&gt; # … with 1,574 more rows</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggplot2</span>)
 
@@ -153,7 +153,7 @@
 <a href="#allometric-equations-eqns_info" class="anchor"></a>Allometric equations: <code>eqns_info</code>
 </h2>
 <p>Allometric relationships for urban trees can vary drastically from those for forest trees, and are also influenced by human factors such as pruning and fertilisation. Empirical models are developed using six allometric equations used for urban trees (McPherson <em>et al.</em>, 2016).</p>
-<p>More information can be found in <code>?eqns_info</code>, as well as in <code><a href="https://rdrr.io/r/utils/data.html">data(eqns_info)</a></code>. The column <code>modelcode</code> shows the unique model code for each equation:</p>
+<p>More information can be found in <code><a href="../reference/eqns_info.html">?eqns_info</a></code>, as well as in <code><a href="https://rdrr.io/r/utils/data.html">data(eqns_info)</a></code>. The column <code>modelcode</code> shows the unique model code for each equation:</p>
 <div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">eqns_info</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"allometree"</span>)
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">eqns_info</span>)
 <span class="co">#&gt;   modeltype    base_equation   base_formula      weights modelcode</span>
@@ -168,41 +168,41 @@
 <div id="single-species-models" class="section level2">
 <h2 class="hasAnchor">
 <a href="#single-species-models" class="anchor"></a>1. Single-species models</h2>
-<p>We can run <code>sp_modelselect_multi()</code> to select the best-fit model for each species in the dataset <code>urbantrees</code>. This can also be done for individual species using <code>sp_modelselect()</code>. Note that you can also fit data to specified (i.e. pre-defined) equations, using the functions <code>sp_modelfit()</code> and <code>sp_modelfit_multi()</code>. This can be done, for example, after the removal of outliers from the full dataset. See the vignette <a href="single-species_models.html">Single-species linear models</a> for a full demonstration.</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">results</span> <span class="kw">&lt;-</span> <span class="fu">sp_modelselect_multi</span>(<span class="no">urbantrees</span>, <span class="kw">species</span> <span class="kw">=</span> <span class="st">"species"</span>, <span class="co"># specify colname of species</span>
+<p>We can run <code><a href="../reference/ss_modelselect_multi.html">ss_modelselect_multi()</a></code> to select the best-fit model for each species in the dataset <code>urbantrees</code>. This can also be done for individual species using <code><a href="../reference/ss_modelselect.html">ss_modelselect()</a></code>. Note that you can also fit data to specified (i.e. pre-defined) equations, using the functions <code><a href="../reference/ss_modelfit.html">ss_modelfit()</a></code> and <code><a href="../reference/ss_modelfit_multi.html">ss_modelfit_multi()</a></code>. This can be done, for example, after the removal of outliers from the full dataset. See the vignette <a href="single-species_models.html">Single-species linear models</a> for a full demonstration.</p>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">results</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/ss_modelselect_multi.html">ss_modelselect_multi</a></span>(<span class="no">urbantrees</span>, <span class="kw">species</span> <span class="kw">=</span> <span class="st">"species"</span>, <span class="co"># specify colname of species</span>
                                 <span class="kw">response</span> <span class="kw">=</span> <span class="st">"height"</span>, <span class="kw">predictor</span> <span class="kw">=</span> <span class="st">"diameter"</span>) <span class="co"># specify colnames of variables</span></pre></body></html></div>
 <p><code>results</code> is a list of 3 elements:</p>
 <ol style="list-style-type: decimal">
-<li>List of tables showing each species’ candidate models ranked by AICc value, named <code>sp_models_rank</code>.</li>
-<li>List of each species’ best-fit model object, named <code>sp_models</code>.</li>
-<li>Table showing each species’ best-fit model information, named <code>sp_models_info</code>.</li>
+<li>List of tables showing each species’ candidate models ranked by Aikake’s Information Criterion corrected for small sample sizes (AICc), named <code>ss_models_rank</code>.</li>
+<li>List of each species’ best-fit model object, named <code>ss_models</code>.</li>
+<li>Table showing each species’ best-fit model information, named <code>ss_models_info</code>.</li>
 </ol>
 <p> </p>
 <p>An overview of the best-fit models across the 5 species:</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">results</span>$<span class="no">sp_models_info</span>
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">results</span>$<span class="no">ss_models_info</span>
 <span class="co">#&gt;                    species modelcode         a           b          c        d</span>
 <span class="co">#&gt; 1            Albizia saman    lin_w1  6.717431   9.4640964         NA       NA</span>
 <span class="co">#&gt; 2            Hopea odorata  quart_w4 -1.149669 149.3178483 -1522.6122 7908.410</span>
 <span class="co">#&gt; 3     Syzygium myrtifolium  quart_w2 -4.614100 158.5128488  -748.2492 1638.676</span>
 <span class="co">#&gt; 4       Terminalia mantaly   expo_w1  1.241983   3.8600410         NA       NA</span>
-<span class="co">#&gt; 5 Xanthostemon chrysanthus loglog_w1  2.946637   0.5886442         NA       NA</span>
+<span class="co">#&gt; 5 Xanthostemon chrysanthus loglog_w1  2.947907   0.5916555         NA       NA</span>
 <span class="co">#&gt;            e response_geom_mean correctn_factor predictor_min predictor_max</span>
 <span class="co">#&gt; 1         NA          13.566083        1.000000    0.31194369     1.5278875</span>
 <span class="co">#&gt; 2 -14225.442           5.390829        1.000000    0.03183099     0.2928451</span>
 <span class="co">#&gt; 3  -1321.221           7.735643        1.000000    0.04138029     0.5665916</span>
 <span class="co">#&gt; 4         NA           7.596013        1.000533    0.03501409     0.5602254</span>
-<span class="co">#&gt; 5         NA           5.067462        1.001099    0.02864789     0.3533240</span>
+<span class="co">#&gt; 5         NA           5.041605        1.000883    0.02864789     0.3533240</span>
 <span class="co">#&gt;   response_min response_max residual_SE mean_SE adj_R2   n</span>
 <span class="co">#&gt; 1            8           20      2.2050  4.7889 0.4276 133</span>
 <span class="co">#&gt; 2            2           15     11.9430  2.6339 0.5460 483</span>
 <span class="co">#&gt; 3            1           18      2.1674  2.2536 0.6662 353</span>
 <span class="co">#&gt; 4            3           18      0.2493  0.0615 0.6702 197</span>
-<span class="co">#&gt; 5            2           43      0.2381  0.0564 0.5551 419</span></pre></body></html></div>
+<span class="co">#&gt; 5            2           13      0.2123  0.0449 0.6137 418</span></pre></body></html></div>
 <p> </p>
 <p>We can simulate data across a range of diameter sizes for each species, and use their respective models to make predictions of tree height. The simulated data can also be extrapolated beyond the range used to fit the model, using the argument <code>extrapolate</code>:</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">predictions</span> <span class="kw">&lt;-</span> <span class="fu">sp_simulate</span>(<span class="kw">ref_table</span> <span class="kw">=</span> <span class="no">results</span>$<span class="no">sp_models_info</span>, <span class="kw">models</span> <span class="kw">=</span> <span class="no">results</span>$<span class="no">sp_models</span>,
-                           <span class="kw">extrapolate</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>,<span class="fl">1</span>))
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">predictions</span>)
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">predictions_ss</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/ss_simulate.html">ss_simulate</a></span>(<span class="kw">ref_table</span> <span class="kw">=</span> <span class="no">results</span>$<span class="no">ss_models_info</span>, <span class="kw">models</span> <span class="kw">=</span> <span class="no">results</span>$<span class="no">ss_models</span>,
+                              <span class="kw">extrapolate</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>,<span class="fl">1</span>))
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">predictions_ss</span>)
 <span class="co">#&gt; # A tibble: 6 x 6</span>
 <span class="co">#&gt; # Groups:   species [1]</span>
 <span class="co">#&gt;   species       predictor   fit   lwr   upr extrapolated</span>
@@ -214,19 +214,43 @@
 <span class="co">#&gt; 5 Albizia saman     0.361 10.1   5.69  14.6 No          </span>
 <span class="co">#&gt; 6 Albizia saman     0.373 10.3   5.81  14.7 No</span></pre></body></html></div>
 <p> </p>
-<p><code>predictions</code> is a dataframe of simulated data for the diameter size (<code>predictor</code>) for each <code>species</code>. Other columns include the predicted height (<code>fit</code>), the lower (<code>lwr</code>) and upper (<code>upr</code>) bounds of the prediction interval, as well as whether the height/diameter variables are <code>extrapolated</code> beyond the original data used to fit the model.</p>
+<p><code>predictions_ss</code> is a dataframe of simulated data for the diameter size (<code>predictor</code>) for each <code>species</code>. Other columns include the predicted height (<code>fit</code>), the lower (<code>lwr</code>) and upper (<code>upr</code>) bounds of the prediction interval, as well as whether the height/diameter variables are <code>extrapolated</code> beyond the original data used to fit the model.</p>
 <hr>
 </div>
 <div id="mixed-effects-model" class="section level2">
 <h2 class="hasAnchor">
 <a href="#mixed-effects-model" class="anchor"></a>2. Mixed-effects model</h2>
-<p>In the works…</p>
-<hr>
+<p>Alternatively, the <code>urbantrees</code> data can be fit to a linear mixed-effects model with ‘species’ specified as the random effect, using the <code><a href="https://rdrr.io/pkg/lme4/man/lmer.html">lme4::lmer</a></code> function under the hood.</p>
+<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">results</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/mix_modelselect.html">mix_modelselect</a></span>(<span class="no">urbantrees</span>)</pre></body></html></div>
+<p><code>results</code> is a list of 5 elements:</p>
+<ol style="list-style-type: decimal">
+<li>Model selection table showing all the types of mixed-effects models considered, ranked in order of ascending AICc.</li>
+<li>The best-fit model object, named <code>best_model</code>.</li>
+<li>The conditional and marginal pseudo- of the best-fit model.</li>
+<li>Correction factor used to adjust predicted values if response variable is transformed (incorporated into reported parameters).</li>
+<li>Warning messages, if any, spit from the models.</li>
+</ol>
+<p> </p>
+<p>Likewise, we can simulate data across a range of diameter sizes for each species, and make predictions of tree height. Extrapolation is also possible using the argument <code>extrapolate</code>:</p>
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">predictions_mix</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/mix_simulate.html">mix_simulate</a></span>(<span class="kw">data</span> <span class="kw">=</span> <span class="no">urbantrees</span>,
+                                <span class="kw">modelselect</span> <span class="kw">=</span> <span class="no">results</span>,
+                                <span class="kw">extrapolate</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, <span class="fl">4</span>))
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">predictions_mix</span>)
+<span class="co">#&gt;         species   predictor extrapolated       fit       upr       lwr</span>
+<span class="co">#&gt; 1 Albizia saman 0.000000000          Low 0.0000000 0.0000000 0.0000000</span>
+<span class="co">#&gt; 2 Albizia saman 0.003150946          Low 0.6395136 0.9450479 0.4476179</span>
+<span class="co">#&gt; 3 Albizia saman 0.006301893          Low 0.9741185 1.3819811 0.6998881</span>
+<span class="co">#&gt; 4 Albizia saman 0.009452839          Low 1.2099182 1.7612521 0.8439824</span>
+<span class="co">#&gt; 5 Albizia saman 0.012603785          Low 1.4771126 2.0870375 1.0430659</span>
+<span class="co">#&gt; 6 Albizia saman 0.015754732          Low 1.6544450 2.3611229 1.1914258</span></pre></body></html></div>
 </div>
-<div id="comparision-between-model-types" class="section level2">
+<div id="visualisations" class="section level2">
 <h2 class="hasAnchor">
-<a href="#comparision-between-model-types" class="anchor"></a>3. Comparision between model types</h2>
-<p>In the works…</p>
+<a href="#visualisations" class="anchor"></a>Visualisations</h2>
+<p>Single-species models:</p>
+<p><img src="allometree_files/figure-html/single-species_model%20curves-1.png" width="624" style="display: block; margin: auto;"></p>
+<p>Mixed-effects models:</p>
+<p><img src="allometree_files/figure-html/mixed-effects%20model%20curves-1.png" width="624" style="display: block; margin: auto;"></p>
 <hr>
 </div>
 <div id="references" class="section level2">

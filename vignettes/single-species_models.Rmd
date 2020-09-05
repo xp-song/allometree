@@ -33,19 +33,19 @@ In this document, we are using relationship between two size parameters as an ex
 
 ### For one species
 
-For a particular species of interest, data will be fit to all allometric equations. The best-fit model is selected based on the lowest bias-corrected Aikaike’s information criterion (AICc) value. Here's an example to select the best-fit model for the species *Albizia saman*, using the function `sp_modelselect()`.
+For a particular species of interest, data will be fit to all allometric equations. The best-fit model is selected based on the lowest bias-corrected Aikaike’s information criterion (AICc) value. Here's an example to select the best-fit model for the species *Albizia saman*, using the function `ss_modelselect()`.
 
 
-```{r sp_modelselect}
+```{r ss_modelselect}
 data(urbantrees, package = "allometree")
 
 Alb_sam <- urbantrees[urbantrees$species == "Albizia saman", ]  # subset data for one species
 
-results <- sp_modelselect(Alb_sam, 
+results <- ss_modelselect(Alb_sam, 
                           response = "height", predictor = "diameter")  # specify colnames of variables
 ```
 
-`results` is a list of 3 elements. More information on the output can be found at `?sp_modelselect`.
+`results` is a list of 3 elements. More information on the output can be found at `?ss_modelselect`.
 
 1. Table showing models ranked by AICc value, named `all_models_rank`.
 2. Best-fit model object, named `best_model`.
@@ -66,40 +66,40 @@ results$best_model_info
 
 ### For multiple species
 
-We can also run `sp_modelselect()` across multiple species in the full dataset `urbantrees`. For this, we use the wrapper function `sp_modelselect_multi()`.
+We can also run `ss_modelselect()` across multiple species in the full dataset `urbantrees`. For this, we use the wrapper function `ss_modelselect_multi()`.
 
 ```{r}
-results_all <- sp_modelselect_multi(urbantrees, species = "species", # specify colname of species
+results_all <- ss_modelselect_multi(urbantrees, species = "species", # specify colname of species
                                     response = "height", predictor = "diameter")
 ```
 
 `results_all` is a list of 3 elements:
 
-1. List of tables showing each species' candidate models ranked by AICc value, named `sp_models_rank`.
-2. List of each species' best-fit model object, named `sp_models`.
-3. Table showing each species' best-fit model information, named `sp_models_info`. 
+1. List of tables showing each species' candidate models ranked by AICc value, named `ss_models_rank`.
+2. List of each species' best-fit model object, named `ss_models`.
+3. Table showing each species' best-fit model information, named `ss_models_info`. 
 
 &nbsp;
 
-An overview of the best-fit models across the `r nrow(results_all$sp_models_info)` species:
+An overview of the best-fit models across the `r nrow(results_all$ss_models_info)` species:
 ```{r}
-results_all$sp_models_info
+results_all$ss_models_info
 ```
 
 
 ## 2. Outlier removal
 
-Let's say we want to check for outlier/influential data points, remove them, and re-fit the filtered dataset to the pre-selected models as defined in `results_all$sp_models_info`. First, lets visualise these outliers, say, for the species *Xanthostemon chrysanthus*.
+Let's say we want to check for outlier/influential data points, remove them, and re-fit the filtered dataset to the pre-selected models as defined in `results_all$ss_models_info`. First, lets visualise these outliers, say, for the species *Xanthostemon chrysanthus*.
 
 ```{r fig.align='center', fig.width=5.5, fig.height=5.5}
-par(mfrow=c(2,2)); plot(results_all$sp_models$`Xanthostemon chrysanthus`)
+par(mfrow=c(2,2)); plot(results_all$ss_models$`Xanthostemon chrysanthus`)
 ```
 &nbsp;
 
 There are numerous ways to [deal with outliers](http://r-statistics.co/Outlier-Treatment-With-R.html). One way is to remove them based on Cook's Distance (bottom-right plot). In general use, outliers may be defined as points with a Cook's distance more than four times the mean Cook's distance (red line in plot below). Note that this threshold is not fixed, and may be adjusted according to biological knowledge of each tree species.
 
 ```{r, fig.align='center', fig.width=4, fig.height=4}
-cooks_dist <- cooks.distance(results_all$sp_models$`Xanthostemon chrysanthus`)
+cooks_dist <- cooks.distance(results_all$ss_models$`Xanthostemon chrysanthus`)
 plot(cooks_dist, pch = ".", cex = 2, main = "Outliers by Cook's Distance")
 abline(h = 4 * mean(cooks_dist, na.rm = T), col = "red")  # threshold line 
 text(x = 1:length(cooks_dist) + 1, y = cooks_dist, 
@@ -108,7 +108,7 @@ text(x = 1:length(cooks_dist) + 1, y = cooks_dist,
 
 &nbsp;
 
-Lets remove outliers across all species in `urbantrees`. We can create a function `uncooker()` that does so for each species using a `for()` loop, based on their respective best-fit model in `results_all$sp_models`:
+Lets remove outliers across all species in `urbantrees`. We can create a function `uncooker()` that does so for each species using a `for()` loop, based on their respective best-fit model in `results_all$ss_models`:
 
 ```{r}
 uncooker <- function(data, modellist){
@@ -126,7 +126,7 @@ uncooker <- function(data, modellist){
 }
 
 # run the function uncooker()
-urbantrees_clean <- uncooker(urbantrees, results_all$sp_models)
+urbantrees_clean <- uncooker(urbantrees, results_all$ss_models)
 
 nrow(urbantrees_clean)
 ```
@@ -142,7 +142,7 @@ rm(cooks_dist, uncooker)
 
 ### For one species
 
-We can now fit `urbantrees_clean` to the best-fit equations we defined in [Section 1](#section1). Here's an example for the species *Albizia saman* again, using the function `sp_modelfit()`. This function has an additional argument `modelcode`. In the case of *Albizia saman*, it is `lin_w1` (see `results_all$sp_models_info`). Note that you can also pick any one of the options found in `eqns_info$modelcode`.
+We can now fit `urbantrees_clean` to the best-fit equations we defined in [Section 1](#section1). Here's an example for the species *Albizia saman* again, using the function `ss_modelfit()`. This function has an additional argument `modelcode`. In the case of *Albizia saman*, it is `lin_w1` (see `results_all$ss_models_info`). Note that you can also pick any one of the options found in `eqns_info$modelcode`.
 
 &nbsp;
 
@@ -151,7 +151,7 @@ We'll overwrite our previously-defined variables `Alb_sam` and `results`, this t
 ```{r fit data to pre-selected model, eval = FALSE}
 Alb_sam <- urbantrees_clean[urbantrees_clean$species == "Albizia saman", ]
 
-results <- sp_modelfit(Alb_sam, modelcode = "lin_w1", # specify modelcode
+results <- ss_modelfit(Alb_sam, modelcode = "lin_w1", # specify modelcode
                        response = "height", predictor = "diameter") 
 ```
 
@@ -162,11 +162,11 @@ results <- sp_modelfit(Alb_sam, modelcode = "lin_w1", # specify modelcode
 
 ### For multiple species
 
-Similar to the the wrapper function `sp_modelselect_multi()`, we can also run  `sp_modelfit_multi()` to fit pre-selected models across multiple species. In this function, we need to input a reference table `ref_table` (i.e. `results_all$sp_models_info`) that provides information on the `species` and their corresponding `modelcode`.
+Similar to the the wrapper function `ss_modelselect_multi()`, we can also run  `ss_modelfit_multi()` to fit pre-selected models across multiple species. In this function, we need to input a reference table `ref_table` (i.e. `results_all$ss_models_info`) that provides information on the `species` and their corresponding `modelcode`.
 
 ```{r}
-results_all <- sp_modelfit_multi(urbantrees_clean, 
-                                 ref_table = results_all$sp_models_info,
+results_all <- ss_modelfit_multi(urbantrees_clean, 
+                                 ref_table = results_all$ss_models_info,
                                  species = "species", # colname in both data & ref_table
                                  modelcode = "modelcode", # colname in ref_table
                                  response = "height", predictor = "diameter")
@@ -174,16 +174,16 @@ results_all <- sp_modelfit_multi(urbantrees_clean,
 
 `results_all` is now a list of 2 elements:
 
-1. List of each species' resulting model object, named `sp_models`.
-2. Table showing each species' resulting model information, named `sp_models_info`.
+1. List of each species' resulting model object, named `ss_models`.
+2. Table showing each species' resulting model information, named `ss_models_info`.
 
 &nbsp;
 
-To make our subsequent code less verbose, let's assign the elements `sp_models` and `sp_models_info` to variables with the same name:
+To make our subsequent code less verbose, let's assign the elements `ss_models` and `ss_models_info` to variables with the same name:
 
 ```{r}
-sp_models <- results_all$sp_models
-sp_models_info <- results_all$sp_models_info
+ss_models <- results_all$ss_models
+ss_models_info <- results_all$ss_models_info
 ```
 
 ```{r include = FALSE}
@@ -192,38 +192,33 @@ rm(results_all, results, Alb_sam)
 
 ## 4. Make predictions
 
-We can simulate some data for a species of interest, and use it's model to make predictions. We'll use the species *Albizia saman* again as an example. Let's first simulate the data, based on the range of values for the predictor variable (i.e. diameter size) that was used to fit the model:
+We can simulate some data for a species of interest, and use it's model to make predictions. We'll use the species *Albizia saman* again as an example. Let's first generate the data based on the range of values for the predictor variable (i.e. diameter size) that was used to fit the model, using the function `generate_x()`:
 
 ```{r}
-predict_range <- sp_models_info[sp_models_info$species == "Albizia saman",]
+Alb_sam <- urbantrees[urbantrees$species == 'Albizia saman', ]  
 
-# simulate 100 data points across range
-predict_range_full <- as.data.frame(apply(predict_range, 1, function(x) seq(x["predictor_min"], x["predictor_max"], length.out = 100)))
-colnames(predict_range_full) <- predict_range$species
-
-predict_range_full <- tidyr::pivot_longer(predict_range_full, 
-                                          cols = colnames(predict_range_full), 
-                                          names_to = "species", values_to = "predictor")
+# generate data for subsequent predictions
+newdata <- generate_x(Alb_sam, response = "height", predictor = "diameter")
 ```
 
 &nbsp;
 
-`sp_predict()` can be used to make predictions on the simulated data `predict_range_full`. This appends columns for predicted height (`fit`), as well as the lower (`lwr`) and upper (`upr`) bounds of the prediction interval:
+`ss_predict()` can be used to make predictions on the simulated data `predict_range_full`. This appends columns for predicted height (`fit`), as well as the lower (`lwr`) and upper (`upr`) bounds of the prediction interval:
 
 ```{r}
-predictions <- sp_predict(predict_range_full, 
-                          models = sp_models, 
-                          ref_table = sp_models_info, 
+predictions <- ss_predict(newdata, 
+                          models = ss_models, 
+                          ref_table = ss_models_info, 
                           predictor = "predictor")
 head(predictions)
 ```
 
 &nbsp;
 
-Note that you can simulate data automatically using the `sp_simulate()` function, which is also a wrapper to `sp_predict()`. This can be done for one or multiple species, using the argument `select_sp`. The simulated data can be extrapolated beyond the range used to fit the model, using the argument `extrapolate`. Here's an example using the models that we previously derived from the filtered dataset `urbantrees_clean`. Let's say we're interested in *Albizia saman*, *Terminalia mantaly*, and *Xanthostemon chrysanthus*, and would like to predict their height across a diameter size of 0 – 1 m. We'll overwrite our previously-defined variable `predictions`:
+Note that you can simulate data automatically using the `ss_simulate()` function, which is also a wrapper to `ss_predict()`. This can be done for one or multiple species, using the argument `select_sp`. The simulated data can be extrapolated beyond the range used to fit the model, using the argument `extrapolate`. Here's an example using the models that we previously derived from the filtered dataset `urbantrees_clean`. Let's say we're interested in *Albizia saman*, *Terminalia mantaly*, and *Xanthostemon chrysanthus*, and would like to predict their height across a diameter size of 0 – 1 m. We'll overwrite our previously-defined variable `predictions`:
 
 ```{r}
-predictions <- sp_simulate(ref_table = sp_models_info, models = sp_models, 
+predictions <- ss_simulate(ref_table = ss_models_info, models = ss_models, 
                            select_sp = c("Albizia saman", "Terminalia mantaly", "Xanthostemon chrysanthus"),
                            extrapolate = c(0,1)) 
 head(predictions)

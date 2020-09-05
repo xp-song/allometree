@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Allometric equations for linear models — eqns_info • allometree</title>
+<title>Make predictions on simulated data using mixed-effects model — mix_simulate • allometree</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,9 +46,11 @@
 
 
 
-<meta property="og:title" content="Allometric equations for linear models — eqns_info" />
-<meta property="og:description" content="Allometric equations that are considered in the development of
-linear models." />
+<meta property="og:title" content="Make predictions on simulated data using mixed-effects model — mix_simulate" />
+<meta property="og:description" content="Data is simulated for each species (if multiple species are present) based on their respective ranges of the
+predictor variable, which can be extrapolated to values defined by the user. The mixed-effects model is used
+to predict values for the response variable, as well as it's prediction interval.
+Necessary bias-corrections are made if the mixed-effects model has a transformed response variable." />
 <meta property="og:image" content="https://xp-song.github.io/allometree/reference/figures/logo.png" />
 <meta property="og:image:alt" content="Allometric Scaling of Urban Trees" />
 <meta name="twitter:card" content="summary_large_image" />
@@ -146,71 +148,102 @@ linear models." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Allometric equations for linear models</h1>
-    <small class="dont-index">Source: <a href='https://github.com/xp-song/allometree/blob/master/R/data-eqns_info.R'><code>R/data-eqns_info.R</code></a></small>
-    <div class="hidden name"><code>eqns_info.Rd</code></div>
+    <h1>Make predictions on simulated data using mixed-effects model</h1>
+    <small class="dont-index">Source: <a href='https://github.com/xp-song/allometree/blob/master/R/mix_simulate.R'><code>R/mix_simulate.R</code></a></small>
+    <div class="hidden name"><code>mix_simulate.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Allometric equations that are considered in the development of
-linear models.</p>
+    <p>Data is simulated for each species (if multiple species are present) based on their respective ranges of the
+predictor variable, which can be extrapolated to values defined by the user. The mixed-effects model is used
+to predict values for the response variable, as well as it's prediction interval.
+Necessary bias-corrections are made if the mixed-effects model has a transformed response variable.</p>
     </div>
 
-    <pre class="usage"><span class='no'>eqns_info</span></pre>
+    <pre class="usage"><span class='fu'>mix_simulate</span>(
+  <span class='no'>data</span>,
+  <span class='no'>modelselect</span>,
+  <span class='kw'>level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>,
+  <span class='kw'>extrapolate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>length.out</span> <span class='kw'>=</span> <span class='fl'>100</span>,
+  <span class='kw'>stat</span> <span class='kw'>=</span> <span class='st'>"median"</span>,
+  <span class='kw'>n.sims</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
+  <span class='kw'>response</span> <span class='kw'>=</span> <span class='st'>"height"</span>,
+  <span class='kw'>predictor</span> <span class='kw'>=</span> <span class='st'>"diameter"</span>,
+  <span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"species"</span>,
+  <span class='no'>...</span>
+)</pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>data</th>
+      <td><p>Dataframe used to generate data and their predictions the using mixed-effects model.
+Columns should contain the species and variables of interest. Each row is a measurement for an individual tree.</p></td>
+    </tr>
+    <tr>
+      <th>modelselect</th>
+      <td><p>Output from the <code><a href='mix_modelselect.html'>mix_modelselect()</a></code> function.</p></td>
+    </tr>
+    <tr>
+      <th>level</th>
+      <td><p>Level of confidence for the prediction interval. Defaults to
+<code>0.95</code>.</p></td>
+    </tr>
+    <tr>
+      <th>extrapolate</th>
+      <td><p>Numeric vector of 2 elements (e.g. <code><a href='https://rdrr.io/r/base/c.html'>c(0,4)</a></code>), representing
+the upper and lower bounds of extrapolation. Defaults to <code>NULL</code> for no
+extrapolation.</p></td>
+    </tr>
+    <tr>
+      <th>length.out</th>
+      <td><p>Number of new X values to generate for each species. Defaults to 100. Set a higher value for greater resolution at the cost of computational time.</p></td>
+    </tr>
+    <tr>
+      <th>stat</th>
+      <td><p>Specify whether the <code>"median"</code> or <code>"mean"</code> of simulated intervals are used.</p></td>
+    </tr>
+    <tr>
+      <th>n.sims</th>
+      <td><p>Number of bootstrapped simulations to generate the prediction intervals. Defaults to <code>1000</code>.</p></td>
+    </tr>
+    <tr>
+      <th>response</th>
+      <td><p>Column name of the response variable in <code>data</code>. Defaults to
+<code>height</code>.</p></td>
+    </tr>
+    <tr>
+      <th>predictor</th>
+      <td><p>Column name of the predictor variable in <code>data</code>. Defaults to
+<code>diameter</code>.</p></td>
+    </tr>
+    <tr>
+      <th>species</th>
+      <td><p>Column name of the species variable in <code>data</code>. Defaults to <code>species</code>.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Additional arguments passed to <code><a href='https://rdrr.io/pkg/merTools/man/predictInterval.html'>merTools::predictInterval()</a></code></p></td>
+    </tr>
+    </table>
 
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A dataframe with 5 variables:</p><dl'>
-<dt>modeltype</dt><dd><p>One of the six general types of allometric equations.</p></dd>
-<dt>base_equation</dt><dd><p>Basic form of the allometric equation.</p></dd>
-<dt>base_formula</dt><dd><p>The basic <code>formula</code> used to fit the model.</p></dd>
-<dt>weights</dt><dd><p>The <code>weight</code> argument in the model.</p></dd>
-<dt>modelcode</dt><dd><p>Character string used to represent the unique combinations of equations and weights.</p></dd>
+    <p>Dataframe containing data generated from <code><a href='generate_x.html'>generate_x()</a></code>, and their predictions (with intervals).</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-</dl>
-
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>Six allometric equations used to develop linear models for
-urban trees:</p><ol>
-<li><p>Linear:  \(y_{i} = a + bx_{i} + \epsilon_{i}/\sqrt{w_{i}}\)</p></li>
-<li><p>Quadratic: \(y_{i} = a + bx_{i} + cx^2_{i} +
-\epsilon_{i}/\sqrt{w_{i}}\)</p></li>
-<li><p>Cubic: \(y_{i} = a + bx_{i} + cx^2_{i} + dx^3_{i} +
-\epsilon_{i}/\sqrt{w_{i}}\)</p></li>
-<li><p>Quartic: \(y_{i} = a + bx_{i} + cx^2_{i} + dx^3_{i} + ex^4_{i} +
-\epsilon_{i}/\sqrt{w_{i}}\)</p></li>
-<li><p>Log-log: \(\log{(y_{i})} = a + b(\log{(\log{(x_{i} + 1)})}) +
-\epsilon_{i}/\sqrt{w_{i}}\)</p></li>
-<li><p>Exponential: \(\log{(y_{i})} = a + bx_{i} + 1 +
-\epsilon_{i}/\sqrt{w_{i}}\)</p></li>
-</ol>
-
-<p>where</p>
-<p>\(y_{i}\) = Response variable of individual tree \(i\),
-\(i = 1,2,3\)... \(n\), \(n\) = number of observations</p>
-<p>\(x_{i}\) = Predictor variable</p>
-<p>\(a,b,c,d,e\) = Parameters to be estimated</p>
-<p>\(\epsilon_{i}\) = Normally distributed error term</p>
-<p>\(w_{i}\) = Known weight that takes one of the four
-following forms: \(w_{i} = 1\), \(w_{i} = 1/\sqrt{x_{i}}\),
-\(w_{i} = 1/\sqrt{x_{i}}\), \(w_{i} = 1/x_{i}^2\).</p>
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
-
-    <p>McPherson E. G., van Doorn N. S. &amp; Peper P. J. (2016) Urban Tree
-Database and Allometric Equations. <em>General Technical Report PSW-GTR-253,
-USDA Forest Service</em>, 86.</p>
+    <div class='dont-index'><p><code><a href='mix_modelselect.html'>mix_modelselect()</a></code>, <code><a href='generate_x.html'>generate_x()</a></code>, <code><a href='https://rdrr.io/pkg/merTools/man/predictInterval.html'>merTools::predictInterval()</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>eqns_info</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>eqns_info</span>)</div><div class='output co'>#&gt;   modeltype    base_equation   base_formula      weights modelcode
-#&gt; 1    Linear       y = a + bx          y ~ x                 lin_w1
-#&gt; 2    Linear       y = a + bx          y ~ x I(1/sqrt(x))    lin_w2
-#&gt; 3    Linear       y = a + bx          y ~ x       I(1/x)    lin_w3
-#&gt; 4    Linear       y = a + bx          y ~ x     I(1/x^2)    lin_w4
-#&gt; 5 Quadratic y = a + bx + x^2 y ~ x + I(x^2)                quad_w1
-#&gt; 6 Quadratic y = a + bx + x^2 y ~ x + I(x^2) I(1/sqrt(x))   quad_w2</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>urbantrees</span>)
+
+<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='mix_modelselect.html'>mix_modelselect</a></span>(<span class='no'>urbantrees</span>)
+<span class='no'>results</span> <span class='kw'>&lt;-</span> <span class='fu'>mix_simulate</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>urbantrees</span>, <span class='kw'>modelselect</span> <span class='kw'>=</span> <span class='no'>model</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>results</span>)
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

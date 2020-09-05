@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Allometric equations for linear models — eqns_info • allometree</title>
+<title>Fit data to a specified linear model for one species — ss_modelfit • allometree</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,9 +46,10 @@
 
 
 
-<meta property="og:title" content="Allometric equations for linear models — eqns_info" />
-<meta property="og:description" content="Allometric equations that are considered in the development of
-linear models." />
+<meta property="og:title" content="Fit data to a specified linear model for one species — ss_modelfit" />
+<meta property="og:description" content="Fit data to a specified allometric equation, for one species. Allometric
+equations that may be considered as an input to this function can be found in
+?eqns_info and data(eqns_info)." />
 <meta property="og:image" content="https://xp-song.github.io/allometree/reference/figures/logo.png" />
 <meta property="og:image:alt" content="Allometric Scaling of Urban Trees" />
 <meta name="twitter:card" content="summary_large_image" />
@@ -146,71 +147,110 @@ linear models." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Allometric equations for linear models</h1>
-    <small class="dont-index">Source: <a href='https://github.com/xp-song/allometree/blob/master/R/data-eqns_info.R'><code>R/data-eqns_info.R</code></a></small>
-    <div class="hidden name"><code>eqns_info.Rd</code></div>
+    <h1>Fit data to a specified linear model for one species</h1>
+    <small class="dont-index">Source: <a href='https://github.com/xp-song/allometree/blob/master/R/ss_modelfit.R'><code>R/ss_modelfit.R</code></a></small>
+    <div class="hidden name"><code>ss_modelfit.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Allometric equations that are considered in the development of
-linear models.</p>
+    <p>Fit data to a specified allometric equation, for one species. Allometric
+equations that may be considered as an input to this function can be found in
+<code><a href='eqns_info.html'>?eqns_info</a></code> and <code><a href='https://rdrr.io/r/utils/data.html'>data(eqns_info)</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='no'>eqns_info</span></pre>
+    <pre class="usage"><span class='fu'>ss_modelfit</span>(<span class='no'>data</span>, <span class='no'>modelcode</span>, <span class='kw'>response</span> <span class='kw'>=</span> <span class='st'>"height"</span>, <span class='kw'>predictor</span> <span class='kw'>=</span> <span class='st'>"diameter"</span>)</pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>data</th>
+      <td><p>Dataframe that contains the variables of interest. Each row is a
+measurement for an individual tree.</p></td>
+    </tr>
+    <tr>
+      <th>modelcode</th>
+      <td><p>Character string of the model code for the selected
+allometric equation. Refer to <code><a href='eqns_info.html'>?eqns_info</a></code> and <code><a href='https://rdrr.io/r/utils/data.html'>data(eqns_info)</a></code> for more
+information.</p></td>
+    </tr>
+    <tr>
+      <th>response</th>
+      <td><p>Column name of the response variable. Defaults to <code>height</code>.</p></td>
+    </tr>
+    <tr>
+      <th>predictor</th>
+      <td><p>Column name of the predictor variable. Defaults to
+<code>diameter</code>.</p></td>
+    </tr>
+    </table>
+
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A list of 2 elements:</p><dl'>
+<dt>fitted_model</dt><dd><p>Resulting model
+object.</p></dd> <dt>fitted_model_info</dt><dd><p>Table showing information on the
+resulting model.</p></dd> 
+</dl>
+<h3>fitted_model_info</h3>
 
 
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
-
-    <p>A dataframe with 5 variables:</p><dl'>
-<dt>modeltype</dt><dd><p>One of the six general types of allometric equations.</p></dd>
-<dt>base_equation</dt><dd><p>Basic form of the allometric equation.</p></dd>
-<dt>base_formula</dt><dd><p>The basic <code>formula</code> used to fit the model.</p></dd>
-<dt>weights</dt><dd><p>The <code>weight</code> argument in the model.</p></dd>
-<dt>modelcode</dt><dd><p>Character string used to represent the unique combinations of equations and weights.</p></dd>
-
+<p>A dataframe with the following variables:</p><dl'>
+<dt>modelcode</dt><dd><p>Model
+code for the allometric equation used.</p></dd> <dt>a, b, c, d, e</dt><dd><p>Parameter
+estimates.</p></dd> <dt>response_geom_mean</dt><dd><p>Geometric mean of the response
+variable used in calculation of AICc (only for transformed models).</p></dd>
+<dt>correctn_factor</dt><dd><p>Bias correction factor to use on model predictions
+(only for transformed models).</p></dd> <dt>predictor_min, predictor_max</dt><dd><p>Range of
+the predictor variable within the data used to generate the model.</p></dd>
+<dt>response_min, response_max</dt><dd><p>Range of the response variable within the
+data used to generate the model.</p></dd> <dt>residual_SE</dt><dd><p>Residual standard error
+of the model.</p></dd> <dt>mean_SE</dt><dd><p>Mean standard error of the model.</p></dd>
+<dt>adj_R2</dt><dd><p>Adjusted \(R^2\) of the model.</p></dd> <dt>n</dt><dd><p>Sample size (no. of
+trees used to fit model).</p></dd> 
 </dl>
 
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Six allometric equations used to develop linear models for
-urban trees:</p><ol>
-<li><p>Linear:  \(y_{i} = a + bx_{i} + \epsilon_{i}/\sqrt{w_{i}}\)</p></li>
-<li><p>Quadratic: \(y_{i} = a + bx_{i} + cx^2_{i} +
-\epsilon_{i}/\sqrt{w_{i}}\)</p></li>
-<li><p>Cubic: \(y_{i} = a + bx_{i} + cx^2_{i} + dx^3_{i} +
-\epsilon_{i}/\sqrt{w_{i}}\)</p></li>
-<li><p>Quartic: \(y_{i} = a + bx_{i} + cx^2_{i} + dx^3_{i} + ex^4_{i} +
-\epsilon_{i}/\sqrt{w_{i}}\)</p></li>
-<li><p>Log-log: \(\log{(y_{i})} = a + b(\log{(\log{(x_{i} + 1)})}) +
-\epsilon_{i}/\sqrt{w_{i}}\)</p></li>
-<li><p>Exponential: \(\log{(y_{i})} = a + bx_{i} + 1 +
-\epsilon_{i}/\sqrt{w_{i}}\)</p></li>
-</ol>
-
-<p>where</p>
-<p>\(y_{i}\) = Response variable of individual tree \(i\),
-\(i = 1,2,3\)... \(n\), \(n\) = number of observations</p>
-<p>\(x_{i}\) = Predictor variable</p>
-<p>\(a,b,c,d,e\) = Parameters to be estimated</p>
-<p>\(\epsilon_{i}\) = Normally distributed error term</p>
-<p>\(w_{i}\) = Known weight that takes one of the four
-following forms: \(w_{i} = 1\), \(w_{i} = 1/\sqrt{x_{i}}\),
-\(w_{i} = 1/\sqrt{x_{i}}\), \(w_{i} = 1/x_{i}^2\).</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>McPherson E. G., van Doorn N. S. &amp; Peper P. J. (2016) Urban Tree
 Database and Allometric Equations. <em>General Technical Report PSW-GTR-253,
 USDA Forest Service</em>, 86.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='ss_modelfit_multi.html'>ss_modelfit_multi()</a></code> to fit specified models across multiple
+species.</p>
+<p><code><a href='ss_modelselect.html'>ss_modelselect()</a></code> to select a best-fit model for one species.</p>
+<p><code><a href='ss_modelselect_multi.html'>ss_modelselect_multi()</a></code> to select best-fit models across multiple species.</p>
+<p>Other single-species model functions: 
+<code><a href='ss_modelfit_multi.html'>ss_modelfit_multi</a>()</code>,
+<code><a href='ss_modelselect_multi.html'>ss_modelselect_multi</a>()</code>,
+<code><a href='ss_modelselect.html'>ss_modelselect</a>()</code>,
+<code><a href='ss_predict.html'>ss_predict</a>()</code>,
+<code><a href='ss_simulate.html'>ss_simulate</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>eqns_info</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>eqns_info</span>)</div><div class='output co'>#&gt;   modeltype    base_equation   base_formula      weights modelcode
-#&gt; 1    Linear       y = a + bx          y ~ x                 lin_w1
-#&gt; 2    Linear       y = a + bx          y ~ x I(1/sqrt(x))    lin_w2
-#&gt; 3    Linear       y = a + bx          y ~ x       I(1/x)    lin_w3
-#&gt; 4    Linear       y = a + bx          y ~ x     I(1/x^2)    lin_w4
-#&gt; 5 Quadratic y = a + bx + x^2 y ~ x + I(x^2)                quad_w1
-#&gt; 6 Quadratic y = a + bx + x^2 y ~ x + I(x^2) I(1/sqrt(x))   quad_w2</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>urbantrees</span>)
+<span class='no'>Alb_sam</span> <span class='kw'>&lt;-</span> <span class='no'>urbantrees</span>[<span class='no'>urbantrees</span>$<span class='no'>species</span> <span class='kw'>==</span> <span class='st'>'Albizia saman'</span>, ]
+<span class='no'>results</span> <span class='kw'>&lt;-</span> <span class='fu'>ss_modelfit</span>(<span class='no'>Alb_sam</span>,
+                       <span class='kw'>modelcode</span> <span class='kw'>=</span> <span class='st'>'quad_w1'</span>, <span class='co'># manually specify equation to use</span>
+                       <span class='kw'>response</span> <span class='kw'>=</span> <span class='st'>'height'</span>, <span class='kw'>predictor</span> <span class='kw'>=</span> <span class='st'>'diameter'</span>)
+
+<span class='no'>results</span>$<span class='no'>fitted_model</span></div><div class='output co'>#&gt; 
+#&gt; Call:
+#&gt; lm(formula = y ~ x + I(x^2))
+#&gt; 
+#&gt; Coefficients:
+#&gt; (Intercept)            x       I(x^2)  
+#&gt;       4.808       14.498       -3.098  
+#&gt; </div><div class='input'>
+<span class='no'>results</span>$<span class='no'>fitted_model_info</span></div><div class='output co'>#&gt;   modelcode        a        b         c  d  e response_geom_mean
+#&gt; 1   quad_w1 4.807887 14.49773 -3.097745 NA NA           13.56608
+#&gt;   correctn_factor predictor_min predictor_max response_min response_max
+#&gt; 1               1     0.3119437      1.527887            8           20
+#&gt;   residual_SE mean_SE adj_R2   n
+#&gt; 1      2.2047  4.7509 0.4278 133</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
