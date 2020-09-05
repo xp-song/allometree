@@ -37,17 +37,17 @@
 #'   USDA Forest Service*, 86.
 #'
 #' @family single-species model functions
-#' @seealso [sp_modelfit_multi()] to fit specified models across multiple
+#' @seealso [ss_modelfit_multi()] to fit specified models across multiple
 #'   species.
 #'
-#'   [sp_modelselect()] to select a best-fit model for one species.
+#'   [ss_modelselect()] to select a best-fit model for one species.
 #'
-#'   [sp_modelselect_multi()] to select best-fit models across multiple species.
+#'   [ss_modelselect_multi()] to select best-fit models across multiple species.
 #'
 #' @examples
 #' data(urbantrees)
 #' Alb_sam <- urbantrees[urbantrees$species == 'Albizia saman', ]
-#' results <- sp_modelfit(Alb_sam,
+#' results <- ss_modelfit(Alb_sam,
 #'                        modelcode = 'quad_w1', # manually specify equation to use
 #'                        response = 'height', predictor = 'diameter')
 #'
@@ -61,7 +61,7 @@
 #'
 #' @export
 
-sp_modelfit <- function(data, modelcode, response = "height", predictor = "diameter") {
+ss_modelfit <- function(data, modelcode, response = "height", predictor = "diameter") {
 
     # Error checking ------------------
 
@@ -96,43 +96,43 @@ sp_modelfit <- function(data, modelcode, response = "height", predictor = "diame
     y_trans <- data$y_trans
 
     # fit models
-    sp_model_list <- list()
+    ss_model_list <- list()
 
-    sp_model_list$lin_w1 <- lm(y ~ x)
-    sp_model_list$lin_w2 <- lm(y ~ x, weights = I(1/sqrt(x)))
-    sp_model_list$lin_w3 <- lm(y ~ x, weights = I(1/x))
-    sp_model_list$lin_w4 <- lm(y ~ x, weights = I(1/x^2))
+    ss_model_list$lin_w1 <- lm(y ~ x)
+    ss_model_list$lin_w2 <- lm(y ~ x, weights = I(1/sqrt(x)))
+    ss_model_list$lin_w3 <- lm(y ~ x, weights = I(1/x))
+    ss_model_list$lin_w4 <- lm(y ~ x, weights = I(1/x^2))
 
-    sp_model_list$quad_w1 <- lm(y ~ x + I(x^2))
-    sp_model_list$quad_w2 <- lm(y ~ x + I(x^2), weights = I(1/sqrt(x)))
-    sp_model_list$quad_w3 <- lm(y ~ x + I(x^2), weights = I(1/x))
-    sp_model_list$quad_w4 <- lm(y ~ x + I(x^2), weights = I(1/x^2))
+    ss_model_list$quad_w1 <- lm(y ~ x + I(x^2))
+    ss_model_list$quad_w2 <- lm(y ~ x + I(x^2), weights = I(1/sqrt(x)))
+    ss_model_list$quad_w3 <- lm(y ~ x + I(x^2), weights = I(1/x))
+    ss_model_list$quad_w4 <- lm(y ~ x + I(x^2), weights = I(1/x^2))
 
-    sp_model_list$cub_w1 <- lm(y ~ x + I(x^2) + I(x^3))
-    sp_model_list$cub_w2 <- lm(y ~ x + I(x^2) + I(x^3), weights = I(1/sqrt(x)))
-    sp_model_list$cub_w3 <- lm(y ~ x + I(x^2) + I(x^3), weights = I(1/x))
-    sp_model_list$cub_w4 <- lm(y ~ x + I(x^2) + I(x^3), weights = I(1/x^2))
+    ss_model_list$cub_w1 <- lm(y ~ x + I(x^2) + I(x^3))
+    ss_model_list$cub_w2 <- lm(y ~ x + I(x^2) + I(x^3), weights = I(1/sqrt(x)))
+    ss_model_list$cub_w3 <- lm(y ~ x + I(x^2) + I(x^3), weights = I(1/x))
+    ss_model_list$cub_w4 <- lm(y ~ x + I(x^2) + I(x^3), weights = I(1/x^2))
 
-    sp_model_list$quart_w1 <- lm(y ~ x + I(x^2) + I(x^3) + I(x^4))
-    sp_model_list$quart_w2 <- lm(y ~ x + I(x^2) + I(x^3) + I(x^4), weights = I(1/sqrt(x)))
-    sp_model_list$quart_w3 <- lm(y ~ x + I(x^2) + I(x^3) + I(x^4), weights = I(1/x))
-    sp_model_list$quart_w4 <- lm(y ~ x + I(x^2) + I(x^3) + I(x^4), weights = I(1/x^2))
+    ss_model_list$quart_w1 <- lm(y ~ x + I(x^2) + I(x^3) + I(x^4))
+    ss_model_list$quart_w2 <- lm(y ~ x + I(x^2) + I(x^3) + I(x^4), weights = I(1/sqrt(x)))
+    ss_model_list$quart_w3 <- lm(y ~ x + I(x^2) + I(x^3) + I(x^4), weights = I(1/x))
+    ss_model_list$quart_w4 <- lm(y ~ x + I(x^2) + I(x^3) + I(x^4), weights = I(1/x^2))
 
     # using y_trans
-    sp_model_list$loglog_w1 <- lm(y_trans ~ I(log(log(x + 1))))
-    sp_model_list$loglog_w2 <- lm(y_trans ~ I(log(log(x + 1))), weights = I(1/sqrt(x)))
-    sp_model_list$loglog_w3 <- lm(y_trans ~ I(log(log(x + 1))), weights = I(1/x))
-    sp_model_list$loglog_w4 <- lm(y_trans ~ I(log(log(x + 1))), weights = I(1/x^2))
+    ss_model_list$loglog_w1 <- lm(y_trans ~ I(log(log(x + 1))))
+    ss_model_list$loglog_w2 <- lm(y_trans ~ I(log(log(x + 1))), weights = I(1/sqrt(x)))
+    ss_model_list$loglog_w3 <- lm(y_trans ~ I(log(log(x + 1))), weights = I(1/x))
+    ss_model_list$loglog_w4 <- lm(y_trans ~ I(log(log(x + 1))), weights = I(1/x^2))
 
-    sp_model_list$expo_w1 <- lm(y_trans ~ x)
-    sp_model_list$expo_w2 <- lm(y_trans ~ x, weights = I(1/sqrt(x)))
-    sp_model_list$expo_w3 <- lm(y_trans ~ x, weights = I(1/x))
-    sp_model_list$expo_w4 <- lm(y_trans ~ x, weights = I(1/x^2))
+    ss_model_list$expo_w1 <- lm(y_trans ~ x)
+    ss_model_list$expo_w2 <- lm(y_trans ~ x, weights = I(1/sqrt(x)))
+    ss_model_list$expo_w3 <- lm(y_trans ~ x, weights = I(1/x))
+    ss_model_list$expo_w4 <- lm(y_trans ~ x, weights = I(1/x^2))
 
     # Prepare output ----------------------
 
     # extract model object
-    fitted_model <- sp_model_list[names(sp_model_list) == modelcode][[1]]
+    fitted_model <- ss_model_list[names(ss_model_list) == modelcode][[1]]
 
     # extract best model info
     fitted_model_info <- data.frame(modelcode = modelcode)
@@ -149,8 +149,8 @@ sp_modelfit <- function(data, modelcode, response = "height", predictor = "diame
     # correction factor
     if ("y_trans" %in% names(fitted_model$model)) {
         # for transformed (loglog or exp) models
-        sp_rmse <- sjstats::rmse(fitted_model)/geom_mean_y
-        cf <- exp((sp_rmse^2)/2)
+        ss_rmse <- sjstats::rmse(fitted_model)/geom_mean_y
+        cf <- exp((ss_rmse^2)/2)
 
         fitted_model_info$correctn_factor <- cf
         fitted_model_info$a <- fitted_model_info$a + log(cf)  #directly adjust intercept with cf
@@ -181,7 +181,7 @@ sp_modelfit <- function(data, modelcode, response = "height", predictor = "diame
 
 #' Fit data to specified linear models across multiple species
 #'
-#' Wrapper function that runs `sp_modelfit()` across multiple species. Data is
+#' Wrapper function that runs `ss_modelfit()` across multiple species. Data is
 #' fit to specified allometric equations for each species, as defined within
 #' `ref_table`. The full list of allometric equations that may be considered in
 #' `ref_table` can be found in `?eqns_info` and `data(eqns_info)`.
@@ -199,11 +199,11 @@ sp_modelfit <- function(data, modelcode, response = "height", predictor = "diame
 #' @param predictor Column name of the predictor variable in `data`. Defaults to
 #'   `diameter`.
 #'
-#' @return A list of 2 elements: \describe{ \item{sp_models}{List of each
-#'   species' resulting model object.} \item{sp_models_info}{Table showing each
+#' @return A list of 2 elements: \describe{ \item{ss_models}{List of each
+#'   species' resulting model object.} \item{ss_models_info}{Table showing each
 #'   species' resulting model information.} }
 #'
-#'   ## sp_models_info
+#'   ## ss_models_info
 #'
 #'   A dataframe with the following variables: \describe{ \item{species}{Name of
 #'   tree species.} \item{modelcode}{Model code for the allometric equation used.}
@@ -222,32 +222,32 @@ sp_modelfit <- function(data, modelcode, response = "height", predictor = "diame
 #' @examples
 #' # first select best-fit model for all species in data
 #' data(urbantrees)
-#' selected <- sp_modelselect_multi(urbantrees, species = 'species',
+#' selected <- ss_modelselect_multi(urbantrees, species = 'species',
 #'                                  response = 'height', predictor = 'diameter')
 #'
 #' # use function
-#' results <- sp_modelfit_multi(
+#' results <- ss_modelfit_multi(
 #'   urbantrees, # any data with similar species (re-use same data in this case)
-#'   ref_table = selected$sp_models_info,
+#'   ref_table = selected$ss_models_info,
 #'   species = 'species', modelcode = 'modelcode',
 #'   response = 'height', predictor = 'diameter'
 #' )
 #'
-#' results$sp_models[[1]] # model object for first species in list
+#' results$ss_models[[1]] # model object for first species in list
 #'
-#' results$sp_models_info # summary of fitted models
+#' results$ss_models_info # summary of fitted models
 #'
 #' @family single-species model functions
-#' @seealso [sp_modelfit()] to fit a specified model for one species.
+#' @seealso [ss_modelfit()] to fit a specified model for one species.
 #'
-#'   [sp_modelselect()] to select a best-fit model for one species.
+#'   [ss_modelselect()] to select a best-fit model for one species.
 #'
-#'   [sp_modelselect_multi()] to select best-fit models across multiple species.
+#'   [ss_modelselect_multi()] to select best-fit models across multiple species.
 #'
 #' @import checkmate
 #'
 #' @export
-sp_modelfit_multi <- function(data, ref_table, species = "species", modelcode = "modelcode", response = "height", predictor = "diameter") {
+ss_modelfit_multi <- function(data, ref_table, species = "species", modelcode = "modelcode", response = "height", predictor = "diameter") {
 
     # Error checking ------------------
     coll <- checkmate::makeAssertCollection()
@@ -275,29 +275,29 @@ sp_modelfit_multi <- function(data, ref_table, species = "species", modelcode = 
     data_list <- split(data, data[[species]])  #split df into list of species
 
     # create empty dfs to collate info in loop
-    sp_models_info <- data.frame(species = as.character(), modelcode = as.character(), a = as.numeric(), b = as.numeric(), c = as.numeric(),
+    ss_models_info <- data.frame(species = as.character(), modelcode = as.character(), a = as.numeric(), b = as.numeric(), c = as.numeric(),
         d = as.numeric(), e = as.numeric(), response_geom_mean = as.numeric(), correctn_factor = as.numeric(), predictor_max = as.numeric(),
         predictor_min = as.numeric(), response_min = as.numeric(), response_max = as.numeric(), residual_SE = as.numeric(), mean_SE = as.numeric(),
         adj_R2 = as.numeric(), n = as.numeric())
 
-    sp_models <- list()
+    ss_models <- list()
 
     for (i in 1:length(data_list)) {
 
-        results <- sp_modelfit(data_list[[i]], modelcode = ref_table[ref_table[[species]] == names(data_list)[i], modelcode], response, predictor)
+        results <- ss_modelfit(data_list[[i]], modelcode = ref_table[ref_table[[species]] == names(data_list)[i], modelcode], response, predictor)
 
         # extract model object
-        sp_models[i] <- list(results[[1]])
-        names(sp_models)[i] <- names(data_list)[i]
+        ss_models[i] <- list(results[[1]])
+        names(ss_models)[i] <- names(data_list)[i]
 
         # extract model info
         append <- cbind.data.frame(data.frame(species = names(data_list)[i]), results[[2]])
-        sp_models_info <- rbind(sp_models_info, append)
+        ss_models_info <- rbind(ss_models_info, append)
     }
 
     # combine output in list
-    output <- list(sp_models, sp_models_info)
-    names(output) <- c("sp_models", "sp_models_info")
+    output <- list(ss_models, ss_models_info)
+    names(output) <- c("ss_models", "ss_models_info")
 
     return(output)
 }

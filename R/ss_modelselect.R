@@ -47,17 +47,17 @@
 #'   Research*, **33**(2), 261–304.
 #'
 #' @family single-species model functions
-#' @seealso [sp_modelselect_multi()] to select best-fit models across multiple
+#' @seealso [ss_modelselect_multi()] to select best-fit models across multiple
 #'   species.
 #'
-#'   [sp_modelfit()] to fit a pre-selected model for one species.
+#'   [ss_modelfit()] to fit a pre-selected model for one species.
 #'
-#'   [sp_modelfit_multi()] to fit pre-selected models across multiple species.
+#'   [ss_modelfit_multi()] to fit pre-selected models across multiple species.
 #'
 #' @examples
 #' data(urbantrees)
 #' Alb_sam <- urbantrees[urbantrees$species == 'Albizia saman', ]  # subset data for 1 species
-#' results <- sp_modelselect(Alb_sam, response = 'height', predictor = 'diameter')
+#' results <- ss_modelselect(Alb_sam, response = 'height', predictor = 'diameter')
 #'
 #' head(results$all_models_rank)
 #'
@@ -70,7 +70,7 @@
 #' @importFrom sjstats rmse
 #'
 #' @export
-sp_modelselect <- function(data, response = "height", predictor = "diameter") {
+ss_modelselect <- function(data, response = "height", predictor = "diameter") {
 
     # Error checking ------------------
     if (is.null(data[[response]])) {
@@ -109,65 +109,65 @@ sp_modelselect <- function(data, response = "height", predictor = "diameter") {
     y_trans <- data$y_trans
 
     # fit models
-    sp_model_list <- list()
+    ss_model_list <- list()
 
-    sp_model_list$lin_w1 <- lm(y ~ x)
-    sp_model_list$lin_w2 <- lm(y ~ x, weights = I(1/sqrt(x)))
-    sp_model_list$lin_w3 <- lm(y ~ x, weights = I(1/x))
-    sp_model_list$lin_w4 <- lm(y ~ x, weights = I(1/x^2))
+    ss_model_list$lin_w1 <- lm(y ~ x)
+    ss_model_list$lin_w2 <- lm(y ~ x, weights = I(1/sqrt(x)))
+    ss_model_list$lin_w3 <- lm(y ~ x, weights = I(1/x))
+    ss_model_list$lin_w4 <- lm(y ~ x, weights = I(1/x^2))
 
-    sp_model_list$quad_w1 <- lm(y ~ x + I(x^2))
-    sp_model_list$quad_w2 <- lm(y ~ x + I(x^2), weights = I(1/sqrt(x)))
-    sp_model_list$quad_w3 <- lm(y ~ x + I(x^2), weights = I(1/x))
-    sp_model_list$quad_w4 <- lm(y ~ x + I(x^2), weights = I(1/x^2))
+    ss_model_list$quad_w1 <- lm(y ~ x + I(x^2))
+    ss_model_list$quad_w2 <- lm(y ~ x + I(x^2), weights = I(1/sqrt(x)))
+    ss_model_list$quad_w3 <- lm(y ~ x + I(x^2), weights = I(1/x))
+    ss_model_list$quad_w4 <- lm(y ~ x + I(x^2), weights = I(1/x^2))
 
-    sp_model_list$cub_w1 <- lm(y ~ x + I(x^2) + I(x^3))
-    sp_model_list$cub_w2 <- lm(y ~ x + I(x^2) + I(x^3), weights = I(1/sqrt(x)))
-    sp_model_list$cub_w3 <- lm(y ~ x + I(x^2) + I(x^3), weights = I(1/x))
-    sp_model_list$cub_w4 <- lm(y ~ x + I(x^2) + I(x^3), weights = I(1/x^2))
+    ss_model_list$cub_w1 <- lm(y ~ x + I(x^2) + I(x^3))
+    ss_model_list$cub_w2 <- lm(y ~ x + I(x^2) + I(x^3), weights = I(1/sqrt(x)))
+    ss_model_list$cub_w3 <- lm(y ~ x + I(x^2) + I(x^3), weights = I(1/x))
+    ss_model_list$cub_w4 <- lm(y ~ x + I(x^2) + I(x^3), weights = I(1/x^2))
 
-    sp_model_list$quart_w1 <- lm(y ~ x + I(x^2) + I(x^3) + I(x^4))
-    sp_model_list$quart_w2 <- lm(y ~ x + I(x^2) + I(x^3) + I(x^4), weights = I(1/sqrt(x)))
-    sp_model_list$quart_w3 <- lm(y ~ x + I(x^2) + I(x^3) + I(x^4), weights = I(1/x))
-    sp_model_list$quart_w4 <- lm(y ~ x + I(x^2) + I(x^3) + I(x^4), weights = I(1/x^2))
+    ss_model_list$quart_w1 <- lm(y ~ x + I(x^2) + I(x^3) + I(x^4))
+    ss_model_list$quart_w2 <- lm(y ~ x + I(x^2) + I(x^3) + I(x^4), weights = I(1/sqrt(x)))
+    ss_model_list$quart_w3 <- lm(y ~ x + I(x^2) + I(x^3) + I(x^4), weights = I(1/x))
+    ss_model_list$quart_w4 <- lm(y ~ x + I(x^2) + I(x^3) + I(x^4), weights = I(1/x^2))
 
     # using y_aic
-    sp_model_list$loglog_w1 <- lm(y_aic ~ I(log(log(x + 1))))
-    sp_model_list$loglog_w2 <- lm(y_aic ~ I(log(log(x + 1))), weights = I(1/sqrt(x)))
-    sp_model_list$loglog_w3 <- lm(y_aic ~ I(log(log(x + 1))), weights = I(1/x))
-    sp_model_list$loglog_w4 <- lm(y_aic ~ I(log(log(x + 1))), weights = I(1/x^2))
+    ss_model_list$loglog_w1 <- lm(y_aic ~ I(log(log(x + 1))))
+    ss_model_list$loglog_w2 <- lm(y_aic ~ I(log(log(x + 1))), weights = I(1/sqrt(x)))
+    ss_model_list$loglog_w3 <- lm(y_aic ~ I(log(log(x + 1))), weights = I(1/x))
+    ss_model_list$loglog_w4 <- lm(y_aic ~ I(log(log(x + 1))), weights = I(1/x^2))
 
-    sp_model_list$expo_w1 <- lm(y_aic ~ x)
-    sp_model_list$expo_w2 <- lm(y_aic ~ x, weights = I(1/sqrt(x)))
-    sp_model_list$expo_w3 <- lm(y_aic ~ x, weights = I(1/x))
-    sp_model_list$expo_w4 <- lm(y_aic ~ x, weights = I(1/x^2))
+    ss_model_list$expo_w1 <- lm(y_aic ~ x)
+    ss_model_list$expo_w2 <- lm(y_aic ~ x, weights = I(1/sqrt(x)))
+    ss_model_list$expo_w3 <- lm(y_aic ~ x, weights = I(1/x))
+    ss_model_list$expo_w4 <- lm(y_aic ~ x, weights = I(1/x^2))
 
     # compare AICc
-    all_models_rank <- MuMIn::AICc(sp_model_list$lin_w1, sp_model_list$lin_w2, sp_model_list$lin_w3, sp_model_list$lin_w4, sp_model_list$quad_w1,
-        sp_model_list$quad_w2, sp_model_list$quad_w3, sp_model_list$quad_w4, sp_model_list$cub_w1, sp_model_list$cub_w2, sp_model_list$cub_w3,
-        sp_model_list$cub_w4, sp_model_list$quart_w1, sp_model_list$quart_w2, sp_model_list$quart_w3, sp_model_list$quart_w4, sp_model_list$loglog_w1,
-        sp_model_list$loglog_w2, sp_model_list$loglog_w3, sp_model_list$loglog_w4, sp_model_list$expo_w1, sp_model_list$expo_w2, sp_model_list$expo_w3,
-        sp_model_list$expo_w4)
+    all_models_rank <- MuMIn::AICc(ss_model_list$lin_w1, ss_model_list$lin_w2, ss_model_list$lin_w3, ss_model_list$lin_w4, ss_model_list$quad_w1,
+        ss_model_list$quad_w2, ss_model_list$quad_w3, ss_model_list$quad_w4, ss_model_list$cub_w1, ss_model_list$cub_w2, ss_model_list$cub_w3,
+        ss_model_list$cub_w4, ss_model_list$quart_w1, ss_model_list$quart_w2, ss_model_list$quart_w3, ss_model_list$quart_w4, ss_model_list$loglog_w1,
+        ss_model_list$loglog_w2, ss_model_list$loglog_w3, ss_model_list$loglog_w4, ss_model_list$expo_w1, ss_model_list$expo_w2, ss_model_list$expo_w3,
+        ss_model_list$expo_w4)
 
     # re-fit transformed models with y_trans instead of y_aic
-    sp_model_list$loglog_w1 <- lm(y_trans ~ I(log(log(x + 1))))
-    sp_model_list$loglog_w2 <- lm(y_trans ~ I(log(log(x + 1))), weights = I(1/sqrt(x)))
-    sp_model_list$loglog_w3 <- lm(y_trans ~ I(log(log(x + 1))), weights = I(1/x))
-    sp_model_list$loglog_w4 <- lm(y_trans ~ I(log(log(x + 1))), weights = I(1/x^2))
-    sp_model_list$expo_w1 <- lm(y_trans ~ x)
-    sp_model_list$expo_w2 <- lm(y_trans ~ x, weights = I(1/sqrt(x)))
-    sp_model_list$expo_w3 <- lm(y_trans ~ x, weights = I(1/x))
-    sp_model_list$expo_w4 <- lm(y_trans ~ x, weights = I(1/x^2))
+    ss_model_list$loglog_w1 <- lm(y_trans ~ I(log(log(x + 1))))
+    ss_model_list$loglog_w2 <- lm(y_trans ~ I(log(log(x + 1))), weights = I(1/sqrt(x)))
+    ss_model_list$loglog_w3 <- lm(y_trans ~ I(log(log(x + 1))), weights = I(1/x))
+    ss_model_list$loglog_w4 <- lm(y_trans ~ I(log(log(x + 1))), weights = I(1/x^2))
+    ss_model_list$expo_w1 <- lm(y_trans ~ x)
+    ss_model_list$expo_w2 <- lm(y_trans ~ x, weights = I(1/sqrt(x)))
+    ss_model_list$expo_w3 <- lm(y_trans ~ x, weights = I(1/x))
+    ss_model_list$expo_w4 <- lm(y_trans ~ x, weights = I(1/x^2))
 
     # Prepare output ----------------------
 
     # extract AICc comparison table
-    all_models_rank$model <- names(sp_model_list)
+    all_models_rank$model <- names(ss_model_list)
     all_models_rank <- all_models_rank[order(all_models_rank$AICc), ]
     rownames(all_models_rank) <- NULL
 
     # extract best model object
-    best_model <- sp_model_list[names(sp_model_list) == all_models_rank$model[1]][[1]]
+    best_model <- ss_model_list[names(ss_model_list) == all_models_rank$model[1]][[1]]
 
     # extract best model info
     best_model_info <- data.frame(modelcode = all_models_rank$model[order(all_models_rank$AICc)][1])
@@ -184,8 +184,8 @@ sp_modelselect <- function(data, response = "height", predictor = "diameter") {
     # correction factor
     if ("y_trans" %in% names(best_model$model)) {
         # for transformed (loglog or exp) models
-        sp_rmse <- sjstats::rmse(best_model)/geom_mean_y
-        cf <- exp((sp_rmse^2)/2)
+        ss_rmse <- sjstats::rmse(best_model)/geom_mean_y
+        cf <- exp((ss_rmse^2)/2)
 
         best_model_info$correctn_factor <- cf
         best_model_info$a <- best_model_info$a + log(cf)  #directly adjust intercept with cf
@@ -217,7 +217,7 @@ sp_modelselect <- function(data, response = "height", predictor = "diameter") {
 
 #' Select best-fit linear models across multiple species
 #'
-#' Wrapper function that runs `sp_modelselect()` across multiple species in a
+#' Wrapper function that runs `ss_modelselect()` across multiple species in a
 #' dataframe. A single best-fit equation is selected per species, based on the
 #' lowest AICc value. All allometric equations considered (and ranked) can be
 #' found in `?eqns_info` and `data(eqns_info)`.
@@ -229,13 +229,13 @@ sp_modelselect <- function(data, response = "height", predictor = "diameter") {
 #' @param predictor Column name of the predictor variable. Defaults to
 #'   `diameter`.
 #'
-#' @return A list of 3 elements:  \describe{ \item{sp_models_rank}{List of
+#' @return A list of 3 elements:  \describe{ \item{ss_models_rank}{List of
 #'   tables showing each species' candidate models ranked by AICc value.}
-#'   \item{sp_models}{List of each species' best-fit model object.}
-#'   \item{sp_models_info}{Table showing each species' best-fit model
+#'   \item{ss_models}{List of each species' best-fit model object.}
+#'   \item{ss_models_info}{Table showing each species' best-fit model
 #'   information.} }
 #'
-#'   ## sp_models_info
+#'   ## ss_models_info
 #'
 #'   A dataframe with the following variables: \describe{ \item{species}{Name of
 #'   tree species.} \item{modelcode}{Model code for the best-fit equation.}
@@ -252,28 +252,28 @@ sp_modelselect <- function(data, response = "height", predictor = "diameter") {
 #'   trees used to fit model).} }
 #'
 #' @family single-species model functions
-#' @seealso [sp_modelselect()] to select a best-fit model for one species.
+#' @seealso [ss_modelselect()] to select a best-fit model for one species.
 #'
-#'   [sp_modelfit()] to fit a pre-selected model for one species.
+#'   [ss_modelfit()] to fit a pre-selected model for one species.
 #'
-#'   [sp_modelfit_multi()] to fit pre-selected models across multiple species.
+#'   [ss_modelfit_multi()] to fit pre-selected models across multiple species.
 #'
 #' @examples
 #' data(urbantrees)
-#' results <- sp_modelselect_multi(urbantrees, species = 'species',
+#' results <- ss_modelselect_multi(urbantrees, species = 'species',
 #'                                 response = 'height', predictor = 'diameter')
 #'
-#' head(results$sp_models_rank[[1]]) # Highly-ranked models for 1st species in list
+#' head(results$ss_models_rank[[1]]) # Highly-ranked models for 1st species in list
 #'
-#' results$sp_models[[1]] # model object for 1st species in list
+#' results$ss_models[[1]] # model object for 1st species in list
 #'
-#' results$sp_models_info # summary of best-fit models
+#' results$ss_models_info # summary of best-fit models
 #'
 #' @import checkmate
 #' @importFrom stats complete.cases lm residuals
 #'
 #' @export
-sp_modelselect_multi <- function(data, species = "species", response = "height", predictor = "diameter") {
+ss_modelselect_multi <- function(data, species = "species", response = "height", predictor = "diameter") {
 
     # Error checking ------------------
 
@@ -291,35 +291,35 @@ sp_modelselect_multi <- function(data, species = "species", response = "height",
     data_list <- split(data, data[[species]])  #split df into list of species
 
     # create empty dfs to collate info in loop
-    sp_models_info <- data.frame(species = as.character(), modelcode = as.character(), a = as.numeric(), b = as.numeric(), c = as.numeric(),
+    ss_models_info <- data.frame(species = as.character(), modelcode = as.character(), a = as.numeric(), b = as.numeric(), c = as.numeric(),
         d = as.numeric(), e = as.numeric(), response_geom_mean = as.numeric(), correctn_factor = as.numeric(), predictor_max = as.numeric(),
         predictor_min = as.numeric(), response_min = as.numeric(), response_max = as.numeric(), residual_SE = as.numeric(), mean_SE = as.numeric(),
         adj_R2 = as.numeric(), n = as.numeric())
 
-    sp_models <- list()
-    sp_models_rank <- list()
+    ss_models <- list()
+    ss_models_rank <- list()
 
 
     for (i in 1:length(data_list)) {
-        results <- sp_modelselect(data_list[[i]], response, predictor)
+        results <- ss_modelselect(data_list[[i]], response, predictor)
 
         # extract model ranks
-        sp_models_rank[i] <- list(results[[1]])
-        names(sp_models_rank)[i] <- names(data_list)[i]
+        ss_models_rank[i] <- list(results[[1]])
+        names(ss_models_rank)[i] <- names(data_list)[i]
 
         # extract model object
-        sp_models[i] <- list(results[[2]])
-        names(sp_models)[i] <- names(data_list)[i]
+        ss_models[i] <- list(results[[2]])
+        names(ss_models)[i] <- names(data_list)[i]
 
         # extract model info
         append <- cbind.data.frame(data.frame(species = names(data_list)[i]), results[[3]])
-        sp_models_info <- rbind(sp_models_info, append)
+        ss_models_info <- rbind(ss_models_info, append)
 
     }
 
     # combine output in list
-    output <- list(sp_models_rank, sp_models, sp_models_info)
-    names(output) <- c("sp_models_rank", "sp_models", "sp_models_info")
+    output <- list(ss_models_rank, ss_models, ss_models_info)
+    names(output) <- c("ss_models_rank", "ss_models", "ss_models_info")
 
     return(output)
 }

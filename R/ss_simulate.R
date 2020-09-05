@@ -1,6 +1,6 @@
 #'Make predictions on simulated data using single-species linear models
 #'
-#'Wrapper function that runs `sp_predict()` on simulated data. Data is simulated
+#'Wrapper function that runs `ss_predict()` on simulated data. Data is simulated
 #'for each species based on the range of the predictor variable used to fit the
 #'model, which can be extrapolated to values defined by the user. The
 #'corresponding model object in `models` will be used to make predictions on the
@@ -22,6 +22,8 @@
 #'  run function across all species.
 #'@param level Level of confidence for the prediction interval. Defaults to
 #'  `0.95`.
+#'@param length.out Number of new predictor values to generate for each species.
+#'Defaults to 100. Set a higher value for greater resolution at the cost of computational time.
 #'@param extrapolate Numeric vector of 2 elements (e.g. `c(0,4)`), representing
 #'  the upper and lower bounds of extrapolation. Defaults to `NULL` for no
 #'  extrapolation.
@@ -41,37 +43,38 @@
 #'  variable that was used in to fit the `models`. Defaults to
 #'  `response_geom_mean`.
 #'
-#'@return A dataframe with columns: \describe{ \item{species}{Name of tree
-#'  species.} \item{predictor}{Variable used to make predictions.}
-#'  \item{fit}{Predicted value.} \item{lwr}{Lower bound of the prediction
-#'  interval, based on the input argument `level`.} \item{upr}{Upper bound of
-#'  the prediction interval, based on the input argument `level`.}
-#'  \item{extrapolated}{Logical variable; whether the predictions are based on
-#'  extropolated values.} }
+#'@return A dataframe with columns: \describe{
+#'  \item{species}{Name of tree species.}
+#'  \item{predictor}{Variable used to make predictions.}
+#'  \item{fit}{Predicted value.}
+#'  \item{lwr}{Lower bound of the prediction interval, based on the input argument `level`.}
+#'  \item{upr}{Upper bound of the prediction interval, based on the input argument `level`.}
+#'  \item{extrapolated}{Indicates whether the predictions are based on
+#'  extrapolated values. Either 'High', 'Low', or 'No' (not extrapolated).} }
 #'
 #'@family single-species model functions
-#'@seealso [sp_predict()] to make predictions for all species in a dataset using
+#'@seealso [ss_predict()] to make predictions for all species in a dataset using
 #'  single-species linear models.
 #'
 #' @examples
 #' # first select best-fit model for all species in data
 #' data(urbantrees)
-#' results <- sp_modelselect_multi(urbantrees, species = 'species',
+#' results <- ss_modelselect_multi(urbantrees, species = 'species',
 #'                                 response = 'height', predictor = 'diameter')
 #'
 #' \dontrun{
 #' # simulate for all species
-#' sp_simulate(ref_table = results$sp_models_info,
-#'             models = results$sp_models)
+#' ss_simulate(ref_table = results$ss_models_info,
+#'             models = results$ss_models)
 #'
 #' # simulate for selected species
-#' sp_simulate(ref_table = results$sp_models_info,
-#'             models = results$sp_models,
+#' ss_simulate(ref_table = results$ss_models_info,
+#'             models = results$ss_models,
 #'             selected_spp = 'Albizia saman')
 #'
 #' # simulate with extrapolated values
-#' sp_simulate(ref_table = results$sp_models_info,
-#'             models = results$sp_models,
+#' ss_simulate(ref_table = results$ss_models_info,
+#'             models = results$ss_models,
 #'             extrapolate = c(0,3))
 #' }
 #'
@@ -83,7 +86,7 @@
 #'@importFrom rlang .data
 #'
 #'@export
-sp_simulate <- function(ref_table, models, select_sp = NULL, level = 0.95, extrapolate = NULL, species = "species", predictor_min = "predictor_min",
+ss_simulate <- function(ref_table, models, select_sp = NULL, level = 0.95, length.out = 100, extrapolate = NULL, species = "species", predictor_min = "predictor_min",
     predictor_max = "predictor_max", response_min = "response_min", response_max = "response_max", cf = "correctn_factor", geom_mean = "response_geom_mean") {
 
     # Error checking ------------------
@@ -104,6 +107,9 @@ sp_simulate <- function(ref_table, models, select_sp = NULL, level = 0.95, extra
     # confidence level
     checkmate::assert_number(level, lower = 0, upper = 1, add = coll)
 
+    # length.out
+    checkmate::assert_integerish(length.out, lower = 1, add = coll)
+
     if (!is.null(select_sp)) {
         # run if argument select_sp is present
 
@@ -113,22 +119,23 @@ sp_simulate <- function(ref_table, models, select_sp = NULL, level = 0.95, extra
 
     checkmate::reportAssertions(coll)
 
+
     # Calculations ------------------
 
     predict_range <- ref_table[names(ref_table) %in% c(species, predictor_min, predictor_max)]
     predict_range$species <- as.character(predict_range$species)  # to avoid empty lists in next step
-    predict_range_full <- apply(predict_range, 1, function(x) seq(x[predictor_min], x[predictor_max], length.out = 100))  #each sp is a column
+    predict_range_full <- apply(predict_range, 1, function(x) seq(x[predictor_min], x[predictor_max], length.out = length.out))  #each sp is a column
     predict_range_full <- as.data.frame(predict_range_full)
 
     colnames(predict_range_full) <- predict_range$species
     predict_range_full <- tidyr::pivot_longer(predict_range_full, cols = colnames(predict_range_full), names_to = "species", values_to = "predictor")
     # predict_range_full <- predict_range_full[order(predict_range_full$species, predict_range_full$predictor),]
 
-    # run sp_predict
-    output <- sp_predict(predict_range_full, models, ref_table, level = level, species = "species", predictor = "predictor", cf = "correctn_factor",
+    # run ss_predict
+    output <- ss_predict(predict_range_full, models, ref_table, level = level, species = "species", predictor = "predictor", cf = "correctn_factor",
         geom_mean = "response_geom_mean")
 
-    # classify extrapolated for height
+    # classify extrapolated for response variable
     response_ranges <- ref_table[, colnames(ref_table) %in% c(species, response_min, response_max)]
     response_ranges$species <- as.character(response_ranges$species)
     colnames(response_ranges) <- c("species", "ymin", "ymax")  # avoid confusion with function arguments
@@ -136,29 +143,29 @@ sp_simulate <- function(ref_table, models, select_sp = NULL, level = 0.95, extra
     output <- output %>% dplyr::left_join(response_ranges, by = c(species = "species")) %>% dplyr::group_by(species) %>% dplyr::mutate(extrapolated = ifelse(.data$fit <
         .data$ymin, "Low", ifelse(.data$fit > .data$ymax, "High", "No"))) %>% dplyr::select(-.data$ymin, -.data$ymax)
 
-    # extrapolated diameter values
+    # extrapolated predictor values
     if (!is.null(extrapolate)) {
       checkmate::assert_numeric(extrapolate, len = 2, lower = 0, sorted = TRUE, any.missing = FALSE)
 
         # extrapolate[1] to predictor_min
         predict_range_low <- apply(predict_range, 1, function(x) if (x[predictor_min] > extrapolate[1]) {
-            seq(0, x[predictor_min], length.out = 20)
-        } else {
-            rep(NA, 100)
-        })  #each sp is a column
+            seq(extrapolate[1], x[predictor_min], length.out = length.out)
+          } else {
+            rep(NA, length.out)
+            })  #each sp is a column
         if (!is.null(predict_range_low)) {
             predict_range_low <- as.data.frame(predict_range_low)
             colnames(predict_range_low) <- predict_range$species
 
             predict_range_low <- tidyr::pivot_longer(predict_range_low, cols = colnames(predict_range_low), names_to = "species", values_to = "predictor")
             predict_range_low$extrapolated <- "Low"
-        }
+            }
 
         # extrapolate[2] to predictor_max
         predict_range_high <- apply(predict_range, 1, function(x) if (x[predictor_max] < extrapolate[2]) {
-            seq(extrapolate[2], x[predictor_max], length.out = 100)
+            seq(extrapolate[2], x[predictor_max], length.out = length.out)
         } else {
-            rep(NA, 100)
+            rep(NA, length.out)
         })  #each sp is a column
 
         if (!is.null(predict_range_high)) {
@@ -173,7 +180,7 @@ sp_simulate <- function(ref_table, models, select_sp = NULL, level = 0.95, extra
         predict_range_extra <- predict_range_extra[complete.cases(predict_range_extra), ]
 
 
-        output_extra <- sp_predict(predict_range_extra, models, ref_table, level = level, species = "species", predictor = "predictor", cf = "correctn_factor",
+        output_extra <- ss_predict(predict_range_extra, models, ref_table, level = level, species = "species", predictor = "predictor", cf = "correctn_factor",
             geom_mean = "response_geom_mean")
 
         output <- rbind.data.frame(output, output_extra)

@@ -35,33 +35,25 @@
 #'   argument `level`.} }
 #'
 #' @family single-species model functions
-#' @seealso [sp_simulate()] to run `sp_predict()` on simulated data.
+#' @seealso [ss_simulate()] to run `ss_predict()` on simulated data.
 #'
 #' @examples
 #' # first select best-fit model
 #' data(urbantrees)
 #' Alb_sam <- urbantrees[urbantrees$species == 'Albizia saman', ]  # we use one species as an example
-#' results <- sp_modelselect_multi(Alb_sam,
-#'                                 species = 'species',
+#' results <- ss_modelselect_multi(Alb_sam,
 #'                                 response = 'height',
 #'                                 predictor = 'diameter')
 #'
-#' # simulate data
-#' predict_range <- results$sp_models_info[ ,c('species','predictor_min', 'predictor_max')]
-#' predict_range_full <- as.data.frame(apply(predict_range, 1,
-#'                                           function(x) seq(x['predictor_min'], x['predictor_max'],
-#'                                           length.out = 100)))
-#' colnames(predict_range_full) <- predict_range$species
-#' predict_range_full <- tidyr::pivot_longer(predict_range_full,
-#'                                           cols = colnames(predict_range_full),
-#'                                           names_to = 'species',
-#'                                           values_to = 'predictor')
+#' # generate data for subsequent predictions
+#' newdata <- generate_x(Alb_sam,
+#'                       response = "height", predictor = "diameter")
 #'
 #' # run function
-#' predictions <- sp_predict(predict_range_full,
-#'                           models = results$sp_models,
-#'                           ref_table = results$sp_models_info,
-#'                           predictor = 'predictor')
+#' predictions <- ss_predict(newdata,
+#'                           models = results$ss_models,
+#'                           ref_table = results$ss_models_info,
+#'                           predictor = "predictor")
 #' head(predictions)
 #'
 #' @import checkmate
@@ -70,7 +62,7 @@
 #' @importFrom dplyr filter_at vars all_vars
 #'
 #' @export
-sp_predict <- function(data, models, ref_table, level = 0.95, species = "species", predictor = "diameter", cf = "correctn_factor", geom_mean = "response_geom_mean") {
+ss_predict <- function(data, models, ref_table, level = 0.95, species = "species", predictor = "diameter", cf = "correctn_factor", geom_mean = "response_geom_mean") {
 
     # Error checking ------------------
     coll <- checkmate::makeAssertCollection()
