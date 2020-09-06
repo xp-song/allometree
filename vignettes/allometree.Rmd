@@ -40,7 +40,7 @@ Two linear modelling approaches will be introduced:
 
 We will be using `data(urbantrees)`. It contains five species planted along streets in Singapore, each spanning a wide range of heights and diameter sizes (in metres).
 
-```{r load data, fig.width=5.5, fig.align='center'}
+```{r load data, fig.width=6.5, fig.align='center'}
 data(urbantrees, package = "allometree")
 urbantrees
 
@@ -48,7 +48,8 @@ library(ggplot2)
 
 ggplot(urbantrees, aes(diameter, height)) +
   facet_wrap(~ species, scales = "free") +
-  geom_point()
+  geom_point(size=0.35, alpha = 0.3, color = "grey50") +
+  theme_bw() + theme(panel.grid = element_blank())
 ```
 
 
@@ -70,7 +71,8 @@ head(eqns_info)
 We can run `ss_modelselect_multi()` to select the best-fit model for each species in the dataset `urbantrees`. This can also be done for  individual species using `ss_modelselect()`. Note that you can also fit data to specified (i.e. pre-defined) equations, using the functions `ss_modelfit()` and `ss_modelfit_multi()`. This can be done, for example, after the removal of outliers from the full dataset. See the vignette [Single-species linear models](single-species_models.html) for a full demonstration.
 
 ```{r}
-results <- ss_modelselect_multi(urbantrees, species = "species", # specify colname of species
+results <- ss_modelselect_multi(urbantrees, 
+                                species = "species", # specify colname of species
                                 response = "height", predictor = "diameter") # specify colnames of variables
 ```
 
@@ -89,26 +91,62 @@ results$ss_models_info
 
 &nbsp;
 
-We can simulate data across a range of diameter sizes for each species, and use their respective models to make predictions of tree height. The simulated data can also be extrapolated beyond the range used to fit the model, using the argument `extrapolate`:
+We can simulate data across a range of diameter sizes for each species, and use their respective models to make predictions of tree height. The simulated data can also be extrapolated beyond the range used to fit the model, using the argument `extrapolate`. In this example, we specify that predictions should be made between the range `0` to `1` metre:
 
 ```{r}
-predictions_ss <- ss_simulate(ref_table = results$ss_models_info, models = results$ss_models,
+predictions_ss <- ss_simulate(ref_table = results$ss_models_info, 
+                              models = results$ss_models,
                               extrapolate = c(0,1))
 head(predictions_ss)
 ```
 
 &nbsp;
 
-`predictions_ss` is a dataframe of simulated data for the diameter size (`predictor`) for each `species`. Other columns include the predicted height (`fit`), the lower (`lwr`) and upper (`upr`) bounds of the prediction interval, as well as whether the height/diameter variables are `extrapolated` beyond the original data used to fit the model.
+`predictions_ss` is a dataframe of simulated data for the diameter size (`predictor`) for each `species`. Other columns include the predicted height (`fit`), the lower (`lwr`) and upper (`upr`) bounds of the prediction interval, as well as whether the height/diameter variables are `extrapolated` beyond the original data used to fit the model.  
+
+&nbsp;
+
+Model predictions can be visualised alongside the original data using `ggplot2::ggplot()`:
+
+```{r single-species_model curves, message = FALSE, warning = FALSE, fig.width=7.5, fig.height =4, fig.align='center'}
+
+ggplot() +
+  facet_wrap(~ species)+ 
+  
+  # raw data
+  geom_point(data = urbantrees, 
+             aes(x = diameter, y = height),
+             size=0.35, alpha = 0.3, color = "grey50") +
+  
+  # prediction interval
+  geom_ribbon(data = predictions_ss, 
+              aes(x = predictor, ymin = lwr, ymax = upr), 
+              alpha = 0.10) +
+  
+  # regression line
+  geom_line(data = predictions_ss, 
+            aes(x = predictor, y = fit, lty = extrapolated)) +
+  scale_linetype_manual(values=c("No"= 1 , "Low" = 3, "High" = 3), 
+                        name = "Extrapolated") +
+  
+  # axes
+  xlab("Diameter (m)") + ylab("Height (m)") +
+  coord_cartesian(ylim=c(0, max(urbantrees$height)), # limit ranges
+                  xlim= c(0, max(predictions_ss$predictor))) + 
+  
+  theme_bw() + theme(panel.grid = element_blank())
+```
 
 ---
 
 ## 2. Mixed-effects model
 
-Alternatively, the `urbantrees` data can be fit to a linear mixed-effects model with 'species' specified as the random effect, using the `lme4::lmer` function under the hood.  
+Alternatively, the full dataset can be fit to a linear mixed-effects model with 'species' specified as the random effect, using the `lme4::lmer` function under the hood.  
 
 ```{r warning = FALSE, message = FALSE}
-results <- mix_modelselect(urbantrees)
+results <- mix_modelselect(urbantrees, 
+                           species = "species", 
+                           response = "height", predictor = "diameter")
 ```
 
 `results` is a list of 5 elements:
@@ -121,65 +159,47 @@ results <- mix_modelselect(urbantrees)
 
 &nbsp;
 
-Likewise, we can simulate data across a range of diameter sizes for each species, and make predictions of tree height. Extrapolation is also possible using the argument `extrapolate`:
+Simulations can likewise be performed across a range of diameter sizes for each species, and extrapolated beyond the range used to fit the model:  
+
 ```{r warning = FALSE, message = FALSE}
 predictions_mix <- mix_simulate(data = urbantrees, 
                                 modelselect = results,
-                                extrapolate = c(0, 4))
+                                extrapolate = c(0, 1))
 head(predictions_mix)
 ```
 
-## Visualisations
+Model predictions can be visualised alongside the original data using `ggplot2::ggplot()`:
 
-Single-species models:  
-
-```{r single-species_model curves, message = FALSE, warning = FALSE, fig.width=6.5, fig.height =4, fig.align='center', echo = FALSE}
+```{r mixed-effects model curves, fig.width = 6.5, fig.height = 4, fig.align = 'center'}
 
 ggplot() +
   facet_wrap(~ species)+ 
-  geom_point(data = urbantrees, aes(x = diameter, y = height),
-             size=0.35, alpha = 0.9, color = "grey50") +
+  
+  # raw data
+  geom_point(data = urbantrees, 
+             aes(x = diameter, y = height),
+             size=0.35, alpha = 0.3, color = "grey50") +
   
   # prediction interval
-  geom_ribbon(data = predictions_ss, aes(x = predictor, ymin = lwr, ymax = upr), 
+  geom_ribbon(data = predictions_mix, 
+              aes(x = predictor, ymin = lwr, ymax = upr), 
               alpha = 0.10) +
   
   # regression line
-  geom_line(data = predictions_ss, aes(x = predictor, y = fit, lty = extrapolated),
-            size = 0.8, alpha = 0.6) +
+  geom_line(data = predictions_mix, 
+            aes(x = predictor, y = fit, lty = extrapolated)) +
+  scale_linetype_manual(values=c("No"= 1 , "Low" = 3, "High" = 3), 
+                        name = "Extrapolated") +
   
-  scale_linetype_manual(values=c("No"= 1 , "Low" = 3, "High" = 3), name = "Extrapolated") +
-  
+  # axes
   xlab("Diameter (m)") + ylab("Height (m)") +
+  coord_cartesian(ylim=c(0, max(urbantrees$height)), # limit ranges
+                  xlim= c(0, max(predictions_mix$predictor))) + 
   
-  coord_cartesian(ylim=c(0, 25), xlim= c(0,1))
+  theme_bw() + theme(panel.grid = element_blank())
 ```
 
-
-Mixed-effects models:  
-
-```{r mixed-effects model curves, fig.width = 6.5, fig.height = 4, fig.align = 'center', echo = FALSE}
-
-ggplot() +
-  facet_wrap(~ species)+ 
-  geom_point(data = urbantrees, aes(x = diameter, y = height),
-             size=0.35, alpha = 0.9, color = "grey50") +
-  
-  # prediction interval
-  geom_ribbon(data = predictions_mix, aes(x = predictor, ymin = lwr, ymax = upr), 
-              alpha = 0.10) +
-  
-  # regression line
-  geom_line(data = predictions_mix, aes(x = predictor, y = fit, lty = extrapolated),
-            size = 0.8, alpha = 0.6) +
-  
-  scale_linetype_manual(values=c("No"= 1 , "Low" = 3, "High" = 3), name = "Extrapolated") +
-  
-  xlab("Diameter (m)") + ylab("Height (m)") +
-  
-  coord_cartesian(ylim=c(0, 25), xlim= c(0,max(predictions_mix$predictor)))
-```
-
+&nbsp;
 
 ---
 

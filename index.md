@@ -35,7 +35,7 @@ devtools::install_github("xp-song/allometree")
 library(allometree)
 ```
 
-## Example
+## Examples
 
 Allometric equations in this package have been used to predict
 relationships between parameters related tree size and structure, such
@@ -52,16 +52,18 @@ five species in our example dataset `data(urbantrees)`:
 
  
 
-One method is to develop allometric models separately for each species,
-i.e., [single-species linear
-models](articles/single-species_models.html). We can select the best-fit
-equation for each species in the dataset, or fit data to specified
-(i.e. pre-defined) equations, for example, after the removal of
-outliers. The example below selects the best-fit equation for each
-species in `urbantrees`:
+### Single-species models
+
+One method is to develop allometric models separately for each species
+([single-species models](articles/single-species_models.html)). We can
+select the best-fit equation for each species in the dataset, or fit
+data to specified (i.e. pre-defined) equations, for example, after the
+removal of outliers. The example below selects the best-fit equation for
+each species in `urbantrees`:
 
 ``` r
-results <- ss_modelselect_multi(urbantrees, species = "species", # specify colname of species
+results <- ss_modelselect_multi(urbantrees, 
+                                species = "species", # specify colname of species
                                 response = "height", predictor = "diameter") # specify colnames of variables
 ```
 
@@ -70,14 +72,40 @@ results <- ss_modelselect_multi(urbantrees, species = "species", # specify colna
 We can simulate data across a range of diameter sizes for each species,
 and use their respective models to make predictions of tree height. The
 simulated data can also be extrapolated beyond the range used to fit the
+model. In this example, we specify that predictions should be made
+between the range `0` to `1` metre:
+
+``` r
+predictions_ss <- ss_simulate(ref_table = results$ss_models_info, 
+                              models = results$ss_models, 
+                              extrapolate = c(0,1))
+```
+
+### Mixed-effects model
+
+Alternatively, the full dataset can be fit to a linear mixed-effects
+model with ‘species’ specified as the random effect, using the
+`lme4::lmer` function under the hood:
+
+``` r
+results <- mix_modelselect(urbantrees, 
+                           species = "species", 
+                           response = "height", predictor = "diameter")
+```
+
+Simulations can likewise be performed across a range of diameter sizes
+for each species, and extrapolated beyond the range used to fit the
 model:
 
 ``` r
-predictions <- ss_simulate(ref_table = results$ss_models_info, models = results$ss_models, 
-                           extrapolate = c(0,1)) # diameter from 0 to 1 m
+predictions_mix <- mix_simulate(data = urbantrees, 
+                                modelselect = results,
+                                extrapolate = c(0, 1))
 ```
 
  
+
+## Visualisations
 
 Model predictions can be visualised alongside the original data using
 `ggplot2::ggplot()`:
@@ -86,6 +114,7 @@ Model predictions can be visualised alongside the original data using
 
  
 
-These allometric relationships can then be interpreted in conjunction
-with information on the biology and growth (e.g. environmental and
-management) conditions associated with the trees.
+These allometric relationships can then be interpreted according to the
+types of variables modelled, and in conjunction with information on the
+biology and growth (e.g. environmental and management) conditions
+associated with the trees.
