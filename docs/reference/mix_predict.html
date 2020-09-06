@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Predictions or simulation for mixed-effects or multilevel models — mix_predict • allometree</title>
+<title>Make predictions for all species in a dataset using linear mixed-effects model — mix_predict • allometree</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,11 @@
 
 
 
-<meta property="og:title" content="Predictions or simulation for mixed-effects or multilevel models — mix_predict" />
-<meta property="og:description" content="Predictions or simulation for mixed-effects or multilevel models" />
+<meta property="og:title" content="Make predictions for all species in a dataset using linear mixed-effects model — mix_predict" />
+<meta property="og:description" content="Make predictions across rows in a dataset that may contain multiple species.
+The mixed-effects model is used to predict values for the response variable,
+as well as it's prediction interval. Necessary bias-corrections are made if
+the mixed-effects model has a transformed response variable." />
 <meta property="og:image" content="https://xp-song.github.io/allometree/reference/figures/logo.png" />
 <meta property="og:image:alt" content="Allometric Scaling of Urban Trees" />
 <meta name="twitter:card" content="summary_large_image" />
@@ -94,7 +97,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">allometree</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1</span>
       </span>
     </div>
 
@@ -145,40 +148,62 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Predictions or simulation for mixed-effects or multilevel models</h1>
+    <h1>Make predictions for all species in a dataset using linear mixed-effects model</h1>
     <small class="dont-index">Source: <a href='https://github.com/xp-song/allometree/blob/master/R/mix_predict.R'><code>R/mix_predict.R</code></a></small>
     <div class="hidden name"><code>mix_predict.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Predictions or simulation for mixed-effects or multilevel models</p>
+    <p>Make predictions across rows in a dataset that may contain multiple species.
+The mixed-effects model is used to predict values for the response variable,
+as well as it's prediction interval. Necessary bias-corrections are made if
+the mixed-effects model has a transformed response variable.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>mix_predict</span>(<span class='no'>data</span>, <span class='no'>models</span>, <span class='kw'>level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>stat</span> <span class='kw'>=</span> <span class='st'>"median"</span>, <span class='kw'>n.sims</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>mix_predict</span>(
+  <span class='no'>data</span>,
+  <span class='no'>modelselect</span>,
+  <span class='kw'>level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>,
+  <span class='kw'>stat</span> <span class='kw'>=</span> <span class='st'>"median"</span>,
+  <span class='kw'>n.sims</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
+  <span class='kw'>predictor</span> <span class='kw'>=</span> <span class='st'>"diameter"</span>,
+  <span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"species"</span>,
+  <span class='no'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>Dataframe to simulate data and make predictions for them using mixed-effects models.
-Columns should contain the species and variables of interest. Each row is a measurement for an individual tree.</p></td>
+      <td><p>Dataframe with columns containing the species and variables of
+interest. Each row is a measurement for an individual tree.</p></td>
     </tr>
     <tr>
-      <th>models</th>
-      <td><p>Output from the <code>mix_modelfit()</code> function.</p></td>
+      <th>modelselect</th>
+      <td><p>Output from the <code>mix_modelselect()</code> function.</p></td>
     </tr>
     <tr>
       <th>level</th>
-      <td><p>The width of the prediction intervals</p></td>
+      <td><p>Level of confidence for the prediction interval. Defaults to
+<code>0.95</code>.</p></td>
     </tr>
     <tr>
       <th>stat</th>
-      <td><p>Take the median or mean of simulated intervals</p></td>
+      <td><p>Specify whether the <code>"median"</code> or <code>"mean"</code> of simulated intervals are used.</p></td>
     </tr>
     <tr>
       <th>n.sims</th>
-      <td><p>Number of bootstrap simulation for the prediction intervals</p></td>
+      <td><p>Number of bootstrapped simulations to generate the prediction intervals. Defaults to <code>1000</code>.</p></td>
+    </tr>
+    <tr>
+      <th>predictor</th>
+      <td><p>Column name of the predictor variable in <code>data</code>. Defaults to
+<code>diameter</code>.</p></td>
+    </tr>
+    <tr>
+      <th>species</th>
+      <td><p>Column name of the species variable in <code>data</code>. Defaults to <code>species</code>.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -188,19 +213,31 @@ Columns should contain the species and variables of interest. Each row is a meas
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A dataframe containing generated newX from <code><a href='generate_newX.html'>generate_newX()</a></code> and predictions (with intervals)</p>
+    <p>Dataframe of input <code>data</code> with columns appended:</p><dl'>
+<dt>fit</dt><dd><p>Predicted value for the response variable.</p></dd>
+<dt>lwr</dt><dd><p>Lower bound of the prediction interval, based on the input argument <code>level</code>.</p></dd>
+<dt>upr</dt><dd><p>Upper bound of the prediction interval, based on the input argument <code>level</code>.</p></dd> 
+</dl>
+
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code>mix_modelfit()</code>, <code><a href='generate_newX.html'>generate_newX()</a></code>, <code><a href='https://rdrr.io/pkg/merTools/man/predictInterval.html'>merTools::predictInterval()</a></code></p></div>
+    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/merTools/man/predictInterval.html'>merTools::predictInterval()</a></code> to make predictions from models fit with the <code>lme4</code> package.</p>
+<p>Other mixed-effects model functions: 
+<code>mix_modelselect()</code>,
+<code>mix_simulate()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>urbantrees</span>)
-<span class='no'>urbantrees</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/subset.html'>subset</a></span>(<span class='no'>urbantrees</span>, <span class='no'>height</span> <span class='kw'>&lt;</span> <span class='fl'>40</span>) <span class='co'># remove outliers</span>
 
-<span class='no'>mixed_model</span> <span class='kw'>&lt;-</span> <span class='fu'>mix_modelfit</span>(<span class='no'>urbantrees</span>)</div><div class='output co'>#&gt; <span class='error'>Error in paste0("Fitting ", names(me.formula.list)[f], " model with weight ",     names(weight.list)[w]): object 'me.formula.list' not found</span></div><div class='input'><span class='no'>predicted_values</span> <span class='kw'>&lt;-</span> <span class='fu'>mix_predict</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>urbantrees</span>, <span class='kw'>models</span> <span class='kw'>=</span> <span class='no'>mixed_model</span>)</div><div class='output co'>#&gt; <span class='message'>Registered S3 method overwritten by 'broom.mixed':</span>
-#&gt; <span class='message'>  method      from </span>
-#&gt; <span class='message'>  tidy.gamlss broom</span></div><div class='output co'>#&gt; <span class='error'>Error in getME(merMod, "devcomp"): object 'mixed_model' not found</span></div><div class='input'>
-</div></pre>
+<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>mix_modelselect</span>(<span class='no'>urbantrees</span>)
+
+<span class='no'>Alb_sam</span> <span class='kw'>&lt;-</span> <span class='no'>urbantrees</span>[<span class='no'>urbantrees</span>$<span class='no'>species</span> <span class='kw'>==</span> <span class='st'>'Albizia saman'</span>, ]  <span class='co'># use one species as an example</span>
+<span class='no'>results</span> <span class='kw'>&lt;-</span> <span class='fu'>mix_predict</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>Alb_sam</span>, <span class='kw'>modelselect</span> <span class='kw'>=</span> <span class='no'>model</span>,
+                       <span class='kw'>predictor</span> <span class='kw'>=</span> <span class='st'>"diameter"</span>) <span class='co'># make predictions for measured values</span>
+
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>results</span>)
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

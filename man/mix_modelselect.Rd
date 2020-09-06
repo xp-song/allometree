@@ -54,6 +54,7 @@ mix_modelselect(data = urbantrees,
 }
 \seealso{
 Other mixed-effects model functions: 
+\code{\link{mix_predict}()},
 \code{\link{mix_simulate}()}
 }
 \concept{mixed-effects model functions}

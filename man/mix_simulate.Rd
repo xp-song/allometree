@@ -31,7 +31,8 @@ Columns should contain the species and variables of interest. Each row is a meas
 the upper and lower bounds of extrapolation. Defaults to \code{NULL} for no
 extrapolation.}
 
-\item{length.out}{Number of new predictor values to generate for each species. Defaults to 100. Set a higher value for greater resolution at the cost of computational time.}
+\item{length.out}{Number of new predictor values to generate for each species. Defaults to 100.
+Set a higher value for greater resolution at the cost of computational time.}
 
 \item{stat}{Specify whether the \code{"median"} or \code{"mean"} of simulated intervals are used.}
 
@@ -58,10 +59,10 @@ A dataframe with columns: \describe{
 extrapolated values. Either 'High', 'Low', or 'No' (not extrapolated).} }
 }
 \description{
+Wrapper function that runs \code{\link[=mix_predict]{mix_predict()}} on simulated data from \code{\link[=generate_x]{generate_x()}}.
 Data is generated for each species based on their respective ranges of the
-predictor variable, which can be extrapolated to values defined by the user
-(using the helper function \code{\link[=generate_x]{generate_x()}}). The mixed-effects model is used
-to predict values for the response variable, as well as it's prediction interval.
+predictor variable, which can be extrapolated to values defined by the user.
+The mixed-effects model is used to predict values for the response variable, as well as it's prediction interval.
 Necessary bias-corrections are made if the mixed-effects model has a transformed response variable.
 }
 \examples{
@@ -75,13 +76,14 @@ head(results)
 
 }
 \seealso{
-\code{\link[=mix_modelselect]{mix_modelselect()}} to fit a linear mixed-effects model across all species.
-
 \code{\link[=generate_x]{generate_x()}} to generate new values for each species in a dataset.
+
+\code{\link[=mix_predict]{mix_predict()}} to make predictions for all species in a dataset using linear mixed-effects model.
 
 \code{\link[merTools:predictInterval]{merTools::predictInterval()}} to make predictions from models fit with the \code{lme4} package.
 
 Other mixed-effects model functions: 
-\code{\link{mix_modelselect}()}
+\code{\link{mix_modelselect}()},
+\code{\link{mix_predict}()}
 }
 \concept{mixed-effects model functions}
