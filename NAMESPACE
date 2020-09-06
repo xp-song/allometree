@@ -3,6 +3,7 @@
 export("%>%")
 export(generate_x)
 export(mix_modelselect)
+export(mix_predict)
 export(mix_simulate)
 export(ss_modelfit)
 export(ss_modelfit_multi)

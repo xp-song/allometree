@@ -1,9 +1,9 @@
 #' Make predictions on simulated data using mixed-effects model
 #'
+#' Wrapper function that runs [mix_predict()] on simulated data from [generate_x()].
 #' Data is generated for each species based on their respective ranges of the
-#' predictor variable, which can be extrapolated to values defined by the user
-#' (using the helper function [generate_x()]). The mixed-effects model is used
-#' to predict values for the response variable, as well as it's prediction interval.
+#' predictor variable, which can be extrapolated to values defined by the user.
+#' The mixed-effects model is used to predict values for the response variable, as well as it's prediction interval.
 #' Necessary bias-corrections are made if the mixed-effects model has a transformed response variable.
 #'
 #' @param data Dataframe used to generate data and their predictions the using mixed-effects model.
@@ -14,7 +14,8 @@
 #' @param extrapolate Numeric vector of 2 elements (e.g. `c(0,4)`), representing
 #'  the upper and lower bounds of extrapolation. Defaults to `NULL` for no
 #'  extrapolation.
-#' @param length.out Number of new predictor values to generate for each species. Defaults to 100. Set a higher value for greater resolution at the cost of computational time.
+#' @param length.out Number of new predictor values to generate for each species. Defaults to 100.
+#' Set a higher value for greater resolution at the cost of computational time.
 #' @param stat Specify whether the `"median"` or `"mean"` of simulated intervals are used.
 #' @param n.sims Number of bootstrapped simulations to generate the prediction intervals. Defaults to `1000`.
 #' @param response Column name of the response variable in `data`. Defaults to
@@ -34,9 +35,9 @@
 #'  extrapolated values. Either 'High', 'Low', or 'No' (not extrapolated).} }
 #'
 #' @family mixed-effects model functions
-#' @seealso [mix_modelselect()] to fit a linear mixed-effects model across all species.
+#' @seealso [generate_x()] to generate new values for each species in a dataset.
 #'
-#'   [generate_x()] to generate new values for each species in a dataset.
+#'   [mix_predict()] to make predictions for all species in a dataset using linear mixed-effects model.
 #'
 #'   [merTools::predictInterval()] to make predictions from models fit with the `lme4` package.
 #'
@@ -60,50 +61,23 @@ mix_simulate <-
            stat = "median", n.sims = 1000,
            response = "height", predictor = "diameter", species = "species", ...) {
 
-    # Error checking ------------------
-    coll <- checkmate::makeAssertCollection()
-
-    checkmate::assert_choice(stat, choices = c("median", "mean"), add = coll)
-    checkmate::assert_integerish(n.sims, lower = 1, add = coll)
-
-    checkmate::reportAssertions(coll)
-
 
     # Calculations ------------------
 
     # generate new data using helper function
-    newdat <- generate_x(data, extrapolate = extrapolate,
+    newdat <- generate_x(data,
+                         extrapolate = extrapolate,
                          length.out = length.out,
-                         response = response, predictor = predictor, species = species)
+                         response = response, predictor = predictor,
+                         species = species)
 
-    # amendments for merTools::predictInterval
-    names(newdat)[names(newdat) == 'predictor'] <- 'x'
-    newdat <- as.data.frame(newdat)
+    results <- mix_predict(data = newdat,
+                           modelselect = modelselect,
+                           level = level,
+                           stat = stat, n.sims = n.sims,
+                           predictor = "predictor", species = "species", ...) # define colnames based on newdat output
 
-    # Bootstrap prediction CI function
-    # Species-level (group-level) predictions
-    pred.boot <-
-      merTools::predictInterval(
-        modelselect$best_model,
-        newdata = newdat,
-        level = level,
-        n.sims = n.sims,
-        stat = stat,
-        ...
-      )
-
-    # back-transform predictions for loglog and expo models
-    best_mod_name <- rownames(modelselect$models_rank)[1]
-    best_mod_formula <- strsplit(best_mod_name, "_")[[1]][1]
-    if (best_mod_formula %in% c("loglog", "expo")) {
-      pred.boot <- exp(pred.boot)
-    }
-
-    # merge newdat and predictions
-    out <- cbind(newdat, pred.boot)
-    names(out)[names(out) == 'x'] <- 'predictor' # change back colname
-
-    return(out)
+    return(results)
 
   }
 
