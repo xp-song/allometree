@@ -1,7 +1,8 @@
 #' Make predictions on simulated data using mixed-effects model
 #'
-#' Data is simulated for each species (if multiple species are present) based on their respective ranges of the
-#' predictor variable, which can be extrapolated to values defined by the user. The mixed-effects model is used
+#' Data is generated for each species based on their respective ranges of the
+#' predictor variable, which can be extrapolated to values defined by the user
+#' (using the helper function [generate_x()]). The mixed-effects model is used
 #' to predict values for the response variable, as well as it's prediction interval.
 #' Necessary bias-corrections are made if the mixed-effects model has a transformed response variable.
 #'
@@ -13,7 +14,7 @@
 #' @param extrapolate Numeric vector of 2 elements (e.g. `c(0,4)`), representing
 #'  the upper and lower bounds of extrapolation. Defaults to `NULL` for no
 #'  extrapolation.
-#' @param length.out Number of new X values to generate for each species. Defaults to 100. Set a higher value for greater resolution at the cost of computational time.
+#' @param length.out Number of new predictor values to generate for each species. Defaults to 100. Set a higher value for greater resolution at the cost of computational time.
 #' @param stat Specify whether the `"median"` or `"mean"` of simulated intervals are used.
 #' @param n.sims Number of bootstrapped simulations to generate the prediction intervals. Defaults to `1000`.
 #' @param response Column name of the response variable in `data`. Defaults to
@@ -23,9 +24,22 @@
 #' @param species Column name of the species variable in `data`. Defaults to `species`.
 #' @param ... Additional arguments passed to [merTools::predictInterval()]
 #'
-#' @return Dataframe containing data generated from [generate_x()], and their predictions (with intervals).
+#'@return A dataframe with columns: \describe{
+#'  \item{species}{Name of tree species.}
+#'  \item{predictor}{Variable used to make predictions.}
+#'  \item{fit}{Predicted value.}
+#'  \item{lwr}{Lower bound of the prediction interval, based on the input argument `level`.}
+#'  \item{upr}{Upper bound of the prediction interval, based on the input argument `level`.}
+#'  \item{extrapolated}{Indicates whether the predictions are based on
+#'  extrapolated values. Either 'High', 'Low', or 'No' (not extrapolated).} }
 #'
-#' @seealso [mix_modelselect()], [generate_x()], [merTools::predictInterval()]
+#' @family mixed-effects model functions
+#' @seealso [mix_modelselect()] to fit a linear mixed-effects model across all species.
+#'
+#'   [generate_x()] to generate new values for each species in a dataset.
+#'
+#'   [merTools::predictInterval()] to make predictions from models fit with the `lme4` package.
+#'
 #' @examples
 #' data(urbantrees)
 #'

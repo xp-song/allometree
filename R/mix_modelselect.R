@@ -15,7 +15,7 @@
 #'   \describe{
 #'     \item{models_rank}{A model selection table of all the types of mixed-effects models considered,
 #'     ranked in order of ascending Aikake's Information Criterion corrected for small sample sizes (AICc).
-#'     Model details can be found in `?eqns_info` and [data(eqns_info)].}
+#'     Model details can be found in `?eqns_info` and `data(eqns_info)`.}
 #'     \item{best_model}{The best-fit model object.}
 #'     \item{R2}{The conditional and marginal pseudo-\eqn{R^2} of the best-fit model.}
 #'     \item{CF}{Correction factor used to adjust predicted values if response variable is transformed
@@ -23,11 +23,14 @@
 #'     \item{warnings}{Warning messages, if any, spit from the models.
 #'       These usually indicate failure of model convergence.}
 #'     }
+#'
+#' @family mixed-effects model functions
 #' @examples
 #' data(urbantrees)
 #'
 #' \dontrun{
 #' mix_modelselect(data = urbantrees,
+#'                 species = "species",
 #'                 response = "height", predictor = "diameter")
 #' }
 #'
