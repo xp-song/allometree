@@ -47,8 +47,9 @@
 
 
 <meta property="og:title" content="Make predictions on simulated data using mixed-effects model — mix_simulate" />
-<meta property="og:description" content="Data is simulated for each species (if multiple species are present) based on their respective ranges of the
-predictor variable, which can be extrapolated to values defined by the user. The mixed-effects model is used
+<meta property="og:description" content="Data is generated for each species based on their respective ranges of the
+predictor variable, which can be extrapolated to values defined by the user
+(using the helper function generate_x()). The mixed-effects model is used
 to predict values for the response variable, as well as it's prediction interval.
 Necessary bias-corrections are made if the mixed-effects model has a transformed response variable." />
 <meta property="og:image" content="https://xp-song.github.io/allometree/reference/figures/logo.png" />
@@ -154,8 +155,9 @@ Necessary bias-corrections are made if the mixed-effects model has a transformed
     </div>
 
     <div class="ref-description">
-    <p>Data is simulated for each species (if multiple species are present) based on their respective ranges of the
-predictor variable, which can be extrapolated to values defined by the user. The mixed-effects model is used
+    <p>Data is generated for each species based on their respective ranges of the
+predictor variable, which can be extrapolated to values defined by the user
+(using the helper function <code><a href='generate_x.html'>generate_x()</a></code>). The mixed-effects model is used
 to predict values for the response variable, as well as it's prediction interval.
 Necessary bias-corrections are made if the mixed-effects model has a transformed response variable.</p>
     </div>
@@ -199,7 +201,7 @@ extrapolation.</p></td>
     </tr>
     <tr>
       <th>length.out</th>
-      <td><p>Number of new X values to generate for each species. Defaults to 100. Set a higher value for greater resolution at the cost of computational time.</p></td>
+      <td><p>Number of new predictor values to generate for each species. Defaults to 100. Set a higher value for greater resolution at the cost of computational time.</p></td>
     </tr>
     <tr>
       <th>stat</th>
@@ -231,10 +233,23 @@ extrapolation.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Dataframe containing data generated from <code><a href='generate_x.html'>generate_x()</a></code>, and their predictions (with intervals).</p>
+    <p>A dataframe with columns:</p><dl'>
+<dt>species</dt><dd><p>Name of tree species.</p></dd>
+<dt>predictor</dt><dd><p>Variable used to make predictions.</p></dd>
+<dt>fit</dt><dd><p>Predicted value.</p></dd>
+<dt>lwr</dt><dd><p>Lower bound of the prediction interval, based on the input argument <code>level</code>.</p></dd>
+<dt>upr</dt><dd><p>Upper bound of the prediction interval, based on the input argument <code>level</code>.</p></dd>
+<dt>extrapolated</dt><dd><p>Indicates whether the predictions are based on
+extrapolated values. Either 'High', 'Low', or 'No' (not extrapolated).</p></dd> 
+</dl>
+
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='mix_modelselect.html'>mix_modelselect()</a></code>, <code><a href='generate_x.html'>generate_x()</a></code>, <code><a href='https://rdrr.io/pkg/merTools/man/predictInterval.html'>merTools::predictInterval()</a></code></p></div>
+    <div class='dont-index'><p><code><a href='mix_modelselect.html'>mix_modelselect()</a></code> to fit a linear mixed-effects model across all species.</p>
+<p><code><a href='generate_x.html'>generate_x()</a></code> to generate new values for each species in a dataset.</p>
+<p><code><a href='https://rdrr.io/pkg/merTools/man/predictInterval.html'>merTools::predictInterval()</a></code> to make predictions from models fit with the <code>lme4</code> package.</p>
+<p>Other mixed-effects model functions: 
+<code><a href='mix_modelselect.html'>mix_modelselect</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>urbantrees</span>)

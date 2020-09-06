@@ -117,25 +117,47 @@
 <a href="#setup" class="anchor"></a>Setup</h2>
 <div class="sourceCode" id="cb2"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">allometree</span>)</pre></div>
 </div>
-<div id="example" class="section level2">
+<div id="examples" class="section level2">
 <h2 class="hasAnchor">
-<a href="#example" class="anchor"></a>Example</h2>
+<a href="#examples" class="anchor"></a>Examples</h2>
 <p>Allometric equations in this package have been used to predict relationships between parameters related tree size and structure, such as age, height, trunk diameter, crown height, crown diameter, leaf area, etc. They are foundational to other models that estimate the benefits and hazards associated with trees as they mature and grow in size. See the vignette ‘<a href="articles/allometree.html">Get started with allometree</a>’ for a full description of example datasets and allometric equations.</p>
 <p>Let’s develop models to predict tree <em>height</em> from trunk <em>diameter</em> for five species in our example dataset <code><a href="https://rdrr.io/r/utils/data.html">data(urbantrees)</a></code>:</p>
 <p><img src="reference/figures/urbantrees-1.png" style="display: block; margin: auto;"></p>
 <p> </p>
-<p>One method is to develop allometric models separately for each species, i.e., <a href="articles/single-species_models.html">single-species linear models</a>. We can select the best-fit equation for each species in the dataset, or fit data to specified (i.e. pre-defined) equations, for example, after the removal of outliers. The example below selects the best-fit equation for each species in <code>urbantrees</code>:</p>
-<div class="sourceCode" id="cb3"><pre class="r"><span class="no">results</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/ss_modelselect_multi.html">ss_modelselect_multi</a></span>(<span class="no">urbantrees</span>, <span class="kw">species</span> <span class="kw">=</span> <span class="st">"species"</span>, <span class="co"># specify colname of species</span>
+<div id="single-species-models" class="section level3">
+<h3 class="hasAnchor">
+<a href="#single-species-models" class="anchor"></a>Single-species models</h3>
+<p>One method is to develop allometric models separately for each species (<a href="articles/single-species_models.html">single-species models</a>). We can select the best-fit equation for each species in the dataset, or fit data to specified (i.e. pre-defined) equations, for example, after the removal of outliers. The example below selects the best-fit equation for each species in <code>urbantrees</code>:</p>
+<div class="sourceCode" id="cb3"><pre class="r"><span class="no">results</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/ss_modelselect_multi.html">ss_modelselect_multi</a></span>(<span class="no">urbantrees</span>,
+                                <span class="kw">species</span> <span class="kw">=</span> <span class="st">"species"</span>, <span class="co"># specify colname of species</span>
                                 <span class="kw">response</span> <span class="kw">=</span> <span class="st">"height"</span>, <span class="kw">predictor</span> <span class="kw">=</span> <span class="st">"diameter"</span>) <span class="co"># specify colnames of variables</span></pre></div>
 <p> </p>
-<p>We can simulate data across a range of diameter sizes for each species, and use their respective models to make predictions of tree height. The simulated data can also be extrapolated beyond the range used to fit the model:</p>
-<div class="sourceCode" id="cb4"><pre class="r"><span class="no">predictions</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/ss_simulate.html">ss_simulate</a></span>(<span class="kw">ref_table</span> <span class="kw">=</span> <span class="no">results</span>$<span class="no">ss_models_info</span>, <span class="kw">models</span> <span class="kw">=</span> <span class="no">results</span>$<span class="no">ss_models</span>,
-                           <span class="kw">extrapolate</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>,<span class="fl">1</span>)) <span class="co"># diameter from 0 to 1 m</span></pre></div>
+<p>We can simulate data across a range of diameter sizes for each species, and use their respective models to make predictions of tree height. The simulated data can also be extrapolated beyond the range used to fit the model. In this example, we specify that predictions should be made between the range <code>0</code> to <code>1</code> metre:</p>
+<div class="sourceCode" id="cb4"><pre class="r"><span class="no">predictions_ss</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/ss_simulate.html">ss_simulate</a></span>(<span class="kw">ref_table</span> <span class="kw">=</span> <span class="no">results</span>$<span class="no">ss_models_info</span>,
+                              <span class="kw">models</span> <span class="kw">=</span> <span class="no">results</span>$<span class="no">ss_models</span>,
+                              <span class="kw">extrapolate</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>,<span class="fl">1</span>))</pre></div>
+</div>
+<div id="mixed-effects-model" class="section level3">
+<h3 class="hasAnchor">
+<a href="#mixed-effects-model" class="anchor"></a>Mixed-effects model</h3>
+<p>Alternatively, the full dataset can be fit to a linear mixed-effects model with ‘species’ specified as the random effect, using the <code><a href="https://rdrr.io/pkg/lme4/man/lmer.html">lme4::lmer</a></code> function under the hood:</p>
+<div class="sourceCode" id="cb5"><pre class="r"><span class="no">results</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/mix_modelselect.html">mix_modelselect</a></span>(<span class="no">urbantrees</span>,
+                           <span class="kw">species</span> <span class="kw">=</span> <span class="st">"species"</span>,
+                           <span class="kw">response</span> <span class="kw">=</span> <span class="st">"height"</span>, <span class="kw">predictor</span> <span class="kw">=</span> <span class="st">"diameter"</span>)</pre></div>
+<p>Simulations can likewise be performed across a range of diameter sizes for each species, and extrapolated beyond the range used to fit the model:</p>
+<div class="sourceCode" id="cb6"><pre class="r"><span class="no">predictions_mix</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/mix_simulate.html">mix_simulate</a></span>(<span class="kw">data</span> <span class="kw">=</span> <span class="no">urbantrees</span>,
+                                <span class="kw">modelselect</span> <span class="kw">=</span> <span class="no">results</span>,
+                                <span class="kw">extrapolate</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, <span class="fl">1</span>))</pre></div>
 <p> </p>
+</div>
+</div>
+<div id="visualisations" class="section level2">
+<h2 class="hasAnchor">
+<a href="#visualisations" class="anchor"></a>Visualisations</h2>
 <p>Model predictions can be visualised alongside the original data using <code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot2::ggplot()</a></code>:</p>
 <p><img src="reference/figures/single-species_model_curves-1.png" style="display: block; margin: auto;"></p>
 <p> </p>
-<p>These allometric relationships can then be interpreted in conjunction with information on the biology and growth (e.g. environmental and management) conditions associated with the trees.</p>
+<p>These allometric relationships can then be interpreted according to the types of variables modelled, and in conjunction with information on the biology and growth (e.g. environmental and management) conditions associated with the trees.</p>
 </div>
 </div>
   </div>
