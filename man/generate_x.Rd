@@ -2,7 +2,7 @@
 % Please edit documentation in R/generate_x.R
 \name{generate_x}
 \alias{generate_x}
-\title{Generate new values for each species in a dataset}
+\title{Generate new predictor values for each species in a dataset}
 \usage{
 generate_x(
   data,

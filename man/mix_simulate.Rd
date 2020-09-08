@@ -2,7 +2,7 @@
 % Please edit documentation in R/mix_simulate.R
 \name{mix_simulate}
 \alias{mix_simulate}
-\title{Make predictions on simulated data using mixed-effects model}
+\title{Make predictions on simulated data using linear mixed-effects model}
 \usage{
 mix_simulate(
   data,

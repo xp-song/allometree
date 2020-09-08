@@ -1,4 +1,4 @@
-#' Make predictions on simulated data using mixed-effects model
+#' Make predictions on simulated data using linear mixed-effects model
 #'
 #' Wrapper function that runs [mix_predict()] on simulated data from [generate_x()].
 #' Data is generated for each species based on their respective ranges of the

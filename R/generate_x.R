@@ -1,4 +1,4 @@
-#' Generate new values for each species in a dataset
+#' Generate new predictor values for each species in a dataset
 #'
 #' Helper function to generate a sequence of new values for each species,
 #' based on the range of values for the predictor variable in the `data`.
