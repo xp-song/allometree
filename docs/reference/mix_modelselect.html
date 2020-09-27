@@ -155,7 +155,7 @@ considered can be found in ?eqns_info and data(eqns_info)." />
     <div class="ref-description">
     <p>Fit data to linear mixed-effects model with 'species' specified as the random effect,
 using the <code><a href='https://rdrr.io/pkg/lme4/man/lmer.html'>lme4::lmer</a></code> function under the hood. The full list of allometric equations that are
-considered can be found in <code>?eqns_info</code> and <code><a href='https://rdrr.io/r/utils/data.html'>data(eqns_info)</a></code>.</p>
+considered can be found in <code><a href='eqns_info.html'>?eqns_info</a></code> and <code><a href='https://rdrr.io/r/utils/data.html'>data(eqns_info)</a></code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>mix_modelselect</span>(
@@ -194,7 +194,7 @@ Defaults to <code>diameter</code>.</p></td>
     <p>A list of 5 elements:</p><dl'>
 <dt>models_rank</dt><dd><p>A model selection table of all the types of mixed-effects models considered,
 ranked in order of ascending Aikake's Information Criterion corrected for small sample sizes (AICc).
-Model details can be found in <code>?eqns_info</code> and <code><a href='https://rdrr.io/r/utils/data.html'>data(eqns_info)</a></code>.</p></dd>
+Model details can be found in <code><a href='eqns_info.html'>?eqns_info</a></code> and <code><a href='https://rdrr.io/r/utils/data.html'>data(eqns_info)</a></code>.</p></dd>
 <dt>best_model</dt><dd><p>The best-fit model object.</p></dd>
 <dt>R2</dt><dd><p>The conditional and marginal pseudo-\(R^2\) of the best-fit model.</p></dd>
 <dt>CF</dt><dd><p>Correction factor used to adjust predicted values if response variable is transformed
@@ -207,8 +207,8 @@ These usually indicate failure of model convergence.</p></dd>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other mixed-effects model functions: 
-<code>mix_predict()</code>,
-<code>mix_simulate()</code></p></div>
+<code><a href='mix_predict.html'>mix_predict</a>()</code>,
+<code><a href='mix_simulate.html'>mix_simulate</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>urbantrees</span>)

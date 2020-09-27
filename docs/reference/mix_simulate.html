@@ -155,7 +155,7 @@ Necessary bias-corrections are made if the mixed-effects model has a transformed
     </div>
 
     <div class="ref-description">
-    <p>Wrapper function that runs <code>mix_predict()</code> on simulated data from <code>generate_x()</code>.
+    <p>Wrapper function that runs <code><a href='mix_predict.html'>mix_predict()</a></code> on simulated data from <code><a href='generate_x.html'>generate_x()</a></code>.
 Data is generated for each species based on their respective ranges of the
 predictor variable, which can be extrapolated to values defined by the user.
 The mixed-effects model is used to predict values for the response variable, as well as it's prediction interval.
@@ -186,7 +186,7 @@ Columns should contain the species and variables of interest. Each row is a meas
     </tr>
     <tr>
       <th>modelselect</th>
-      <td><p>Output from the <code>mix_modelselect()</code> function.</p></td>
+      <td><p>Output from the <code><a href='mix_modelselect.html'>mix_modelselect()</a></code> function.</p></td>
     </tr>
     <tr>
       <th>level</th>
@@ -246,18 +246,18 @@ extrapolated values. Either 'High', 'Low', or 'No' (not extrapolated).</p></dd>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code>generate_x()</code> to generate new values for each species in a dataset.</p>
-<p><code>mix_predict()</code> to make predictions for all species in a dataset using linear mixed-effects model.</p>
+    <div class='dont-index'><p><code><a href='generate_x.html'>generate_x()</a></code> to generate new values for each species in a dataset.</p>
+<p><code><a href='mix_predict.html'>mix_predict()</a></code> to make predictions for all species in a dataset using linear mixed-effects model.</p>
 <p><code><a href='https://rdrr.io/pkg/merTools/man/predictInterval.html'>merTools::predictInterval()</a></code> to make predictions from models fit with the <code>lme4</code> package.</p>
 <p>Other mixed-effects model functions: 
-<code>mix_modelselect()</code>,
-<code>mix_predict()</code></p></div>
+<code><a href='mix_modelselect.html'>mix_modelselect</a>()</code>,
+<code><a href='mix_predict.html'>mix_predict</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>urbantrees</span>)
 
 <span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>mix_modelselect</span>(<span class='no'>urbantrees</span>)
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='mix_modelselect.html'>mix_modelselect</a></span>(<span class='no'>urbantrees</span>)
 <span class='no'>results</span> <span class='kw'>&lt;-</span> <span class='fu'>mix_simulate</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>urbantrees</span>, <span class='kw'>modelselect</span> <span class='kw'>=</span> <span class='no'>model</span>)
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>results</span>)
 }</div></pre>

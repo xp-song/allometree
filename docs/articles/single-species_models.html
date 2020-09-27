@@ -101,7 +101,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Single-species linear models</h1>
             
-            <h4 class="date">2020-09-08</h4>
+            <h4 class="date">2020-09-28</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/xp-song/allometree/blob/master/vignettes/single-species_models.Rmd"><code>vignettes/single-species_models.Rmd</code></a></small>
       <div class="hidden name"><code>single-species_models.Rmd</code></div>
@@ -118,14 +118,14 @@
 <div id="for-one-species" class="section level3">
 <h3 class="hasAnchor">
 <a href="#for-one-species" class="anchor"></a>For one species</h3>
-<p>For a particular species of interest, data will be fit to all allometric equations. The best-fit model is selected based on the lowest bias-corrected Aikaike’s information criterion (AICc) value. Here’s an example to select the best-fit model for the species <em>Albizia saman</em>, using the function <code>ss_modelselect()</code>.</p>
+<p>For a particular species of interest, data will be fit to all allometric equations. The best-fit model is selected based on the lowest bias-corrected Aikaike’s information criterion (AICc) value. Here’s an example to select the best-fit model for the species <em>Albizia saman</em>, using the function <code><a href="../reference/ss_modelselect.html">ss_modelselect()</a></code>.</p>
 <div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">urbantrees</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"allometree"</span>)
 
 <span class="no">Alb_sam</span> <span class="kw">&lt;-</span> <span class="no">urbantrees</span>[<span class="no">urbantrees</span>$<span class="no">species</span> <span class="kw">==</span> <span class="st">"Albizia saman"</span>, ]  <span class="co"># subset data for one species</span>
 
-<span class="no">results</span> <span class="kw">&lt;-</span> <span class="fu">ss_modelselect</span>(<span class="no">Alb_sam</span>,
+<span class="no">results</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/ss_modelselect.html">ss_modelselect</a></span>(<span class="no">Alb_sam</span>,
                           <span class="kw">response</span> <span class="kw">=</span> <span class="st">"height"</span>, <span class="kw">predictor</span> <span class="kw">=</span> <span class="st">"diameter"</span>)  <span class="co"># specify colnames of variables</span></pre></body></html></div>
-<p><code>results</code> is a list of 3 elements. More information on the output can be found at <code>?ss_modelselect</code>.</p>
+<p><code>results</code> is a list of 3 elements. More information on the output can be found at <code><a href="../reference/ss_modelselect.html">?ss_modelselect</a></code>.</p>
 <ol style="list-style-type: decimal">
 <li>Table showing models ranked by AICc value, named <code>all_models_rank</code>.</li>
 <li>Best-fit model object, named <code>best_model</code>.</li>
@@ -158,8 +158,8 @@
 <div id="for-multiple-species" class="section level3">
 <h3 class="hasAnchor">
 <a href="#for-multiple-species" class="anchor"></a>For multiple species</h3>
-<p>We can also run <code>ss_modelselect()</code> across multiple species in the full dataset <code>urbantrees</code>. For this, we use the wrapper function <code>ss_modelselect_multi()</code>.</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">results_all</span> <span class="kw">&lt;-</span> <span class="fu">ss_modelselect_multi</span>(<span class="no">urbantrees</span>, <span class="kw">species</span> <span class="kw">=</span> <span class="st">"species"</span>, <span class="co"># specify colname of species</span>
+<p>We can also run <code><a href="../reference/ss_modelselect.html">ss_modelselect()</a></code> across multiple species in the full dataset <code>urbantrees</code>. For this, we use the wrapper function <code><a href="../reference/ss_modelselect_multi.html">ss_modelselect_multi()</a></code>.</p>
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">results_all</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/ss_modelselect_multi.html">ss_modelselect_multi</a></span>(<span class="no">urbantrees</span>, <span class="kw">species</span> <span class="kw">=</span> <span class="st">"species"</span>, <span class="co"># specify colname of species</span>
                                     <span class="kw">response</span> <span class="kw">=</span> <span class="st">"height"</span>, <span class="kw">predictor</span> <span class="kw">=</span> <span class="st">"diameter"</span>)</pre></body></html></div>
 <p><code>results_all</code> is a list of 3 elements:</p>
 <ol style="list-style-type: decimal">
@@ -232,12 +232,12 @@
 <div id="for-one-species-1" class="section level3">
 <h3 class="hasAnchor">
 <a href="#for-one-species-1" class="anchor"></a>For one species</h3>
-<p>We can now fit <code>urbantrees_clean</code> to the best-fit equations we defined in <a href="#section1">Section 1</a>. Here’s an example for the species <em>Albizia saman</em> again, using the function <code>ss_modelfit()</code>. This function has an additional argument <code>modelcode</code>. In the case of <em>Albizia saman</em>, it is <code>lin_w1</code> (see <code>results_all$ss_models_info</code>). Note that you can also pick any one of the options found in <code>eqns_info$modelcode</code>.</p>
+<p>We can now fit <code>urbantrees_clean</code> to the best-fit equations we defined in <a href="#section1">Section 1</a>. Here’s an example for the species <em>Albizia saman</em> again, using the function <code><a href="../reference/ss_modelfit.html">ss_modelfit()</a></code>. This function has an additional argument <code>modelcode</code>. In the case of <em>Albizia saman</em>, it is <code>lin_w1</code> (see <code>results_all$ss_models_info</code>). Note that you can also pick any one of the options found in <code>eqns_info$modelcode</code>.</p>
 <p> </p>
 <p>We’ll overwrite our previously-defined variables <code>Alb_sam</code> and <code>results</code>, this time with the filtered dataset:</p>
 <div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">Alb_sam</span> <span class="kw">&lt;-</span> <span class="no">urbantrees_clean</span>[<span class="no">urbantrees_clean</span>$<span class="no">species</span> <span class="kw">==</span> <span class="st">"Albizia saman"</span>, ]
 
-<span class="no">results</span> <span class="kw">&lt;-</span> <span class="fu">ss_modelfit</span>(<span class="no">Alb_sam</span>, <span class="kw">modelcode</span> <span class="kw">=</span> <span class="st">"lin_w1"</span>, <span class="co"># specify modelcode</span>
+<span class="no">results</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/ss_modelfit.html">ss_modelfit</a></span>(<span class="no">Alb_sam</span>, <span class="kw">modelcode</span> <span class="kw">=</span> <span class="st">"lin_w1"</span>, <span class="co"># specify modelcode</span>
                        <span class="kw">response</span> <span class="kw">=</span> <span class="st">"height"</span>, <span class="kw">predictor</span> <span class="kw">=</span> <span class="st">"diameter"</span>)</pre></body></html></div>
 <p><code>results</code> is now a list of 2 elements:</p>
 <ol style="list-style-type: decimal">
@@ -248,8 +248,8 @@
 <div id="for-multiple-species-1" class="section level3">
 <h3 class="hasAnchor">
 <a href="#for-multiple-species-1" class="anchor"></a>For multiple species</h3>
-<p>Similar to the the wrapper function <code>ss_modelselect_multi()</code>, we can also run <code>ss_modelfit_multi()</code> to fit pre-selected models across multiple species. In this function, we need to input a reference table <code>ref_table</code> (i.e. <code>results_all$ss_models_info</code>) that provides information on the <code>species</code> and their corresponding <code>modelcode</code>.</p>
-<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="no">results_all</span> <span class="kw">&lt;-</span> <span class="fu">ss_modelfit_multi</span>(<span class="no">urbantrees_clean</span>,
+<p>Similar to the the wrapper function <code><a href="../reference/ss_modelselect_multi.html">ss_modelselect_multi()</a></code>, we can also run <code><a href="../reference/ss_modelfit_multi.html">ss_modelfit_multi()</a></code> to fit pre-selected models across multiple species. In this function, we need to input a reference table <code>ref_table</code> (i.e. <code>results_all$ss_models_info</code>) that provides information on the <code>species</code> and their corresponding <code>modelcode</code>.</p>
+<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="no">results_all</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/ss_modelfit_multi.html">ss_modelfit_multi</a></span>(<span class="no">urbantrees_clean</span>,
                                  <span class="kw">ref_table</span> <span class="kw">=</span> <span class="no">results_all</span>$<span class="no">ss_models_info</span>,
                                  <span class="kw">species</span> <span class="kw">=</span> <span class="st">"species"</span>, <span class="co"># colname in both data &amp; ref_table</span>
                                  <span class="kw">modelcode</span> <span class="kw">=</span> <span class="st">"modelcode"</span>, <span class="co"># colname in ref_table</span>
@@ -268,14 +268,14 @@
 <div id="make-predictions" class="section level2">
 <h2 class="hasAnchor">
 <a href="#make-predictions" class="anchor"></a>4. Make predictions</h2>
-<p>We can simulate some data for a species of interest, and use it’s model to make predictions. We’ll use the species <em>Albizia saman</em> again as an example. Let’s first generate the data based on the range of values for the predictor variable (i.e. diameter size) that was used to fit the model, using the function <code>generate_x()</code>:</p>
+<p>We can simulate some data for a species of interest, and use it’s model to make predictions. We’ll use the species <em>Albizia saman</em> again as an example. Let’s first generate the data based on the range of values for the predictor variable (i.e. diameter size) that was used to fit the model, using the function <code><a href="../reference/generate_x.html">generate_x()</a></code>:</p>
 <div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="no">Alb_sam</span> <span class="kw">&lt;-</span> <span class="no">urbantrees</span>[<span class="no">urbantrees</span>$<span class="no">species</span> <span class="kw">==</span> <span class="st">'Albizia saman'</span>, ]
 
 <span class="co"># generate data for subsequent predictions</span>
-<span class="no">newdata</span> <span class="kw">&lt;-</span> <span class="fu">generate_x</span>(<span class="no">Alb_sam</span>, <span class="kw">response</span> <span class="kw">=</span> <span class="st">"height"</span>, <span class="kw">predictor</span> <span class="kw">=</span> <span class="st">"diameter"</span>)</pre></body></html></div>
+<span class="no">newdata</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/generate_x.html">generate_x</a></span>(<span class="no">Alb_sam</span>, <span class="kw">response</span> <span class="kw">=</span> <span class="st">"height"</span>, <span class="kw">predictor</span> <span class="kw">=</span> <span class="st">"diameter"</span>)</pre></body></html></div>
 <p> </p>
-<p><code>ss_predict()</code> can be used to make predictions on the simulated data <code>predict_range_full</code>. This appends columns for predicted height (<code>fit</code>), as well as the lower (<code>lwr</code>) and upper (<code>upr</code>) bounds of the prediction interval:</p>
-<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="no">predictions</span> <span class="kw">&lt;-</span> <span class="fu">ss_predict</span>(<span class="no">newdata</span>,
+<p><code><a href="../reference/ss_predict.html">ss_predict()</a></code> can be used to make predictions on the simulated data <code>predict_range_full</code>. This appends columns for predicted height (<code>fit</code>), as well as the lower (<code>lwr</code>) and upper (<code>upr</code>) bounds of the prediction interval:</p>
+<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="no">predictions</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/ss_predict.html">ss_predict</a></span>(<span class="no">newdata</span>,
                           <span class="kw">models</span> <span class="kw">=</span> <span class="no">ss_models</span>,
                           <span class="kw">ref_table</span> <span class="kw">=</span> <span class="no">ss_models_info</span>,
                           <span class="kw">predictor</span> <span class="kw">=</span> <span class="st">"predictor"</span>)
@@ -288,8 +288,8 @@
 <span class="co">#&gt; 5 Albizia saman 0.3610727           No 9.548481 5.236439 13.86052</span>
 <span class="co">#&gt; 6 Albizia saman 0.3733550           No 9.682849 5.375353 13.99035</span></pre></body></html></div>
 <p> </p>
-<p>Note that you can simulate data automatically using the <code>ss_simulate()</code> function, which is also a wrapper to <code>ss_predict()</code>. This can be done for one or multiple species, using the argument <code>select_sp</code>. The simulated data can be extrapolated beyond the range used to fit the model, using the argument <code>extrapolate</code>. Here’s an example using the models that we previously derived from the filtered dataset <code>urbantrees_clean</code>. Let’s say we’re interested in <em>Albizia saman</em>, <em>Terminalia mantaly</em>, and <em>Xanthostemon chrysanthus</em>, and would like to predict their height across a diameter size of 0 – 1 m. We’ll overwrite our previously-defined variable <code>predictions</code>:</p>
-<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="no">predictions</span> <span class="kw">&lt;-</span> <span class="fu">ss_simulate</span>(<span class="kw">ref_table</span> <span class="kw">=</span> <span class="no">ss_models_info</span>, <span class="kw">models</span> <span class="kw">=</span> <span class="no">ss_models</span>,
+<p>Note that you can simulate data automatically using the <code><a href="../reference/ss_simulate.html">ss_simulate()</a></code> function, which is also a wrapper to <code><a href="../reference/ss_predict.html">ss_predict()</a></code>. This can be done for one or multiple species, using the argument <code>select_sp</code>. The simulated data can be extrapolated beyond the range used to fit the model, using the argument <code>extrapolate</code>. Here’s an example using the models that we previously derived from the filtered dataset <code>urbantrees_clean</code>. Let’s say we’re interested in <em>Albizia saman</em>, <em>Terminalia mantaly</em>, and <em>Xanthostemon chrysanthus</em>, and would like to predict their height across a diameter size of 0 – 1 m. We’ll overwrite our previously-defined variable <code>predictions</code>:</p>
+<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="no">predictions</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/ss_simulate.html">ss_simulate</a></span>(<span class="kw">ref_table</span> <span class="kw">=</span> <span class="no">ss_models_info</span>, <span class="kw">models</span> <span class="kw">=</span> <span class="no">ss_models</span>,
                            <span class="kw">select_sp</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Albizia saman"</span>, <span class="st">"Terminalia mantaly"</span>, <span class="st">"Xanthostemon chrysanthus"</span>),
                            <span class="kw">extrapolate</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>,<span class="fl">1</span>))
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">predictions</span>)
@@ -337,7 +337,7 @@
 <h2 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h2>
 <p>McPherson E. G., van Doorn N. S. &amp; Peper P. J. (2016) Urban Tree Database and Allometric Equations. <em>General Technical Report PSW-GTR-253, USDA Forest Service</em>, 86.</p>
-<p>Song, X. P., Lai, H. R., Wijedasa, L. S., Tan, P. Y., Edwards, P. J., &amp; Richards, D. R., Height–diameter allometry for the management of city trees in the tropics (in review).</p>
+<p>Song, X. P., Lai, H. R., Wijedasa, L. S., Tan, P. Y., Edwards, P. J., &amp; Richards, D. R. (2020), Height–diameter allometry for the management of city trees in the tropics. <em>Environmental Research Letters</em> (forthcoming). <a href="https://doi.org/10.1088/1748-9326/abbbad" class="uri">https://doi.org/10.1088/1748-9326/abbbad</a></p>
 </div>
   </div>
 

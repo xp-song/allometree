@@ -181,7 +181,7 @@ interest. Each row is a measurement for an individual tree.</p></td>
     </tr>
     <tr>
       <th>modelselect</th>
-      <td><p>Output from the <code>mix_modelselect()</code> function.</p></td>
+      <td><p>Output from the <code><a href='mix_modelselect.html'>mix_modelselect()</a></code> function.</p></td>
     </tr>
     <tr>
       <th>level</th>
@@ -223,14 +223,14 @@ interest. Each row is a measurement for an individual tree.</p></td>
 
     <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/merTools/man/predictInterval.html'>merTools::predictInterval()</a></code> to make predictions from models fit with the <code>lme4</code> package.</p>
 <p>Other mixed-effects model functions: 
-<code>mix_modelselect()</code>,
-<code>mix_simulate()</code></p></div>
+<code><a href='mix_modelselect.html'>mix_modelselect</a>()</code>,
+<code><a href='mix_simulate.html'>mix_simulate</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>urbantrees</span>)
 
 <span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>mix_modelselect</span>(<span class='no'>urbantrees</span>)
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='mix_modelselect.html'>mix_modelselect</a></span>(<span class='no'>urbantrees</span>)
 
 <span class='no'>Alb_sam</span> <span class='kw'>&lt;-</span> <span class='no'>urbantrees</span>[<span class='no'>urbantrees</span>$<span class='no'>species</span> <span class='kw'>==</span> <span class='st'>'Albizia saman'</span>, ]  <span class='co'># use one species as an example</span>
 <span class='no'>results</span> <span class='kw'>&lt;-</span> <span class='fu'>mix_predict</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>Alb_sam</span>, <span class='kw'>modelselect</span> <span class='kw'>=</span> <span class='no'>model</span>,
