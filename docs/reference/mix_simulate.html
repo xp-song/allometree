@@ -162,19 +162,19 @@ The mixed-effects model is used to predict values for the response variable, as 
 Necessary bias-corrections are made if the mixed-effects model has a transformed response variable.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>mix_simulate</span>(
-  <span class='no'>data</span>,
-  <span class='no'>modelselect</span>,
-  <span class='kw'>level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>,
-  <span class='kw'>extrapolate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>length.out</span> <span class='kw'>=</span> <span class='fl'>100</span>,
-  <span class='kw'>stat</span> <span class='kw'>=</span> <span class='st'>"median"</span>,
-  <span class='kw'>n.sims</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
-  <span class='kw'>response</span> <span class='kw'>=</span> <span class='st'>"height"</span>,
-  <span class='kw'>predictor</span> <span class='kw'>=</span> <span class='st'>"diameter"</span>,
-  <span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"species"</span>,
-  <span class='no'>...</span>
-)</pre>
+    <pre class="usage"><span class='fu'>mix_simulate</span><span class='op'>(</span>
+  <span class='va'>data</span>,
+  <span class='va'>modelselect</span>,
+  level <span class='op'>=</span> <span class='fl'>0.95</span>,
+  extrapolate <span class='op'>=</span> <span class='cn'>NULL</span>,
+  length.out <span class='op'>=</span> <span class='fl'>100</span>,
+  stat <span class='op'>=</span> <span class='st'>"median"</span>,
+  n.sims <span class='op'>=</span> <span class='fl'>1000</span>,
+  response <span class='op'>=</span> <span class='st'>"height"</span>,
+  predictor <span class='op'>=</span> <span class='st'>"diameter"</span>,
+  species <span class='op'>=</span> <span class='st'>"species"</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -234,7 +234,7 @@ Set a higher value for greater resolution at the cost of computational time.</p>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A dataframe with columns:</p><dl'>
+    <p>A dataframe with columns:</p><dl>
 <dt>species</dt><dd><p>Name of tree species.</p></dd>
 <dt>predictor</dt><dd><p>Variable used to make predictions.</p></dd>
 <dt>fit</dt><dd><p>Predicted value.</p></dd>
@@ -254,13 +254,15 @@ extrapolated values. Either 'High', 'Low', or 'No' (not extrapolated).</p></dd>
 <code><a href='mix_predict.html'>mix_predict</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>urbantrees</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>urbantrees</span><span class='op'>)</span>
 
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='mix_modelselect.html'>mix_modelselect</a></span>(<span class='no'>urbantrees</span>)
-<span class='no'>results</span> <span class='kw'>&lt;-</span> <span class='fu'>mix_simulate</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>urbantrees</span>, <span class='kw'>modelselect</span> <span class='kw'>=</span> <span class='no'>model</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>results</span>)
-}</div></pre>
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='mix_modelselect.html'>mix_modelselect</a></span><span class='op'>(</span><span class='va'>urbantrees</span><span class='op'>)</span>
+<span class='va'>results</span> <span class='op'>&lt;-</span> <span class='fu'>mix_simulate</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>urbantrees</span>, modelselect <span class='op'>=</span> <span class='va'>model</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>results</span><span class='op'>)</span>
+<span class='op'>}</span>
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -276,7 +278,7 @@ extrapolated values. Either 'High', 'Low', or 'No' (not extrapolated).</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

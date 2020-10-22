@@ -6,11 +6,11 @@ citEntry(
   author   = "Xiao Ping Song, Hao Ran Lai, Lahiru S. Wijedasa, Puay Yok Tan, Peter J. Edwards, Daniel R. Richards",
   journal  = "Environmental Research Letters",
   year     = "2020",
-  volume   = "",
+  volume   = "15",
   number   = "",
-  pages    = "",
+  pages    = "114017",
   url      = "https://doi.org/10.1088/1748-9326/abbbad",
-  textVersion = paste("Song, X. P., Lai, H. R., Wijedasa, L. S., Tan, P. Y., Edwards, P. J., & Richards, D. R. (2020), Height–diameter allometry for the management of city trees in the tropics. Environmental Research Letters (forthcoming). https://doi.org/10.1088/1748-9326/abbbad"
+  textVersion = paste("Song, X. P., Lai, H. R., Wijedasa, L. S., Tan, P. Y., Edwards, P. J., & Richards, D. R. (2020), Height–diameter allometry for the management of city trees in the tropics. Environmental Research Letters, 15, 114017. https://doi.org/10.1088/1748-9326/abbbad"
   )
 )
 

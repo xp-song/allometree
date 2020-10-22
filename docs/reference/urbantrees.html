@@ -156,12 +156,12 @@ planted along streets in Singapore. Each row is a measurement for an individual 
 planted along streets in Singapore. Each row is a measurement for an individual tree.</p>
     </div>
 
-    <pre class="usage"><span class='no'>urbantrees</span></pre>
+    <pre class="usage"><span class='va'>urbantrees</span></pre>
 
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A dataframe with 1585 rows and 3 variables:</p><dl'>
+    <p>A dataframe with 1585 rows and 3 variables:</p><dl>
 <dt>species</dt><dd><p>Name of tree species.</p></dd>
 <dt>height</dt><dd><p>Tree height based on visual estimation by an arborist (m).</p></dd>
 <dt>diameter</dt><dd><p>Tree girth measured with diameter tape (at breast-height),
@@ -173,14 +173,16 @@ and converted to diameter size (m).</p></dd>
 
     <p>Independently sampled validation data reported in:</p>
 <p>Song, X. P., Lai, H. R., Wijedasa, L. S., Tan, P. Y., Edwards, P. J., &amp; Richards, D. R. (2020),
-Height–diameter allometry for the management of city trees in the tropics. Environmental Research Letters (forthcoming).</p>
+Height–diameter allometry for the management of city trees in the tropics. Environmental Research Letters, 15, 114017.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>urbantrees</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span>(<span class='no'>urbantrees</span>$<span class='no'>species</span>) <span class='co'># species in the dataset</span></div><div class='output co'>#&gt; [1] "Hopea odorata"            "Xanthostemon chrysanthus"
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>urbantrees</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span><span class='op'>(</span><span class='va'>urbantrees</span><span class='op'>$</span><span class='va'>species</span><span class='op'>)</span> <span class='co'># species in the dataset</span>
+</div><div class='output co'>#&gt; [1] "Hopea odorata"            "Xanthostemon chrysanthus"
 #&gt; [3] "Terminalia mantaly"       "Syzygium myrtifolium"    
 #&gt; [5] "Albizia saman"           </div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='no'>urbantrees</span>$<span class='no'>species</span>) <span class='co'># number of data points (rows) per species</span></div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='va'>urbantrees</span><span class='op'>$</span><span class='va'>species</span><span class='op'>)</span> <span class='co'># number of data points (rows) per species</span>
+</div><div class='output co'>#&gt; 
 #&gt;            Albizia saman            Hopea odorata     Syzygium myrtifolium 
 #&gt;                      133                      483                      353 
 #&gt;       Terminalia mantaly Xanthostemon chrysanthus 
@@ -200,7 +202,7 @@ Height–diameter allometry for the management of city trees in the tropics. Env
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

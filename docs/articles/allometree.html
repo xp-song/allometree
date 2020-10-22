@@ -101,7 +101,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Get started with allometree</h1>
             
-            <h4 class="date">2020-09-28</h4>
+            <h4 class="date">2020-10-22</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/xp-song/allometree/blob/master/vignettes/allometree.Rmd"><code>vignettes/allometree.Rmd</code></a></small>
       <div class="hidden name"><code>allometree.Rmd</code></div>
@@ -124,8 +124,9 @@
 <a href="#example-data-urbantrees" class="anchor"></a>Example data: <code>urbantrees</code>
 </h2>
 <p>We will be using <code><a href="https://rdrr.io/r/utils/data.html">data(urbantrees)</a></code>. It contains five species planted along streets in Singapore, each spanning a wide range of heights and diameter sizes (in metres).</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">urbantrees</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"allometree"</span>)
-<span class="no">urbantrees</span>
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">urbantrees</span>, package <span class="op">=</span> <span class="st">"allometree"</span><span class="op">)</span>
+<span class="va">urbantrees</span>
 <span class="co">#&gt; # A tibble: 1,584 x 3</span>
 <span class="co">#&gt;    species                  diameter height</span>
 <span class="co">#&gt;    &lt;chr&gt;                       &lt;dbl&gt;  &lt;int&gt;</span>
@@ -141,12 +142,12 @@
 <span class="co">#&gt; 10 Xanthostemon chrysanthus   0.105       3</span>
 <span class="co">#&gt; # … with 1,574 more rows</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggplot2</span>)
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
 
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">urbantrees</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="no">diameter</span>, <span class="no">height</span>)) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span>(~ <span class="no">species</span>, <span class="kw">scales</span> <span class="kw">=</span> <span class="st">"free"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>(<span class="kw">size</span><span class="kw">=</span><span class="fl">0.35</span>, <span class="kw">alpha</span> <span class="kw">=</span> <span class="fl">0.3</span>, <span class="kw">color</span> <span class="kw">=</span> <span class="st">"grey50"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span>() + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(<span class="kw">panel.grid</span> <span class="kw">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span>())</pre></body></html></div>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">urbantrees</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">diameter</span>, <span class="va">height</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span> <span class="va">species</span>, scales <span class="op">=</span> <span class="st">"free"</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>size<span class="op">=</span><span class="fl">0.35</span>, alpha <span class="op">=</span> <span class="fl">0.3</span>, color <span class="op">=</span> <span class="st">"grey50"</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></pre></div>
 <p><img src="allometree_files/figure-html/load%20data-1.png" width="624" style="display: block; margin: auto;"></p>
 </div>
 <div id="allometric-equations-eqns_info" class="section level2">
@@ -155,24 +156,26 @@
 </h2>
 <p>Allometric relationships for urban trees can vary drastically from those for forest trees, and are also influenced by human factors such as pruning and fertilisation. Empirical models are developed using six allometric equations used for urban trees (McPherson <em>et al.</em>, 2016).</p>
 <p>More information can be found in <code><a href="../reference/eqns_info.html">?eqns_info</a></code>, as well as in <code><a href="https://rdrr.io/r/utils/data.html">data(eqns_info)</a></code>. The column <code>modelcode</code> shows the unique model code for each equation:</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">eqns_info</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"allometree"</span>)
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">eqns_info</span>)
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">eqns_info</span>, package <span class="op">=</span> <span class="st">"allometree"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">eqns_info</span><span class="op">)</span>
 <span class="co">#&gt;   modeltype    base_equation   base_formula      weights modelcode</span>
 <span class="co">#&gt; 1    Linear       y = a + bx          y ~ x                 lin_w1</span>
 <span class="co">#&gt; 2    Linear       y = a + bx          y ~ x I(1/sqrt(x))    lin_w2</span>
 <span class="co">#&gt; 3    Linear       y = a + bx          y ~ x       I(1/x)    lin_w3</span>
 <span class="co">#&gt; 4    Linear       y = a + bx          y ~ x     I(1/x^2)    lin_w4</span>
 <span class="co">#&gt; 5 Quadratic y = a + bx + x^2 y ~ x + I(x^2)                quad_w1</span>
-<span class="co">#&gt; 6 Quadratic y = a + bx + x^2 y ~ x + I(x^2) I(1/sqrt(x))   quad_w2</span></pre></body></html></div>
+<span class="co">#&gt; 6 Quadratic y = a + bx + x^2 y ~ x + I(x^2) I(1/sqrt(x))   quad_w2</span></pre></div>
 <hr>
 </div>
 <div id="single-species-models" class="section level2">
 <h2 class="hasAnchor">
 <a href="#single-species-models" class="anchor"></a>1. Single-species models</h2>
 <p>We can run <code><a href="../reference/ss_modelselect_multi.html">ss_modelselect_multi()</a></code> to select the best-fit model for each species in the dataset <code>urbantrees</code>. This can also be done for individual species using <code><a href="../reference/ss_modelselect.html">ss_modelselect()</a></code>. Note that you can also fit data to specified (i.e. pre-defined) equations, using the functions <code><a href="../reference/ss_modelfit.html">ss_modelfit()</a></code> and <code><a href="../reference/ss_modelfit_multi.html">ss_modelfit_multi()</a></code>. This can be done, for example, after the removal of outliers from the full dataset. See the vignette <a href="single-species_models.html">Single-species linear models</a> for a full demonstration.</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">results</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/ss_modelselect_multi.html">ss_modelselect_multi</a></span>(<span class="no">urbantrees</span>,
-                                <span class="kw">species</span> <span class="kw">=</span> <span class="st">"species"</span>, <span class="co"># specify colname of species</span>
-                                <span class="kw">response</span> <span class="kw">=</span> <span class="st">"height"</span>, <span class="kw">predictor</span> <span class="kw">=</span> <span class="st">"diameter"</span>) <span class="co"># specify colnames of variables</span></pre></body></html></div>
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ss_modelselect_multi.html">ss_modelselect_multi</a></span><span class="op">(</span><span class="va">urbantrees</span>, 
+                                species <span class="op">=</span> <span class="st">"species"</span>, <span class="co"># specify colname of species</span>
+                                response <span class="op">=</span> <span class="st">"height"</span>, predictor <span class="op">=</span> <span class="st">"diameter"</span><span class="op">)</span> <span class="co"># specify colnames of variables</span></pre></div>
 <p><code>results</code> is a list of 3 elements:</p>
 <ol style="list-style-type: decimal">
 <li>List of tables showing each species’ candidate models ranked by Aikake’s Information Criterion corrected for small sample sizes (AICc), named <code>ss_models_rank</code>.</li>
@@ -181,7 +184,8 @@
 </ol>
 <p> </p>
 <p>An overview of the best-fit models across the 5 species:</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">results</span>$<span class="no">ss_models_info</span>
+<div class="sourceCode" id="cb4"><pre class="downlit">
+<span class="va">results</span><span class="op">$</span><span class="va">ss_models_info</span>
 <span class="co">#&gt;                    species modelcode         a           b          c        d</span>
 <span class="co">#&gt; 1            Albizia saman    lin_w1  6.717431   9.4640964         NA       NA</span>
 <span class="co">#&gt; 2            Hopea odorata  quart_w4 -1.149669 149.3178483 -1522.6122 7908.410</span>
@@ -199,13 +203,14 @@
 <span class="co">#&gt; 2            2           15     11.9430  2.6339 0.5460 483</span>
 <span class="co">#&gt; 3            1           18      2.1674  2.2536 0.6662 353</span>
 <span class="co">#&gt; 4            3           18      0.2493  0.0615 0.6702 197</span>
-<span class="co">#&gt; 5            2           13      0.2123  0.0449 0.6137 418</span></pre></body></html></div>
+<span class="co">#&gt; 5            2           13      0.2123  0.0449 0.6137 418</span></pre></div>
 <p> </p>
 <p>We can simulate data across a range of diameter sizes for each species, and use their respective models to make predictions of tree height. The simulated data can also be extrapolated beyond the range used to fit the model, using the argument <code>extrapolate</code>. In this example, we specify that predictions should be made between the range <code>0</code> to <code>1</code> metre:</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">predictions_ss</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/ss_simulate.html">ss_simulate</a></span>(<span class="kw">ref_table</span> <span class="kw">=</span> <span class="no">results</span>$<span class="no">ss_models_info</span>,
-                              <span class="kw">models</span> <span class="kw">=</span> <span class="no">results</span>$<span class="no">ss_models</span>,
-                              <span class="kw">extrapolate</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>,<span class="fl">1</span>))
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">predictions_ss</span>)
+<div class="sourceCode" id="cb5"><pre class="downlit">
+<span class="va">predictions_ss</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ss_simulate.html">ss_simulate</a></span><span class="op">(</span>ref_table <span class="op">=</span> <span class="va">results</span><span class="op">$</span><span class="va">ss_models_info</span>, 
+                              models <span class="op">=</span> <span class="va">results</span><span class="op">$</span><span class="va">ss_models</span>,
+                              extrapolate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">predictions_ss</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 6 x 6</span>
 <span class="co">#&gt; # Groups:   species [1]</span>
 <span class="co">#&gt;   species       predictor   fit   lwr   upr extrapolated</span>
@@ -215,37 +220,38 @@
 <span class="co">#&gt; 3 Albizia saman     0.337  9.90  5.45  14.4 No          </span>
 <span class="co">#&gt; 4 Albizia saman     0.349 10.0   5.57  14.5 No          </span>
 <span class="co">#&gt; 5 Albizia saman     0.361 10.1   5.69  14.6 No          </span>
-<span class="co">#&gt; 6 Albizia saman     0.373 10.3   5.81  14.7 No</span></pre></body></html></div>
+<span class="co">#&gt; 6 Albizia saman     0.373 10.3   5.81  14.7 No</span></pre></div>
 <p> </p>
 <p><code>predictions_ss</code> is a dataframe of simulated data for the diameter size (<code>predictor</code>) for each <code>species</code>. Other columns include the predicted height (<code>fit</code>), the lower (<code>lwr</code>) and upper (<code>upr</code>) bounds of the prediction interval, as well as whether the height/diameter variables are <code>extrapolated</code> beyond the original data used to fit the model.</p>
 <p> </p>
 <p>Model predictions can be visualised alongside the original data using <code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot2::ggplot()</a></code>:</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r">
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>() +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span>(~ <span class="no">species</span>)+
+<div class="sourceCode" id="cb6"><pre class="downlit">
 
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span> <span class="va">species</span><span class="op">)</span><span class="op">+</span> 
+  
   <span class="co"># raw data</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>(<span class="kw">data</span> <span class="kw">=</span> <span class="no">urbantrees</span>,
-             <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">diameter</span>, <span class="kw">y</span> <span class="kw">=</span> <span class="no">height</span>),
-             <span class="kw">size</span><span class="kw">=</span><span class="fl">0.35</span>, <span class="kw">alpha</span> <span class="kw">=</span> <span class="fl">0.3</span>, <span class="kw">color</span> <span class="kw">=</span> <span class="st">"grey50"</span>) +
-
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">urbantrees</span>, 
+             <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">diameter</span>, y <span class="op">=</span> <span class="va">height</span><span class="op">)</span>,
+             size<span class="op">=</span><span class="fl">0.35</span>, alpha <span class="op">=</span> <span class="fl">0.3</span>, color <span class="op">=</span> <span class="st">"grey50"</span><span class="op">)</span> <span class="op">+</span>
+  
   <span class="co"># prediction interval</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_ribbon.html">geom_ribbon</a></span>(<span class="kw">data</span> <span class="kw">=</span> <span class="no">predictions_ss</span>,
-              <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">predictor</span>, <span class="kw">ymin</span> <span class="kw">=</span> <span class="no">lwr</span>, <span class="kw">ymax</span> <span class="kw">=</span> <span class="no">upr</span>),
-              <span class="kw">alpha</span> <span class="kw">=</span> <span class="fl">0.10</span>) +
-
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_ribbon.html">geom_ribbon</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">predictions_ss</span>, 
+              <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">predictor</span>, ymin <span class="op">=</span> <span class="va">lwr</span>, ymax <span class="op">=</span> <span class="va">upr</span><span class="op">)</span>, 
+              alpha <span class="op">=</span> <span class="fl">0.10</span><span class="op">)</span> <span class="op">+</span>
+  
   <span class="co"># regression line</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span>(<span class="kw">data</span> <span class="kw">=</span> <span class="no">predictions_ss</span>,
-            <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">predictor</span>, <span class="kw">y</span> <span class="kw">=</span> <span class="no">fit</span>, <span class="kw">lty</span> <span class="kw">=</span> <span class="no">extrapolated</span>)) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_linetype_manual</a></span>(<span class="kw">values</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"No"</span><span class="kw">=</span> <span class="fl">1</span> , <span class="st">"Low"</span> <span class="kw">=</span> <span class="fl">3</span>, <span class="st">"High"</span> <span class="kw">=</span> <span class="fl">3</span>),
-                        <span class="kw">name</span> <span class="kw">=</span> <span class="st">"Extrapolated"</span>) +
-
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">predictions_ss</span>, 
+            <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">predictor</span>, y <span class="op">=</span> <span class="va">fit</span>, lty <span class="op">=</span> <span class="va">extrapolated</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_linetype_manual</a></span><span class="op">(</span>values<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"No"</span><span class="op">=</span> <span class="fl">1</span> , <span class="st">"Low"</span> <span class="op">=</span> <span class="fl">3</span>, <span class="st">"High"</span> <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>, 
+                        name <span class="op">=</span> <span class="st">"Extrapolated"</span><span class="op">)</span> <span class="op">+</span>
+  
   <span class="co"># axes</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="st">"Diameter (m)"</span>) + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span>(<span class="st">"Height (m)"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_cartesian.html">coord_cartesian</a></span>(<span class="kw">ylim</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span>(<span class="no">urbantrees</span>$<span class="no">height</span>)), <span class="co"># limit ranges</span>
-                  <span class="kw">xlim</span><span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span>(<span class="no">predictions_ss</span>$<span class="no">predictor</span>))) +
-
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span>() + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(<span class="kw">panel.grid</span> <span class="kw">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span>())</pre></body></html></div>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"Diameter (m)"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">"Height (m)"</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_cartesian.html">coord_cartesian</a></span><span class="op">(</span>ylim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">urbantrees</span><span class="op">$</span><span class="va">height</span><span class="op">)</span><span class="op">)</span>, <span class="co"># limit ranges</span>
+                  xlim<span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">predictions_ss</span><span class="op">$</span><span class="va">predictor</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+  
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></pre></div>
 <p><img src="allometree_files/figure-html/single-species_model%20curves-1.png" width="720" style="display: block; margin: auto;"></p>
 <hr>
 </div>
@@ -253,9 +259,10 @@
 <h2 class="hasAnchor">
 <a href="#mixed-effects-model" class="anchor"></a>2. Mixed-effects model</h2>
 <p>Alternatively, the full dataset can be fit to a linear mixed-effects model with ‘species’ specified as the random effect, using the <code><a href="https://rdrr.io/pkg/lme4/man/lmer.html">lme4::lmer</a></code> function under the hood.</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">results</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/mix_modelselect.html">mix_modelselect</a></span>(<span class="no">urbantrees</span>,
-                           <span class="kw">species</span> <span class="kw">=</span> <span class="st">"species"</span>,
-                           <span class="kw">response</span> <span class="kw">=</span> <span class="st">"height"</span>, <span class="kw">predictor</span> <span class="kw">=</span> <span class="st">"diameter"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb7"><pre class="downlit">
+<span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mix_modelselect.html">mix_modelselect</a></span><span class="op">(</span><span class="va">urbantrees</span>, 
+                           species <span class="op">=</span> <span class="st">"species"</span>, 
+                           response <span class="op">=</span> <span class="st">"height"</span>, predictor <span class="op">=</span> <span class="st">"diameter"</span><span class="op">)</span></pre></div>
 <p><code>results</code> is a list of 5 elements:</p>
 <ol style="list-style-type: decimal">
 <li>Model selection table showing all the types of mixed-effects models considered, ranked in order of ascending AICc.</li>
@@ -266,44 +273,46 @@
 </ol>
 <p> </p>
 <p>Simulations can likewise be performed across a range of diameter sizes for each species, and extrapolated beyond the range used to fit the model:</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">predictions_mix</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/mix_simulate.html">mix_simulate</a></span>(<span class="kw">data</span> <span class="kw">=</span> <span class="no">urbantrees</span>,
-                                <span class="kw">modelselect</span> <span class="kw">=</span> <span class="no">results</span>,
-                                <span class="kw">extrapolate</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, <span class="fl">1</span>))
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">predictions_mix</span>)
-<span class="co">#&gt;         species   predictor extrapolated       fit       upr       lwr</span>
-<span class="co">#&gt; 1 Albizia saman 0.000000000          Low 0.0000000 0.0000000 0.0000000</span>
-<span class="co">#&gt; 2 Albizia saman 0.003150946          Low 0.6453939 0.9559808 0.4223190</span>
-<span class="co">#&gt; 3 Albizia saman 0.006301893          Low 0.9739547 1.4085836 0.6627636</span>
-<span class="co">#&gt; 4 Albizia saman 0.009452839          Low 1.2317723 1.8255231 0.8474582</span>
-<span class="co">#&gt; 5 Albizia saman 0.012603785          Low 1.4538567 2.0010370 1.0187670</span>
-<span class="co">#&gt; 6 Albizia saman 0.015754732          Low 1.6574360 2.3282367 1.1623185</span></pre></body></html></div>
+<div class="sourceCode" id="cb8"><pre class="downlit">
+<span class="va">predictions_mix</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mix_simulate.html">mix_simulate</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">urbantrees</span>, 
+                                modelselect <span class="op">=</span> <span class="va">results</span>,
+                                extrapolate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">predictions_mix</span><span class="op">)</span>
+<span class="co">#&gt;         species   predictor extrapolated       fit      upr       lwr</span>
+<span class="co">#&gt; 1 Albizia saman 0.000000000          Low 0.0000000 0.000000 0.0000000</span>
+<span class="co">#&gt; 2 Albizia saman 0.003150946          Low 0.6436734 0.942475 0.4455872</span>
+<span class="co">#&gt; 3 Albizia saman 0.006301893          Low 0.9660257 1.440085 0.6795376</span>
+<span class="co">#&gt; 4 Albizia saman 0.009452839          Low 1.2367279 1.750121 0.8633864</span>
+<span class="co">#&gt; 5 Albizia saman 0.012603785          Low 1.4687713 2.062432 1.0331593</span>
+<span class="co">#&gt; 6 Albizia saman 0.015754732          Low 1.6718380 2.337995 1.2197959</span></pre></div>
 <p>Model predictions can be visualised alongside the original data using <code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot2::ggplot()</a></code>:</p>
-<div class="sourceCode" id="cb9"><html><body><pre class="r">
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>() +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span>(~ <span class="no">species</span>)+
+<div class="sourceCode" id="cb9"><pre class="downlit">
 
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span> <span class="va">species</span><span class="op">)</span><span class="op">+</span> 
+  
   <span class="co"># raw data</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>(<span class="kw">data</span> <span class="kw">=</span> <span class="no">urbantrees</span>,
-             <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">diameter</span>, <span class="kw">y</span> <span class="kw">=</span> <span class="no">height</span>),
-             <span class="kw">size</span><span class="kw">=</span><span class="fl">0.35</span>, <span class="kw">alpha</span> <span class="kw">=</span> <span class="fl">0.3</span>, <span class="kw">color</span> <span class="kw">=</span> <span class="st">"grey50"</span>) +
-
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">urbantrees</span>, 
+             <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">diameter</span>, y <span class="op">=</span> <span class="va">height</span><span class="op">)</span>,
+             size<span class="op">=</span><span class="fl">0.35</span>, alpha <span class="op">=</span> <span class="fl">0.3</span>, color <span class="op">=</span> <span class="st">"grey50"</span><span class="op">)</span> <span class="op">+</span>
+  
   <span class="co"># prediction interval</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_ribbon.html">geom_ribbon</a></span>(<span class="kw">data</span> <span class="kw">=</span> <span class="no">predictions_mix</span>,
-              <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">predictor</span>, <span class="kw">ymin</span> <span class="kw">=</span> <span class="no">lwr</span>, <span class="kw">ymax</span> <span class="kw">=</span> <span class="no">upr</span>),
-              <span class="kw">alpha</span> <span class="kw">=</span> <span class="fl">0.10</span>) +
-
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_ribbon.html">geom_ribbon</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">predictions_mix</span>, 
+              <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">predictor</span>, ymin <span class="op">=</span> <span class="va">lwr</span>, ymax <span class="op">=</span> <span class="va">upr</span><span class="op">)</span>, 
+              alpha <span class="op">=</span> <span class="fl">0.10</span><span class="op">)</span> <span class="op">+</span>
+  
   <span class="co"># regression line</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span>(<span class="kw">data</span> <span class="kw">=</span> <span class="no">predictions_mix</span>,
-            <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">predictor</span>, <span class="kw">y</span> <span class="kw">=</span> <span class="no">fit</span>, <span class="kw">lty</span> <span class="kw">=</span> <span class="no">extrapolated</span>)) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_linetype_manual</a></span>(<span class="kw">values</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"No"</span><span class="kw">=</span> <span class="fl">1</span> , <span class="st">"Low"</span> <span class="kw">=</span> <span class="fl">3</span>, <span class="st">"High"</span> <span class="kw">=</span> <span class="fl">3</span>),
-                        <span class="kw">name</span> <span class="kw">=</span> <span class="st">"Extrapolated"</span>) +
-
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">predictions_mix</span>, 
+            <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">predictor</span>, y <span class="op">=</span> <span class="va">fit</span>, lty <span class="op">=</span> <span class="va">extrapolated</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_linetype_manual</a></span><span class="op">(</span>values<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"No"</span><span class="op">=</span> <span class="fl">1</span> , <span class="st">"Low"</span> <span class="op">=</span> <span class="fl">3</span>, <span class="st">"High"</span> <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>, 
+                        name <span class="op">=</span> <span class="st">"Extrapolated"</span><span class="op">)</span> <span class="op">+</span>
+  
   <span class="co"># axes</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="st">"Diameter (m)"</span>) + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span>(<span class="st">"Height (m)"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_cartesian.html">coord_cartesian</a></span>(<span class="kw">ylim</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span>(<span class="no">urbantrees</span>$<span class="no">height</span>)), <span class="co"># limit ranges</span>
-                  <span class="kw">xlim</span><span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span>(<span class="no">predictions_mix</span>$<span class="no">predictor</span>))) +
-
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span>() + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(<span class="kw">panel.grid</span> <span class="kw">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span>())</pre></body></html></div>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"Diameter (m)"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">"Height (m)"</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_cartesian.html">coord_cartesian</a></span><span class="op">(</span>ylim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">urbantrees</span><span class="op">$</span><span class="va">height</span><span class="op">)</span><span class="op">)</span>, <span class="co"># limit ranges</span>
+                  xlim<span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">predictions_mix</span><span class="op">$</span><span class="va">predictor</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+  
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></pre></div>
 <p><img src="allometree_files/figure-html/mixed-effects%20model%20curves-1.png" width="624" style="display: block; margin: auto;"></p>
 <p> </p>
 <hr>
@@ -312,7 +321,7 @@
 <h2 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h2>
 <p>McPherson E. G., van Doorn N. S. &amp; Peper P. J. (2016) Urban Tree Database and Allometric Equations. <em>General Technical Report PSW-GTR-253, USDA Forest Service</em>, 86.</p>
-<p>Song, X. P., Lai, H. R., Wijedasa, L. S., Tan, P. Y., Edwards, P. J., &amp; Richards, D. R. (2020), Height–diameter allometry for the management of city trees in the tropics. <em>Environmental Research Letters</em> (forthcoming). <a href="https://doi.org/10.1088/1748-9326/abbbad" class="uri">https://doi.org/10.1088/1748-9326/abbbad</a></p>
+<p>Song, X. P., Lai, H. R., Wijedasa, L. S., Tan, P. Y., Edwards, P. J., &amp; Richards, D. R. (2020), Height–diameter allometry for the management of city trees in the tropics. <em>Environmental Research Letters</em>, 15, 114017. <a href="https://doi.org/10.1088/1748-9326/abbbad" class="uri">https://doi.org/10.1088/1748-9326/abbbad</a></p>
 </div>
   </div>
 
@@ -331,7 +340,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

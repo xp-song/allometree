@@ -160,16 +160,16 @@ as well as it's prediction interval. Necessary bias-corrections are made if
 the mixed-effects model has a transformed response variable.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>mix_predict</span>(
-  <span class='no'>data</span>,
-  <span class='no'>modelselect</span>,
-  <span class='kw'>level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>,
-  <span class='kw'>stat</span> <span class='kw'>=</span> <span class='st'>"median"</span>,
-  <span class='kw'>n.sims</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
-  <span class='kw'>predictor</span> <span class='kw'>=</span> <span class='st'>"diameter"</span>,
-  <span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"species"</span>,
-  <span class='no'>...</span>
-)</pre>
+    <pre class="usage"><span class='fu'>mix_predict</span><span class='op'>(</span>
+  <span class='va'>data</span>,
+  <span class='va'>modelselect</span>,
+  level <span class='op'>=</span> <span class='fl'>0.95</span>,
+  stat <span class='op'>=</span> <span class='st'>"median"</span>,
+  n.sims <span class='op'>=</span> <span class='fl'>1000</span>,
+  predictor <span class='op'>=</span> <span class='st'>"diameter"</span>,
+  species <span class='op'>=</span> <span class='st'>"species"</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -213,7 +213,7 @@ interest. Each row is a measurement for an individual tree.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Dataframe of input <code>data</code> with columns appended:</p><dl'>
+    <p>Dataframe of input <code>data</code> with columns appended:</p><dl>
 <dt>fit</dt><dd><p>Predicted value for the response variable.</p></dd>
 <dt>lwr</dt><dd><p>Lower bound of the prediction interval, based on the input argument <code>level</code>.</p></dd>
 <dt>upr</dt><dd><p>Upper bound of the prediction interval, based on the input argument <code>level</code>.</p></dd> 
@@ -227,17 +227,19 @@ interest. Each row is a measurement for an individual tree.</p></td>
 <code><a href='mix_simulate.html'>mix_simulate</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>urbantrees</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>urbantrees</span><span class='op'>)</span>
 
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='mix_modelselect.html'>mix_modelselect</a></span>(<span class='no'>urbantrees</span>)
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='mix_modelselect.html'>mix_modelselect</a></span><span class='op'>(</span><span class='va'>urbantrees</span><span class='op'>)</span>
 
-<span class='no'>Alb_sam</span> <span class='kw'>&lt;-</span> <span class='no'>urbantrees</span>[<span class='no'>urbantrees</span>$<span class='no'>species</span> <span class='kw'>==</span> <span class='st'>'Albizia saman'</span>, ]  <span class='co'># use one species as an example</span>
-<span class='no'>results</span> <span class='kw'>&lt;-</span> <span class='fu'>mix_predict</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>Alb_sam</span>, <span class='kw'>modelselect</span> <span class='kw'>=</span> <span class='no'>model</span>,
-                       <span class='kw'>predictor</span> <span class='kw'>=</span> <span class='st'>"diameter"</span>) <span class='co'># make predictions for measured values</span>
+<span class='va'>Alb_sam</span> <span class='op'>&lt;-</span> <span class='va'>urbantrees</span><span class='op'>[</span><span class='va'>urbantrees</span><span class='op'>$</span><span class='va'>species</span> <span class='op'>==</span> <span class='st'>'Albizia saman'</span>, <span class='op'>]</span>  <span class='co'># use one species as an example</span>
+<span class='va'>results</span> <span class='op'>&lt;-</span> <span class='fu'>mix_predict</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>Alb_sam</span>, modelselect <span class='op'>=</span> <span class='va'>model</span>,
+                       predictor <span class='op'>=</span> <span class='st'>"diameter"</span><span class='op'>)</span> <span class='co'># make predictions for measured values</span>
 
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>results</span>)
-}</div></pre>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>results</span><span class='op'>)</span>
+<span class='op'>}</span>
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -253,7 +255,7 @@ interest. Each row is a measurement for an individual tree.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

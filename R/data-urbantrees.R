@@ -19,7 +19,7 @@
 #' Independently sampled validation data reported in:
 #'
 #' Song, X. P., Lai, H. R., Wijedasa, L. S., Tan, P. Y., Edwards, P. J., & Richards, D. R. (2020),
-#' Height–diameter allometry for the management of city trees in the tropics. Environmental Research Letters (forthcoming).
+#' Height–diameter allometry for the management of city trees in the tropics. Environmental Research Letters, 15, 114017.
 #'
 #' @examples
 #' data(urbantrees)

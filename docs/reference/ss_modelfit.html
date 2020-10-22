@@ -158,7 +158,7 @@ equations that may be considered as an input to this function can be found in
 <code><a href='eqns_info.html'>?eqns_info</a></code> and <code><a href='https://rdrr.io/r/utils/data.html'>data(eqns_info)</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>ss_modelfit</span>(<span class='no'>data</span>, <span class='no'>modelcode</span>, <span class='kw'>response</span> <span class='kw'>=</span> <span class='st'>"height"</span>, <span class='kw'>predictor</span> <span class='kw'>=</span> <span class='st'>"diameter"</span>)</pre>
+    <pre class="usage"><span class='fu'>ss_modelfit</span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>modelcode</span>, response <span class='op'>=</span> <span class='st'>"height"</span>, predictor <span class='op'>=</span> <span class='st'>"diameter"</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -187,15 +187,15 @@ information.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list of 2 elements:</p><dl'>
+    <p>A list of 2 elements:</p><dl>
 <dt>fitted_model</dt><dd><p>Resulting model
 object.</p></dd> <dt>fitted_model_info</dt><dd><p>Table showing information on the
 resulting model.</p></dd> 
 </dl>
-<h3>fitted_model_info</h3>
+<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>fitted_model_info</h3>
 
 
-<p>A dataframe with the following variables:</p><dl'>
+<p>A dataframe with the following variables:</p><dl>
 <dt>modelcode</dt><dd><p>Model
 code for the allometric equation used.</p></dd> <dt>a, b, c, d, e</dt><dd><p>Parameter
 estimates.</p></dd> <dt>response_geom_mean</dt><dd><p>Geometric mean of the response
@@ -230,13 +230,14 @@ species.</p>
 <code><a href='ss_simulate.html'>ss_simulate</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>urbantrees</span>)
-<span class='no'>Alb_sam</span> <span class='kw'>&lt;-</span> <span class='no'>urbantrees</span>[<span class='no'>urbantrees</span>$<span class='no'>species</span> <span class='kw'>==</span> <span class='st'>'Albizia saman'</span>, ]
-<span class='no'>results</span> <span class='kw'>&lt;-</span> <span class='fu'>ss_modelfit</span>(<span class='no'>Alb_sam</span>,
-                       <span class='kw'>modelcode</span> <span class='kw'>=</span> <span class='st'>'quad_w1'</span>, <span class='co'># manually specify equation to use</span>
-                       <span class='kw'>response</span> <span class='kw'>=</span> <span class='st'>'height'</span>, <span class='kw'>predictor</span> <span class='kw'>=</span> <span class='st'>'diameter'</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>urbantrees</span><span class='op'>)</span>
+<span class='va'>Alb_sam</span> <span class='op'>&lt;-</span> <span class='va'>urbantrees</span><span class='op'>[</span><span class='va'>urbantrees</span><span class='op'>$</span><span class='va'>species</span> <span class='op'>==</span> <span class='st'>'Albizia saman'</span>, <span class='op'>]</span>
+<span class='va'>results</span> <span class='op'>&lt;-</span> <span class='fu'>ss_modelfit</span><span class='op'>(</span><span class='va'>Alb_sam</span>,
+                       modelcode <span class='op'>=</span> <span class='st'>'quad_w1'</span>, <span class='co'># manually specify equation to use</span>
+                       response <span class='op'>=</span> <span class='st'>'height'</span>, predictor <span class='op'>=</span> <span class='st'>'diameter'</span><span class='op'>)</span>
 
-<span class='no'>results</span>$<span class='no'>fitted_model</span></div><div class='output co'>#&gt; 
+<span class='va'>results</span><span class='op'>$</span><span class='va'>fitted_model</span>
+</div><div class='output co'>#&gt; 
 #&gt; Call:
 #&gt; lm(formula = y ~ x + I(x^2))
 #&gt; 
@@ -244,7 +245,8 @@ species.</p>
 #&gt; (Intercept)            x       I(x^2)  
 #&gt;       4.808       14.498       -3.098  
 #&gt; </div><div class='input'>
-<span class='no'>results</span>$<span class='no'>fitted_model_info</span></div><div class='output co'>#&gt;   modelcode        a        b         c  d  e response_geom_mean
+<span class='va'>results</span><span class='op'>$</span><span class='va'>fitted_model_info</span>
+</div><div class='output co'>#&gt;   modelcode        a        b         c  d  e response_geom_mean
 #&gt; 1   quad_w1 4.807887 14.49773 -3.097745 NA NA           13.56608
 #&gt;   correctn_factor predictor_min predictor_max response_min response_max
 #&gt; 1               1     0.3119437      1.527887            8           20
@@ -266,7 +268,7 @@ species.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

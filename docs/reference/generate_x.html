@@ -160,14 +160,14 @@ Upward and downward extrapolation to specified values can be made.
 Predictions can subsequently be made on the generated values.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>generate_x</span>(
-  <span class='no'>data</span>,
-  <span class='kw'>response</span> <span class='kw'>=</span> <span class='st'>"height"</span>,
-  <span class='kw'>predictor</span> <span class='kw'>=</span> <span class='st'>"diameter"</span>,
-  <span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"species"</span>,
-  <span class='kw'>extrapolate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>length.out</span> <span class='kw'>=</span> <span class='fl'>100</span>
-)</pre>
+    <pre class="usage"><span class='fu'>generate_x</span><span class='op'>(</span>
+  <span class='va'>data</span>,
+  response <span class='op'>=</span> <span class='st'>"height"</span>,
+  predictor <span class='op'>=</span> <span class='st'>"diameter"</span>,
+  species <span class='op'>=</span> <span class='st'>"species"</span>,
+  extrapolate <span class='op'>=</span> <span class='cn'>NULL</span>,
+  length.out <span class='op'>=</span> <span class='fl'>100</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -205,7 +205,7 @@ extrapolation.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A dataframe with columns:</p><dl'>
+    <p>A dataframe with columns:</p><dl>
 <dt>species</dt><dd><p>Name of tree species.</p></dd>
 <dt>predictor</dt><dd><p>Newly generated predictor values.</p></dd>
 <dt>extrapolated</dt><dd><p>Indicates whether the predictor (x) values are extrapolated beyond the supplied dataset.
@@ -215,10 +215,11 @@ Either 'High', 'Low', or 'No' (not extrapolated).</p></dd>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>newdata</span> <span class='kw'>&lt;-</span> <span class='fu'>generate_x</span>(<span class='no'>urbantrees</span>,
-                      <span class='kw'>extrapolate</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>4</span>),
-                      <span class='kw'>response</span> <span class='kw'>=</span> <span class='st'>"height"</span>, <span class='kw'>predictor</span> <span class='kw'>=</span> <span class='st'>"diameter"</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>newdata</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 6 x 3</span><span>
+    <pre class="examples"><div class='input'><span class='va'>newdata</span> <span class='op'>&lt;-</span> <span class='fu'>generate_x</span><span class='op'>(</span><span class='va'>urbantrees</span>,
+                      extrapolate <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>4</span><span class='op'>)</span>,
+                      response <span class='op'>=</span> <span class='st'>"height"</span>, predictor <span class='op'>=</span> <span class='st'>"diameter"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>newdata</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 6 x 3</span><span>
 #&gt;   species       predictor extrapolated
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>             </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       
 #&gt; </span><span style='color: #555555;'>1</span><span> Albizia saman   0       Low         
@@ -243,7 +244,7 @@ Either 'High', 'Low', or 'No' (not extrapolated).</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

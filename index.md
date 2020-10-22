@@ -20,8 +20,8 @@ study:
 
 Song, X. P., Lai, H. R., Wijedasa, L. S., Tan, P. Y., Edwards, P. J., &
 Richards, D. R. (2020), Height–diameter allometry for the management of
-city trees in the tropics. *Environmental Research Letters*
-(forthcoming). <https://doi.org/10.1088/1748-9326/abbbad>
+city trees in the tropics. *Environmental Research Letters*, 15, 114017.
+<https://doi.org/10.1088/1748-9326/abbbad>
 
 ## Installation
 

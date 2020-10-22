@@ -160,14 +160,14 @@ fit to specified allometric equations for each species, as defined within
 <code>ref_table</code> can be found in <code><a href='eqns_info.html'>?eqns_info</a></code> and <code><a href='https://rdrr.io/r/utils/data.html'>data(eqns_info)</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>ss_modelfit_multi</span>(
-  <span class='no'>data</span>,
-  <span class='no'>ref_table</span>,
-  <span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"species"</span>,
-  <span class='kw'>modelcode</span> <span class='kw'>=</span> <span class='st'>"modelcode"</span>,
-  <span class='kw'>response</span> <span class='kw'>=</span> <span class='st'>"height"</span>,
-  <span class='kw'>predictor</span> <span class='kw'>=</span> <span class='st'>"diameter"</span>
-)</pre>
+    <pre class="usage"><span class='fu'>ss_modelfit_multi</span><span class='op'>(</span>
+  <span class='va'>data</span>,
+  <span class='va'>ref_table</span>,
+  species <span class='op'>=</span> <span class='st'>"species"</span>,
+  modelcode <span class='op'>=</span> <span class='st'>"modelcode"</span>,
+  response <span class='op'>=</span> <span class='st'>"height"</span>,
+  predictor <span class='op'>=</span> <span class='st'>"diameter"</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -206,15 +206,15 @@ to <code><a href='https://rdrr.io/r/utils/data.html'>data(eqns_info)</a></code> 
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list of 2 elements:</p><dl'>
+    <p>A list of 2 elements:</p><dl>
 <dt>ss_models</dt><dd><p>List of each
 species' resulting model object.</p></dd> <dt>ss_models_info</dt><dd><p>Table showing each
 species' resulting model information.</p></dd> 
 </dl>
-<h3>ss_models_info</h3>
+<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>ss_models_info</h3>
 
 
-<p>A dataframe with the following variables:</p><dl'>
+<p>A dataframe with the following variables:</p><dl>
 <dt>species</dt><dd><p>Name of
 tree species.</p></dd> <dt>modelcode</dt><dd><p>Model code for the allometric equation used.</p></dd>
 <dt>a, b, c, d, e</dt><dd><p>Parameter estimates.</p></dd>
@@ -245,19 +245,20 @@ trees used to fit model).</p></dd>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># first select best-fit model for all species in data</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>urbantrees</span>)
-<span class='no'>selected</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ss_modelselect_multi.html'>ss_modelselect_multi</a></span>(<span class='no'>urbantrees</span>, <span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>'species'</span>,
-                                 <span class='kw'>response</span> <span class='kw'>=</span> <span class='st'>'height'</span>, <span class='kw'>predictor</span> <span class='kw'>=</span> <span class='st'>'diameter'</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>urbantrees</span><span class='op'>)</span>
+<span class='va'>selected</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ss_modelselect_multi.html'>ss_modelselect_multi</a></span><span class='op'>(</span><span class='va'>urbantrees</span>, species <span class='op'>=</span> <span class='st'>'species'</span>,
+                                 response <span class='op'>=</span> <span class='st'>'height'</span>, predictor <span class='op'>=</span> <span class='st'>'diameter'</span><span class='op'>)</span>
 
 <span class='co'># use function</span>
-<span class='no'>results</span> <span class='kw'>&lt;-</span> <span class='fu'>ss_modelfit_multi</span>(
-  <span class='no'>urbantrees</span>, <span class='co'># any data with similar species (re-use same data in this case)</span>
-  <span class='kw'>ref_table</span> <span class='kw'>=</span> <span class='no'>selected</span>$<span class='no'>ss_models_info</span>,
-  <span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>'species'</span>, <span class='kw'>modelcode</span> <span class='kw'>=</span> <span class='st'>'modelcode'</span>,
-  <span class='kw'>response</span> <span class='kw'>=</span> <span class='st'>'height'</span>, <span class='kw'>predictor</span> <span class='kw'>=</span> <span class='st'>'diameter'</span>
-)
+<span class='va'>results</span> <span class='op'>&lt;-</span> <span class='fu'>ss_modelfit_multi</span><span class='op'>(</span>
+  <span class='va'>urbantrees</span>, <span class='co'># any data with similar species (re-use same data in this case)</span>
+  ref_table <span class='op'>=</span> <span class='va'>selected</span><span class='op'>$</span><span class='va'>ss_models_info</span>,
+  species <span class='op'>=</span> <span class='st'>'species'</span>, modelcode <span class='op'>=</span> <span class='st'>'modelcode'</span>,
+  response <span class='op'>=</span> <span class='st'>'height'</span>, predictor <span class='op'>=</span> <span class='st'>'diameter'</span>
+<span class='op'>)</span>
 
-<span class='no'>results</span>$<span class='no'>ss_models</span><span class='kw'>[[</span><span class='fl'>1</span>]] <span class='co'># model object for first species in list</span></div><div class='output co'>#&gt; 
+<span class='va'>results</span><span class='op'>$</span><span class='va'>ss_models</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span> <span class='co'># model object for first species in list</span>
+</div><div class='output co'>#&gt; 
 #&gt; Call:
 #&gt; lm(formula = y ~ x)
 #&gt; 
@@ -265,7 +266,8 @@ trees used to fit model).</p></dd>
 #&gt; (Intercept)            x  
 #&gt;       6.717        9.464  
 #&gt; </div><div class='input'>
-<span class='no'>results</span>$<span class='no'>ss_models_info</span> <span class='co'># summary of fitted models</span></div><div class='output co'>#&gt;                    species modelcode         a           b          c        d
+<span class='va'>results</span><span class='op'>$</span><span class='va'>ss_models_info</span> <span class='co'># summary of fitted models</span>
+</div><div class='output co'>#&gt;                    species modelcode         a           b          c        d
 #&gt; 1            Albizia saman    lin_w1  6.717431   9.4640964         NA       NA
 #&gt; 2            Hopea odorata  quart_w4 -1.149669 149.3178483 -1522.6122 7908.410
 #&gt; 3     Syzygium myrtifolium  quart_w2 -4.614100 158.5128488  -748.2492 1638.676
@@ -299,7 +301,7 @@ trees used to fit model).</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

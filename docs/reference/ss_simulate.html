@@ -164,21 +164,21 @@ simulated data. The user may choose to run this function on one or multiple
 species, using the argument <code>select_sp</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>ss_simulate</span>(
-  <span class='no'>ref_table</span>,
-  <span class='no'>models</span>,
-  <span class='kw'>select_sp</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>,
-  <span class='kw'>length.out</span> <span class='kw'>=</span> <span class='fl'>100</span>,
-  <span class='kw'>extrapolate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>"species"</span>,
-  <span class='kw'>predictor_min</span> <span class='kw'>=</span> <span class='st'>"predictor_min"</span>,
-  <span class='kw'>predictor_max</span> <span class='kw'>=</span> <span class='st'>"predictor_max"</span>,
-  <span class='kw'>response_min</span> <span class='kw'>=</span> <span class='st'>"response_min"</span>,
-  <span class='kw'>response_max</span> <span class='kw'>=</span> <span class='st'>"response_max"</span>,
-  <span class='kw'>cf</span> <span class='kw'>=</span> <span class='st'>"correctn_factor"</span>,
-  <span class='kw'>geom_mean</span> <span class='kw'>=</span> <span class='st'>"response_geom_mean"</span>
-)</pre>
+    <pre class="usage"><span class='fu'>ss_simulate</span><span class='op'>(</span>
+  <span class='va'>ref_table</span>,
+  <span class='va'>models</span>,
+  select_sp <span class='op'>=</span> <span class='cn'>NULL</span>,
+  level <span class='op'>=</span> <span class='fl'>0.95</span>,
+  length.out <span class='op'>=</span> <span class='fl'>100</span>,
+  extrapolate <span class='op'>=</span> <span class='cn'>NULL</span>,
+  species <span class='op'>=</span> <span class='st'>"species"</span>,
+  predictor_min <span class='op'>=</span> <span class='st'>"predictor_min"</span>,
+  predictor_max <span class='op'>=</span> <span class='st'>"predictor_max"</span>,
+  response_min <span class='op'>=</span> <span class='st'>"response_min"</span>,
+  response_max <span class='op'>=</span> <span class='st'>"response_max"</span>,
+  cf <span class='op'>=</span> <span class='st'>"correctn_factor"</span>,
+  geom_mean <span class='op'>=</span> <span class='st'>"response_geom_mean"</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -256,7 +256,7 @@ variable that was used in to fit the <code>models</code>. Defaults to
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A dataframe with columns:</p><dl'>
+    <p>A dataframe with columns:</p><dl>
 <dt>species</dt><dd><p>Name of tree species.</p></dd>
 <dt>predictor</dt><dd><p>Variable used to make predictions.</p></dd>
 <dt>fit</dt><dd><p>Predicted value.</p></dd>
@@ -285,25 +285,27 @@ single-species linear models.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># first select best-fit model for all species in data</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>urbantrees</span>)
-<span class='no'>results</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ss_modelselect_multi.html'>ss_modelselect_multi</a></span>(<span class='no'>urbantrees</span>, <span class='kw'>species</span> <span class='kw'>=</span> <span class='st'>'species'</span>,
-                                <span class='kw'>response</span> <span class='kw'>=</span> <span class='st'>'height'</span>, <span class='kw'>predictor</span> <span class='kw'>=</span> <span class='st'>'diameter'</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>urbantrees</span><span class='op'>)</span>
+<span class='va'>results</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ss_modelselect_multi.html'>ss_modelselect_multi</a></span><span class='op'>(</span><span class='va'>urbantrees</span>, species <span class='op'>=</span> <span class='st'>'species'</span>,
+                                response <span class='op'>=</span> <span class='st'>'height'</span>, predictor <span class='op'>=</span> <span class='st'>'diameter'</span><span class='op'>)</span>
 
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='co'># simulate for all species</span>
-<span class='fu'>ss_simulate</span>(<span class='kw'>ref_table</span> <span class='kw'>=</span> <span class='no'>results</span>$<span class='no'>ss_models_info</span>,
-            <span class='kw'>models</span> <span class='kw'>=</span> <span class='no'>results</span>$<span class='no'>ss_models</span>)
+<span class='fu'>ss_simulate</span><span class='op'>(</span>ref_table <span class='op'>=</span> <span class='va'>results</span><span class='op'>$</span><span class='va'>ss_models_info</span>,
+            models <span class='op'>=</span> <span class='va'>results</span><span class='op'>$</span><span class='va'>ss_models</span><span class='op'>)</span>
 
 <span class='co'># simulate for selected species</span>
-<span class='fu'>ss_simulate</span>(<span class='kw'>ref_table</span> <span class='kw'>=</span> <span class='no'>results</span>$<span class='no'>ss_models_info</span>,
-            <span class='kw'>models</span> <span class='kw'>=</span> <span class='no'>results</span>$<span class='no'>ss_models</span>,
-            <span class='kw'>selected_spp</span> <span class='kw'>=</span> <span class='st'>'Albizia saman'</span>)
+<span class='fu'>ss_simulate</span><span class='op'>(</span>ref_table <span class='op'>=</span> <span class='va'>results</span><span class='op'>$</span><span class='va'>ss_models_info</span>,
+            models <span class='op'>=</span> <span class='va'>results</span><span class='op'>$</span><span class='va'>ss_models</span>,
+            selected_spp <span class='op'>=</span> <span class='st'>'Albizia saman'</span><span class='op'>)</span>
 
 <span class='co'># simulate with extrapolated values</span>
-<span class='fu'>ss_simulate</span>(<span class='kw'>ref_table</span> <span class='kw'>=</span> <span class='no'>results</span>$<span class='no'>ss_models_info</span>,
-            <span class='kw'>models</span> <span class='kw'>=</span> <span class='no'>results</span>$<span class='no'>ss_models</span>,
-            <span class='kw'>extrapolate</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>3</span>))
-}</div></pre>
+<span class='fu'>ss_simulate</span><span class='op'>(</span>ref_table <span class='op'>=</span> <span class='va'>results</span><span class='op'>$</span><span class='va'>ss_models_info</span>,
+            models <span class='op'>=</span> <span class='va'>results</span><span class='op'>$</span><span class='va'>ss_models</span>,
+            extrapolate <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>3</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -319,7 +321,7 @@ single-species linear models.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

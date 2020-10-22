@@ -156,12 +156,12 @@ linear models." />
 linear models.</p>
     </div>
 
-    <pre class="usage"><span class='no'>eqns_info</span></pre>
+    <pre class="usage"><span class='va'>eqns_info</span></pre>
 
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A dataframe with 5 variables:</p><dl'>
+    <p>A dataframe with 5 variables:</p><dl>
 <dt>modeltype</dt><dd><p>One of the six general types of allometric equations.</p></dd>
 <dt>base_equation</dt><dd><p>Basic form of the allometric equation.</p></dd>
 <dt>base_formula</dt><dd><p>The basic <code>formula</code> used to fit the model.</p></dd>
@@ -203,8 +203,9 @@ Database and Allometric Equations. <em>General Technical Report PSW-GTR-253,
 USDA Forest Service</em>, 86.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>eqns_info</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>eqns_info</span>)</div><div class='output co'>#&gt;   modeltype    base_equation   base_formula      weights modelcode
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>eqns_info</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>eqns_info</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;   modeltype    base_equation   base_formula      weights modelcode
 #&gt; 1    Linear       y = a + bx          y ~ x                 lin_w1
 #&gt; 2    Linear       y = a + bx          y ~ x I(1/sqrt(x))    lin_w2
 #&gt; 3    Linear       y = a + bx          y ~ x       I(1/x)    lin_w3
@@ -226,7 +227,7 @@ USDA Forest Service</em>, 86.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
