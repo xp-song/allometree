@@ -85,6 +85,7 @@ mix_predict <-
     best_mod_formula <- strsplit(best_mod_name, "_")[[1]][1]
     if (best_mod_formula %in% c("loglog", "expo")) {
       pred.boot <- exp(pred.boot)
+      # correction factor?
     }
 
     # merge newdat and predictions

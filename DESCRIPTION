@@ -13,11 +13,11 @@ Authors@R:
              family = "Lai",
              role = c("aut"),
              email = "hrlai.ecology@gmail.com",
-             comment = c(ORCID = "0000-0001-6871-0146")),
+             comment = c("Input on mixed-effects models")),
       person(given = "Daniel",
              family = "Richards",
              role = "ctb",
-             comment = c(ORCID = "0000-0002-8196-8421")))
+             comment = c("Data acquisition")))
 Description: Develop and use allometric equations relating to the 
     size and structure of urban trees. Modelling approaches include
     models developed separately for each species (single-species models), and 

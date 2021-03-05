@@ -56,7 +56,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -82,7 +82,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/xp-song/allometree/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -109,15 +109,15 @@
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="co"># Install development version from GitHub</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"xp-song/allometree"</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Install development version from GitHub</span>
+<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"xp-song/allometree"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="setup" class="section level2">
 <h2 class="hasAnchor">
 <a href="#setup" class="anchor"></a>Setup</h2>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://xp-song.github.io/allometree/">allometree</a></span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://xp-song.github.io/allometree/">allometree</a></span><span class="op">)</span></code></pre></div>
 </div>
 <div id="examples" class="section level2">
 <h2 class="hasAnchor">
@@ -130,30 +130,30 @@
 <h3 class="hasAnchor">
 <a href="#single-species-models" class="anchor"></a>Single-species models</h3>
 <p>One method is to develop allometric models separately for each species (<a href="articles/single-species_models.html">single-species models</a>). We can select the best-fit equation for each species in the dataset, or fit data to specified (i.e. pre-defined) equations, for example, after the removal of outliers. The example below selects the best-fit equation for each species in <code>urbantrees</code>:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ss_modelselect_multi.html">ss_modelselect_multi</a></span><span class="op">(</span><span class="va">urbantrees</span>, 
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ss_modelselect_multi.html">ss_modelselect_multi</a></span><span class="op">(</span><span class="va">urbantrees</span>, 
                                 species <span class="op">=</span> <span class="st">"species"</span>, <span class="co"># specify colname of species</span>
-                                response <span class="op">=</span> <span class="st">"height"</span>, predictor <span class="op">=</span> <span class="st">"diameter"</span><span class="op">)</span> <span class="co"># specify colnames of variables</span></pre></div>
+                                response <span class="op">=</span> <span class="st">"height"</span>, predictor <span class="op">=</span> <span class="st">"diameter"</span><span class="op">)</span> <span class="co"># specify colnames of variables</span></code></pre></div>
 <p> </p>
 <p>We can simulate data across a range of diameter sizes for each species, and use their respective models to make predictions of tree height. The simulated data can also be extrapolated beyond the range used to fit the model. In this example, we specify that predictions should be made between the range <code>0</code> to <code>1</code> metre:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="va">predictions_ss</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ss_simulate.html">ss_simulate</a></span><span class="op">(</span>ref_table <span class="op">=</span> <span class="va">results</span><span class="op">$</span><span class="va">ss_models_info</span>, 
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">predictions_ss</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ss_simulate.html">ss_simulate</a></span><span class="op">(</span>ref_table <span class="op">=</span> <span class="va">results</span><span class="op">$</span><span class="va">ss_models_info</span>, 
                               models <span class="op">=</span> <span class="va">results</span><span class="op">$</span><span class="va">ss_models</span>, 
-                              extrapolate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></pre></div>
+                              extrapolate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="mixed-effects-model" class="section level3">
 <h3 class="hasAnchor">
 <a href="#mixed-effects-model" class="anchor"></a>Mixed-effects model</h3>
 <p>Alternatively, the full dataset can be fit to a linear mixed-effects model with ‘species’ specified as the random effect, using the <code><a href="https://rdrr.io/pkg/lme4/man/lmer.html">lme4::lmer</a></code> function under the hood:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mix_modelselect.html">mix_modelselect</a></span><span class="op">(</span><span class="va">urbantrees</span>, 
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mix_modelselect.html">mix_modelselect</a></span><span class="op">(</span><span class="va">urbantrees</span>, 
                            species <span class="op">=</span> <span class="st">"species"</span>, 
-                           response <span class="op">=</span> <span class="st">"height"</span>, predictor <span class="op">=</span> <span class="st">"diameter"</span><span class="op">)</span></pre></div>
+                           response <span class="op">=</span> <span class="st">"height"</span>, predictor <span class="op">=</span> <span class="st">"diameter"</span><span class="op">)</span></code></pre></div>
 <p>Simulations can likewise be performed across a range of diameter sizes for each species, and extrapolated beyond the range used to fit the model:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="va">predictions_mix</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mix_simulate.html">mix_simulate</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">urbantrees</span>, 
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">predictions_mix</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mix_simulate.html">mix_simulate</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">urbantrees</span>, 
                                 modelselect <span class="op">=</span> <span class="va">results</span>,
-                                extrapolate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></pre></div>
+                                extrapolate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p> </p>
 </div>
 </div>
@@ -199,7 +199,8 @@
 <ul class="list-unstyled">
 <li>
 <a href="https://xp-song.github.io">Xiao Ping Song</a> <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-8825-195X" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Hao Ran Lai <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0001-6871-0146" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Hao Ran Lai <br><small class="roles"> Author </small>  <br><small>(Input on mixed-effects models)</small>
+</li>
 <li><a href="authors.html">All authors...</a></li>
 </ul>
 </div>
