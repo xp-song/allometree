@@ -1,6 +1,6 @@
 ---
 title: "Get started with allometree"
-author: 
+author: "Song, Xiao Ping"
 date: "`r Sys.Date()`"
 opengraph:
   image: 

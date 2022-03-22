@@ -1,51 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://xp-song.github.io/allometree//index.html</loc>
+    <loc>https://xp-song.github.io/allometree/404.html</loc>
   </url>
   <url>
-    <loc>https://xp-song.github.io/allometree//reference/eqns_info.html</loc>
+    <loc>https://xp-song.github.io/allometree/LICENSE-text.html</loc>
   </url>
   <url>
-    <loc>https://xp-song.github.io/allometree//reference/generate_x.html</loc>
+    <loc>https://xp-song.github.io/allometree/articles/allometree.html</loc>
   </url>
   <url>
-    <loc>https://xp-song.github.io/allometree//reference/mix_modelselect.html</loc>
+    <loc>https://xp-song.github.io/allometree/articles/index.html</loc>
   </url>
   <url>
-    <loc>https://xp-song.github.io/allometree//reference/mix_predict.html</loc>
+    <loc>https://xp-song.github.io/allometree/articles/single-species_models.html</loc>
   </url>
   <url>
-    <loc>https://xp-song.github.io/allometree//reference/mix_simulate.html</loc>
+    <loc>https://xp-song.github.io/allometree/authors.html</loc>
   </url>
   <url>
-    <loc>https://xp-song.github.io/allometree//reference/pipe.html</loc>
+    <loc>https://xp-song.github.io/allometree/index.html</loc>
   </url>
   <url>
-    <loc>https://xp-song.github.io/allometree//reference/ss_modelfit.html</loc>
+    <loc>https://xp-song.github.io/allometree/reference/eqns_info.html</loc>
   </url>
   <url>
-    <loc>https://xp-song.github.io/allometree//reference/ss_modelfit_multi.html</loc>
+    <loc>https://xp-song.github.io/allometree/reference/generate_newX.html</loc>
   </url>
   <url>
-    <loc>https://xp-song.github.io/allometree//reference/ss_modelselect.html</loc>
+    <loc>https://xp-song.github.io/allometree/reference/generate_x.html</loc>
   </url>
   <url>
-    <loc>https://xp-song.github.io/allometree//reference/ss_modelselect_multi.html</loc>
+    <loc>https://xp-song.github.io/allometree/reference/index.html</loc>
   </url>
   <url>
-    <loc>https://xp-song.github.io/allometree//reference/ss_predict.html</loc>
+    <loc>https://xp-song.github.io/allometree/reference/me_modelfit.html</loc>
   </url>
   <url>
-    <loc>https://xp-song.github.io/allometree//reference/ss_simulate.html</loc>
+    <loc>https://xp-song.github.io/allometree/reference/me_predict.html</loc>
   </url>
   <url>
-    <loc>https://xp-song.github.io/allometree//reference/urbantrees.html</loc>
+    <loc>https://xp-song.github.io/allometree/reference/mix_modelfit.html</loc>
   </url>
   <url>
-    <loc>https://xp-song.github.io/allometree//articles/allometree.html</loc>
+    <loc>https://xp-song.github.io/allometree/reference/mix_modelselect.html</loc>
   </url>
   <url>
-    <loc>https://xp-song.github.io/allometree//articles/single-species_models.html</loc>
+    <loc>https://xp-song.github.io/allometree/reference/mix_predict.html</loc>
+  </url>
+  <url>
+    <loc>https://xp-song.github.io/allometree/reference/mix_simulate.html</loc>
+  </url>
+  <url>
+    <loc>https://xp-song.github.io/allometree/reference/pipe.html</loc>
+  </url>
+  <url>
+    <loc>https://xp-song.github.io/allometree/reference/sp_modelfit.html</loc>
+  </url>
+  <url>
+    <loc>https://xp-song.github.io/allometree/reference/sp_modelfit_multi.html</loc>
+  </url>
+  <url>
+    <loc>https://xp-song.github.io/allometree/reference/sp_modelselect.html</loc>
+  </url>
+  <url>
+    <loc>https://xp-song.github.io/allometree/reference/sp_modelselect_multi.html</loc>
+  </url>
+  <url>
+    <loc>https://xp-song.github.io/allometree/reference/sp_predict.html</loc>
+  </url>
+  <url>
+    <loc>https://xp-song.github.io/allometree/reference/sp_simulate.html</loc>
+  </url>
+  <url>
+    <loc>https://xp-song.github.io/allometree/reference/ss_modelfit.html</loc>
+  </url>
+  <url>
+    <loc>https://xp-song.github.io/allometree/reference/ss_modelfit_multi.html</loc>
+  </url>
+  <url>
+    <loc>https://xp-song.github.io/allometree/reference/ss_modelselect.html</loc>
+  </url>
+  <url>
+    <loc>https://xp-song.github.io/allometree/reference/ss_modelselect_multi.html</loc>
+  </url>
+  <url>
+    <loc>https://xp-song.github.io/allometree/reference/ss_predict.html</loc>
+  </url>
+  <url>
+    <loc>https://xp-song.github.io/allometree/reference/ss_simulate.html</loc>
+  </url>
+  <url>
+    <loc>https://xp-song.github.io/allometree/reference/urbantrees.html</loc>
   </url>
 </urlset>

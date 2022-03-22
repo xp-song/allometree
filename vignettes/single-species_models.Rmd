@@ -25,8 +25,6 @@ library(allometree)
 #devtools::load_all() # to knit manually
 ```
 
----
-
 ## 1. Model selection {#section1}
 
 In this document, we are using relationship between two size parameters as an example: Predicting tree *height* from trunk *diameter*. See the vignette [Get started with allometree](allometree.html) for a full description of the dataset and allometric equations.
