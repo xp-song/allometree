@@ -25,22 +25,10 @@
     <loc>https://xp-song.github.io/allometree/reference/eqns_info.html</loc>
   </url>
   <url>
-    <loc>https://xp-song.github.io/allometree/reference/generate_newX.html</loc>
-  </url>
-  <url>
     <loc>https://xp-song.github.io/allometree/reference/generate_x.html</loc>
   </url>
   <url>
     <loc>https://xp-song.github.io/allometree/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://xp-song.github.io/allometree/reference/me_modelfit.html</loc>
-  </url>
-  <url>
-    <loc>https://xp-song.github.io/allometree/reference/me_predict.html</loc>
-  </url>
-  <url>
-    <loc>https://xp-song.github.io/allometree/reference/mix_modelfit.html</loc>
   </url>
   <url>
     <loc>https://xp-song.github.io/allometree/reference/mix_modelselect.html</loc>
@@ -53,24 +41,6 @@
   </url>
   <url>
     <loc>https://xp-song.github.io/allometree/reference/pipe.html</loc>
-  </url>
-  <url>
-    <loc>https://xp-song.github.io/allometree/reference/sp_modelfit.html</loc>
-  </url>
-  <url>
-    <loc>https://xp-song.github.io/allometree/reference/sp_modelfit_multi.html</loc>
-  </url>
-  <url>
-    <loc>https://xp-song.github.io/allometree/reference/sp_modelselect.html</loc>
-  </url>
-  <url>
-    <loc>https://xp-song.github.io/allometree/reference/sp_modelselect_multi.html</loc>
-  </url>
-  <url>
-    <loc>https://xp-song.github.io/allometree/reference/sp_predict.html</loc>
-  </url>
-  <url>
-    <loc>https://xp-song.github.io/allometree/reference/sp_simulate.html</loc>
   </url>
   <url>
     <loc>https://xp-song.github.io/allometree/reference/ss_modelfit.html</loc>

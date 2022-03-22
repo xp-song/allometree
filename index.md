@@ -9,6 +9,8 @@
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 <!-- badges: end -->
 
+<a href='https://xp-song.github.io/allometree/'><img src="man/figures/logo.png" align="right" height="200" style="float:right; height:200px;"></a>
+
 Develop and use allometric equations relating to the size and structure
 of urban trees. Refer to [package
 website](https://xp-song.github.io/allometree/) and [prototype web
